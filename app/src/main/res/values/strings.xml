@@ -4,5 +4,9 @@
     <string name="app_name">Hearthstone</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Cerrar</string>
+    <string name="title_activity_activity_mazos">ActivityMazos</string>
+
 
 </resources>
