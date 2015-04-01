@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 
@@ -21,6 +22,7 @@ public class MainActivity extends ActionBarActivity {
     private DrawerLayout drawerLayout;
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private LinearLayout layoutDelDrawer;
 
 
     @Override
@@ -34,6 +36,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
+        layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
         drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         lvDrawerLayout= (ListView) findViewById(R.id.left_drawer);
         lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.NavigationDrawerValues)));
@@ -58,13 +61,16 @@ public class MainActivity extends ActionBarActivity {
         lvDrawerLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 switch (position){
                     case 0:
                         Intent i=new Intent(MainActivity.this,ActivityMazos.class);
                         startActivity(i);
                         break;
                 }
-                drawerLayout.closeDrawer(lvDrawerLayout);
+
+                drawerLayout.closeDrawer(layoutDelDrawer);
+
             }
         });
 
