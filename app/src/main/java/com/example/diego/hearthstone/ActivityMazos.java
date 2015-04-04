@@ -41,7 +41,7 @@ public class ActivityMazos extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
         //Quitamos el titulo a la toolbar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
 
         //Accedemos al spinner de la toolbar y le indicamos los valores disponibles
         Spinner spinner= (Spinner) findViewById(R.id.spinner_nav);
