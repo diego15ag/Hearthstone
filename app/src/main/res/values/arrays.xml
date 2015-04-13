@@ -13,6 +13,7 @@
     </array>
 
     <array name="ClasesHearthstone" >
+        <item>Todos los mazos</item>
         <item>Druida</item>
         <item>Sacerdote</item>
         <item>Cazador</item>
@@ -25,6 +26,7 @@
     </array>
 
     <array name="ClasesHearthstoneCartas" >
+        <item>Todas las cartas</item>
         <item>Druida</item>
         <item>Sacerdote</item>
         <item>Cazador</item>
