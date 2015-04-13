@@ -64,7 +64,7 @@ public class MainActivity extends ActionBarActivity {
 
                 switch (position){
                     case 0:
-                        Intent i=new Intent(MainActivity.this,ActivityMazos.class);
+                        Intent i=new Intent(MainActivity.this,ActivityCollection.class);
                         startActivity(i);
                         break;
                 }

@@ -1,6 +1,5 @@
 package com.example.diego.hearthstone;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,7 +9,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,51 +17,56 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
+import android.support.v4.view.ViewPager;
 
 
-public class ActivityMazos extends ActionBarActivity {
+public class ActivityCollection extends ActionBarActivity {
 
     //para el drawer
     private DrawerLayout drawerLayout;
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
+    ViewPager pager;
+    ViewPagerAdapter VPadapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[];
+    int Numboftabs =2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_mazos);
+        setContentView(R.layout.activity_collection);
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar!=null){
             setSupportActionBar(toolbar);
         }
-        //Quitamos el titulo a la toolbar
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        //Accedemos al spinner de la toolbar y le indicamos los valores disponibles
-        Spinner spinner= (Spinner) findViewById(R.id.spinner_nav);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.ClasesHearthstone, android.R.layout.simple_spinner_item);
+        Titles = getResources().getStringArray(R.array.TabTitles);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        VPadapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
 
-        //Habria que completar con el codigo para obtener las cartas de la clase
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(VPadapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
             }
         });
 
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
 
         //Codigo para el drawer
 
@@ -107,7 +110,7 @@ public class ActivityMazos extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_mazos, menu);
+        getMenuInflater().inflate(R.menu.menu_activity_collection, menu);
         MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
