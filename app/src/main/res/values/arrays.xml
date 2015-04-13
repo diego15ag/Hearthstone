@@ -11,6 +11,7 @@
         <item>Cartas</item>
         <item>Mazos</item>
     </array>
+
     <array name="ClasesHearthstone" >
         <item>Druida</item>
         <item>Sacerdote</item>
@@ -21,6 +22,19 @@
         <item>Chaman</item>
         <item>Brujo</item>
         <item>Guerrero</item>
+    </array>
+
+    <array name="ClasesHearthstoneCartas" >
+        <item>Druida</item>
+        <item>Sacerdote</item>
+        <item>Cazador</item>
+        <item>Mago</item>
+        <item>Paladín</item>
+        <item>Pícaro</item>
+        <item>Chaman</item>
+        <item>Brujo</item>
+        <item>Guerrero</item>
+        <item>Común</item>
     </array>
 
 </resources>

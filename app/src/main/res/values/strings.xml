@@ -8,6 +8,8 @@
     <string name="drawer_close">Cerrar</string>
     <string name="title_activity_activity_mazos">Colección</string>
     <string name="action_buscar">Buscar</string>
+    <string name="action_filter">Filtrar por clase</string>
+    <string name="select_clase">Seleccione una clase</string>
 
 
 </resources>

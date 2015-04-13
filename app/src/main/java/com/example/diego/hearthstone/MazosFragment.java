@@ -11,6 +11,7 @@ import android.view.ViewGroup;
  * Created by Diego on 13/4/15.
  */
 public class MazosFragment extends Fragment{
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.tab_mazos,container,false);

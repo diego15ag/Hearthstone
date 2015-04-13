@@ -1,5 +1,6 @@
 package com.example.diego.hearthstone;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,6 +28,7 @@ public class ActivityCollection extends ActionBarActivity {
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
+
     ViewPager pager;
     ViewPagerAdapter VPadapter;
     SlidingTabLayout tabs;
@@ -68,8 +70,10 @@ public class ActivityCollection extends ActionBarActivity {
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-        //Codigo para el drawer
 
+
+
+        //Codigo para el drawer
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
         drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
         lvDrawerLayout= (ListView) findViewById(R.id.left_drawer);
@@ -123,7 +127,7 @@ public class ActivityCollection extends ActionBarActivity {
             @Override
             public boolean onQueryTextChange(String s) {
                 //Aqui se actuaria de acuerdo al texto introducido en la barra de buscar
-                Log.i("texto",s);
+                Log.i("texto", s);
                 return false;
             }
         });
@@ -140,6 +144,11 @@ public class ActivityCollection extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+
+        else if(id==R.id.action_filter){
+            mostrarDialogoClase(pager.getCurrentItem());
             return true;
         }
 
@@ -160,4 +169,47 @@ public class ActivityCollection extends ActionBarActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+    private void mostrarDialogoClase(int seleccion){
+        final Dialog d = new Dialog(ActivityCollection.this);
+
+        String [] contenido={};
+
+        if(seleccion==1) {
+            //Para mostrar las opciones que se corresponderian con mazos
+            d.setTitle(getResources().getString(R.string.select_clase));
+            d.setContentView(R.layout.dialogo_sel_clase);
+
+            contenido=getResources().getStringArray(R.array.ClasesHearthstone);
+            ListView lvSeleccion= (ListView) d.findViewById(R.id.lvSeleccionClase);
+            lvSeleccion.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contenido));
+            lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    d.cancel();
+                }
+            });
+        }
+
+        else if(seleccion==0) {
+            //Para mostrar las opciones que se corresponderian con carta
+            d.setTitle(getResources().getString(R.string.select_clase));
+            d.setContentView(R.layout.dialogo_sel_clase);
+
+            contenido=getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+            ListView lvSeleccion= (ListView) d.findViewById(R.id.lvSeleccionClase);
+            lvSeleccion.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contenido));
+            lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    d.cancel();
+                }
+            });
+        }
+
+
+        d.show();
+
+    }
+
 }
