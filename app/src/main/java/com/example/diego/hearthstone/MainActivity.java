@@ -31,7 +31,7 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
+        if(toolbar!=null) {
             setSupportActionBar(toolbar);
         }
 
@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity {
 
             }
         };
+
         drawerLayout.setDrawerListener(mDrawerToggle);
 
         lvDrawerLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {

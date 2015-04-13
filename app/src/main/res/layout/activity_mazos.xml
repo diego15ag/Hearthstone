@@ -19,11 +19,6 @@ android:fitsSystemWindows="true">
         android:minHeight="?attr/actionBarSize"
         android:background="?attr/colorPrimary">
 
-        <Spinner
-            android:id="@+id/spinner_nav"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
     </android.support.v7.widget.Toolbar>
 
     <include
@@ -43,11 +38,13 @@ android:fitsSystemWindows="true">
     android:id="@+id/layoutDelDrawer">
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivFotoDrawer"
         android:focusable="false"
         android:src="@mipmap/hearthstone_logo"
+
+        android:clickable="true"
         android:layout_gravity="center"
         android:paddingTop="20dp"
         android:paddingBottom="20dp" />

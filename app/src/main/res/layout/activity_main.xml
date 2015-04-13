@@ -29,6 +29,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/ivFotoDrawer"
             android:focusable="false"
+            android:clickable="true"
             android:src="@mipmap/hearthstone_logo"
             android:layout_gravity="center"
             android:paddingTop="20dp"

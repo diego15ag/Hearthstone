@@ -1,5 +1,6 @@
 package com.example.diego.hearthstone;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.view.MenuItemCompat;
@@ -7,6 +8,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,8 +19,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
@@ -30,6 +35,9 @@ public class ActivityMazos extends ActionBarActivity {
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
 
+    private RecyclerView rvListaMazos;
+    //private RecyclerViewAdapter rva;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,19 +48,24 @@ public class ActivityMazos extends ActionBarActivity {
         if(toolbar!=null){
             setSupportActionBar(toolbar);
         }
+
         //Quitamos el titulo a la toolbar
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+
+
+        //---------------------Este codigo era para poner el spinner el la toolbar
 
         //Accedemos al spinner de la toolbar y le indicamos los valores disponibles
-        Spinner spinner= (Spinner) findViewById(R.id.spinner_nav);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.ClasesHearthstone, android.R.layout.simple_spinner_item);
+        //Spinner spinner= (Spinner) findViewById(R.id.spinner_nav);
+        //ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                //R.array.ClasesHearthstone, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //spinner.setAdapter(adapter);
 
         //Habria que completar con el codigo para obtener las cartas de la clase
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
@@ -62,7 +75,8 @@ public class ActivityMazos extends ActionBarActivity {
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
+        //------------------------------------------------
 
 
         //Codigo para el drawer
@@ -99,6 +113,12 @@ public class ActivityMazos extends ActionBarActivity {
 
             }
         });
+
+        rvListaMazos = (RecyclerView) findViewById(R.id.recycler_lista_mazos);
+        rvListaMazos.setLayoutManager(new GridLayoutManager(this, 1));
+        //rva=new RecyclerViewAdapter(courses);
+        //rva.setClickListener(this);
+        //rvListaMazos.setAdapter(rva);
 
 
     }
@@ -139,6 +159,11 @@ public class ActivityMazos extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
+        else if(id==R.id.action_filter){
+            //Mostrar dialogo
+            mostrarDialogoClase(0);
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -157,4 +182,31 @@ public class ActivityMazos extends ActionBarActivity {
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
+
+    private void mostrarDialogoClase(int seleccion){
+        final Dialog d = new Dialog(ActivityMazos.this);
+
+        String [] contenido={};
+
+        if(seleccion==0) {
+            //Para mostrar las opciones que se corresponderian con mazos
+            d.setTitle(getResources().getString(R.string.select_clase));
+            d.setContentView(R.layout.dialogo_sel_clase);
+
+            contenido=getResources().getStringArray(R.array.ClasesHearthstone);
+            ListView lvSeleccion= (ListView) d.findViewById(R.id.lvSeleccionClase);
+            lvSeleccion.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contenido));
+            lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    d.cancel();
+                }
+            });
+        }
+
+
+        d.show();
+
+    }
 }
+
