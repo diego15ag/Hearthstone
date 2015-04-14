@@ -11,6 +11,15 @@
     <string name="action_filter">Filtrar por clase</string>
     <string name="select_clase">Seleccione una clase</string>
     <string name="title_activity_carta_personalizada">Carta Personalizada</string>
+    <string name="CustomPhoto_NewPhoto">Sacar Foto</string>
+    <string name="CustomPhoto_RotatePhoto">Rotar</string>
+    <string name="CustomPhoto_LoadPhoto">Cargar Foto</string>
+    <string name="CustomPhoto_SaveImage">Guardar Imagen</string>
+    <string name="CustomPhoto_Damage">Daño</string>
+    <string name="CustomPhoto_Life">Vida</string>
+    <string name="CustomPhoto_Cost">Coste</string>
+    <string name="CustomPhoto_Description">Descripción</string>
+    <string name="CustomPhoto_Name">Nombre</string>
 
 
 </resources>
