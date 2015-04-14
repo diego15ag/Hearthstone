@@ -1,6 +1,7 @@
 package com.example.diego.hearthstone;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -100,7 +101,14 @@ public class ActivityCollection extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                //switch donde se actua dependiendo de la opcion escogida
+                switch (position){
+                    case 0:
+                        break;
+                    case 1:
+                        Intent i1=new Intent(ActivityCollection.this,CartaPersonalizadaActivity.class);
+                        startActivity(i1);
+                        break;
+                }
 
                 drawerLayout.closeDrawer(layoutDelDrawer);
 
