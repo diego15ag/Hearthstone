@@ -32,6 +32,6 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapter.Clic
 
     @Override
     public void itemClicked(View view, int position) {
-        
+
     }
 }
