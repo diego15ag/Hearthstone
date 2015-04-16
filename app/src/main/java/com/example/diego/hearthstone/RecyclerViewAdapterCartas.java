@@ -60,9 +60,9 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
 
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(context,
-                android.R.layout.simple_spinner_item,valores_cantidad);
+                R.layout.spinner_item,valores_cantidad);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
 
         viewHolder.spCantidad.setAdapter(adapter);
         viewHolder.spCantidad.setSelection(cantidad);
