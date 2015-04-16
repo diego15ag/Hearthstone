@@ -28,6 +28,10 @@
             android:name=".CartaPersonalizadaActivity"
             android:label="@string/title_activity_carta_personalizada" >
         </activity>
+        <activity
+            android:name="com.example.diego.hearthstone.LoadActivity"
+            android:label="@string/title_activity_load" >
+        </activity>
     </application>
 
 </manifest>

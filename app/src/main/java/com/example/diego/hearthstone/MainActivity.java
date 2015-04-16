@@ -2,6 +2,8 @@ package com.example.diego.hearthstone;
 
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -23,7 +25,9 @@ public class MainActivity extends ActionBarActivity {
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
-
+    public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
+    private String DB_FULL_PATH = "/data/data/com.example.diego.hearthstone/databases/CartasManager.db";
+    private JSONManager ayudabd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,16 @@ public class MainActivity extends ActionBarActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar!=null){
             setSupportActionBar(toolbar);
+        }
+
+        ayudabd= new JSONManager(MainActivity.this);
+        if (!checkDataBase()) {
+            JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
+            bd.execute(url_cards);
+        }
+        else{
+            Intent intent2 = new Intent(MainActivity.this, LoadActivity.class);
+            startActivity(intent2);
         }
 
 
@@ -116,5 +130,17 @@ public class MainActivity extends ActionBarActivity {
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+    private boolean checkDataBase() {
+        SQLiteDatabase checkDB = null;
+        try {
+            checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH, null,
+                    SQLiteDatabase.OPEN_READONLY);
+            checkDB.close();
+        } catch (SQLiteException e) {
+            // database doesn't exist yet.
+        }
+        return checkDB != null ? true : false;
     }
 }
