@@ -3,6 +3,7 @@ package com.example.diego.hearthstone;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -210,6 +211,9 @@ public class ActivityCollection extends ActionBarActivity {
             lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    JSONManager.position_clase=position;
+                    /*FragmentManager fragmentManager = getSupportFragmentManager();
+                    CartasFragment fragment = (CartasFragment) fragmentManager.findFragmentById(R.id.ca);*/
                     d.cancel();
                 }
             });

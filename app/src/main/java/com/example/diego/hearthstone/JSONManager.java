@@ -38,6 +38,7 @@ public class JSONManager {
     private SQLiteDatabase dbRO;
     private final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
     private Context contexto;
+    public static int position_clase=0;
 
     public JSONManager(Context context){
         contexto = context;
@@ -230,6 +231,84 @@ public class JSONManager {
         c.moveToFirst();
         int cantidad = c.getInt(c.getColumnIndex(CartasManagerContract.Carta.COLUMN_NAME_CANTIDAD));
         return cantidad;
+    }
+
+    public static ArrayList<Carta> filtro_clase(){
+        /*<array name="ClasesHearthstoneCartas" >
+        <item>Todas las cartas</item>
+        <item>Druida</item>
+        <item>Sacerdote</item>
+        <item>Cazador</item>
+        <item>Mago</item>
+        <item>Paladín</item>
+        <item>Pícaro</item>
+        <item>Chaman</item>
+        <item>Brujo</item>
+        <item>Guerrero</item>
+        <item>Común</item>
+        </array>*/
+        System.out.printf("Estoy en el filtro de clase, posicion : %d \n", position_clase);
+        ArrayList<Carta> cartas_filtradas = new ArrayList<Carta>();
+
+        int i;
+
+        if (position_clase == 0) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 1) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("druid"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 2) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("priest"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 3) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("hunter"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 4) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("mage"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 5) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("paladin"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 6) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("rogue"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 7) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("shaman"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 8) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("warlock"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else if (position_clase == 9) {
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("warrior"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+        else{
+            for (i = 0; i < Cartas_array.size(); i++)
+                if (Cartas_array.get(i).getClase().equals("neutral"))
+                    cartas_filtradas.add(Cartas_array.get(i));
+        }
+
+        return cartas_filtradas;
+
     }
 
 
