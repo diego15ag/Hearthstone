@@ -52,4 +52,15 @@
         <item>"9"</item>
     </array>
 
+    <array name="CantidadLegendaria" >
+        <item>"0"</item>
+        <item>"1"</item>
+    </array>
+
+    <array name="CantidadNormales" >
+        <item>"0"</item>
+        <item>"1"</item>
+        <item>"2"</item>
+    </array>
+
 </resources>
