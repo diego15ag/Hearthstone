@@ -73,6 +73,25 @@ public class ActivityCollection extends ActionBarActivity {
         tabs.setViewPager(pager);
 
 
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if(i==1){
+                    Log.i("Log","Pestaña mazos");
+                    //Borrar boton filtar
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
 
 
         //Codigo para el drawer
@@ -195,7 +214,7 @@ public class ActivityCollection extends ActionBarActivity {
             lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    d.cancel();
+                    d.dismiss();
                 }
             });
         }
@@ -212,9 +231,13 @@ public class ActivityCollection extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     JSONManager.position_clase=position;
+
+                    CartasFragment tabCartas= VPadapter.getCartasFragment();
+                    tabCartas.cambiarLista(JSONManager.filtro_clase());
+
                     /*FragmentManager fragmentManager = getSupportFragmentManager();
                     CartasFragment fragment = (CartasFragment) fragmentManager.findFragmentById(R.id.ca);*/
-                    d.cancel();
+                    d.dismiss();
                 }
             });
         }

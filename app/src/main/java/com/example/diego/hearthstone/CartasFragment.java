@@ -15,10 +15,10 @@ import java.util.ArrayList;
 /**
  * Created by Diego on 13/4/15.
  */
-public class CartasFragment extends Fragment implements RecyclerViewAdapter.ClickListener{
+public class CartasFragment extends Fragment implements RecyclerViewAdapterCartas.ClickListener{
 
     RecyclerView recyclerView;
-    RecyclerViewAdapter rva;
+    RecyclerViewAdapterCartas rva;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -26,7 +26,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapter.Clic
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
-        rva=new RecyclerViewAdapter(JSONManager.filtro_clase(),getActivity().getApplicationContext());
+        rva=new RecyclerViewAdapterCartas(JSONManager.filtro_clase(),getActivity().getApplicationContext());
         rva.setClickListener(this);
         recyclerView.setAdapter(rva);
 
@@ -38,9 +38,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapter.Clic
 
     }
 
-    public void setAdapter(ArrayList<Carta> cartas, Context contexto){
-        rva=new RecyclerViewAdapter(cartas, contexto);
-        rva.setClickListener(this);
-        recyclerView.setAdapter(rva);
+    public void cambiarLista(ArrayList<Carta> cartas){
+        rva.cambiaArray(cartas);
     }
 }

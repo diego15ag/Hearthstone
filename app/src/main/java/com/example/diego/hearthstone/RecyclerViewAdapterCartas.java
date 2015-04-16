@@ -16,13 +16,13 @@ import java.util.List;
 /**
  * Created by Jonatan on 16/4/15.
  */
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>  {
+public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerViewAdapterCartas.ViewHolder>  {
 
     public ClickListener clickListener;
     private ArrayList<Carta> cartas;
     private Context context;
 
-    public RecyclerViewAdapter(ArrayList<Carta> cartas,Context context) {
+    public RecyclerViewAdapterCartas(ArrayList<Carta> cartas,Context context) {
         this.cartas=cartas;
         this.context=context;
     }
@@ -33,16 +33,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public RecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerViewAdapterCartas.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view =
                 LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.layout_card_item,viewGroup,false);
 
-        return new RecyclerViewAdapter.ViewHolder(view);
+        return new RecyclerViewAdapterCartas.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(RecyclerViewAdapterCartas.ViewHolder viewHolder, int i) {
 
 
 
@@ -78,7 +78,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return cartas.size();
     }
 
-
+    public void cambiaArray(ArrayList<Carta> cartas){
+        this.cartas=cartas;
+        notifyDataSetChanged();
+    }
 
     protected class ViewHolder
             extends RecyclerView.ViewHolder
