@@ -61,8 +61,10 @@ public class MainActivity extends ActionBarActivity {
 
         ayudabd= new JSONManager(MainActivity.this);
         if (!checkDataBase()) {
+            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
+                    getResources().getString(R.string.DialogLoading_description));
             JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
-            bd.execute(url_cards);
+            bd.execute(url_cards,this);
         }
         else{
             progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
@@ -163,6 +165,11 @@ public class MainActivity extends ActionBarActivity {
             // database doesn't exist yet.
         }
         return checkDB != null ? true : false;
+    }
+
+    public void rellena(){
+
+        new RellenaLista_JSON().execute(url_cards);
     }
 
     public class RellenaLista_JSON extends AsyncTask<String, Void, ArrayList<Carta> > {
