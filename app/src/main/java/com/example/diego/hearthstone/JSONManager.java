@@ -205,6 +205,7 @@ public class JSONManager {
                 null);
         c.moveToFirst();
         int obtenida = c.getInt(c.getColumnIndex(CartasManagerContract.Carta.COLUMN_NAME_OBTENIDA));
+        c.close();
         if (obtenida == 0)
             return false;
         else
@@ -230,6 +231,7 @@ public class JSONManager {
                 null);
         c.moveToFirst();
         int cantidad = c.getInt(c.getColumnIndex(CartasManagerContract.Carta.COLUMN_NAME_CANTIDAD));
+        c.close();
         return cantidad;
     }
 

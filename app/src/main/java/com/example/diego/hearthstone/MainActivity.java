@@ -65,9 +65,11 @@ public class MainActivity extends ActionBarActivity {
             bd.execute(url_cards);
         }
         else{
-            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
+            /*progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                     getResources().getString(R.string.DialogLoading_description));
-            new RellenaLista_JSON().execute(url_cards);
+            new RellenaLista_JSON().execute(url_cards);*/
+            Intent intent2 = new Intent(this, LoadActivity.class);
+            startActivity(intent2);
         }
 
 

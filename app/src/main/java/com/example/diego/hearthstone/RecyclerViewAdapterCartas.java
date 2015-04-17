@@ -98,7 +98,6 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
             this.tvNombre= (TextView) itemView.findViewById(R.id.textViewCarta);
             this.spCantidad= (Spinner) itemView.findViewById(R.id.spCantidad);
 
-
             itemView.setOnClickListener(this);
         }
 
