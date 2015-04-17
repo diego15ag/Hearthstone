@@ -1,5 +1,6 @@
 package com.example.diego.hearthstone;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
     RecyclerView recyclerView;
     RecyclerViewAdapterCartas rva;
+    private Callbacks mCallback;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -35,10 +37,26 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
     @Override
     public void itemClicked(View view, int position) {
-
+        Carta carta=rva.get(position);
+        mCallback.onCardSelected(carta);
     }
 
     public void cambiarLista(ArrayList<Carta> cartas){
         rva.cambiaArray(cartas);
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mCallback = (Callbacks) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() +
+                    " must implement Callbacks");
+        }
+    }
+
+    public interface Callbacks {
+        public void onCardSelected(Carta carta);
     }
 }

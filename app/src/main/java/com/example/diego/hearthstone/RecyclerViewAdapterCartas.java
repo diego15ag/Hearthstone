@@ -83,6 +83,10 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         notifyDataSetChanged();
     }
 
+    public Carta get(int position){
+        return cartas.get(position);
+    }
+
     protected class ViewHolder
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
