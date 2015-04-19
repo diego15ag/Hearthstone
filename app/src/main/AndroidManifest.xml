@@ -3,6 +3,7 @@
     package="com.example.diego.hearthstone" >
 
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -29,8 +30,8 @@
             android:label="@string/title_activity_carta_personalizada" >
         </activity>
         <activity
-            android:name="com.example.diego.hearthstone.LoadActivity"
-            android:label="@string/title_activity_load" >
+            android:name=".DetallesCartaActivity"
+            android:label="@string/title_activity_detalles_carta" >
         </activity>
     </application>
 

@@ -23,7 +23,7 @@ import android.widget.Spinner;
 import android.support.v4.view.ViewPager;
 
 
-public class ActivityCollection extends ActionBarActivity {
+public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks{
 
     //para el drawer
     private DrawerLayout drawerLayout;
@@ -247,4 +247,12 @@ public class ActivityCollection extends ActionBarActivity {
 
     }
 
+    @Override
+    public void onCardSelected(Carta carta) {
+        //Habria que ver si se inicia un fragmento o una actividad
+        Log.i("carta",carta.getNombre());
+        Intent i =new Intent(ActivityCollection.this, DetallesCartaActivity.class);
+        i.putExtra(DetallesCartaActivity.imagen,carta.getUrl());
+        startActivity(i);
+    }
 }

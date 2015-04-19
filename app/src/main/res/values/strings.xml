@@ -23,6 +23,7 @@
     <string name="title_activity_load">LoadActivity</string>
     <string name="DialogLoading_title">Se están cargando las dependencias</string>
     <string name="DialogLoading_description">Cargando</string>
+    <string name="title_activity_detalles_carta">DetallesCartaActivity</string>
 
 
 </resources>

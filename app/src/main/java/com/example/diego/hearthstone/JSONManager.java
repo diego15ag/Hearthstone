@@ -2,18 +2,14 @@ package com.example.diego.hearthstone;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.example.diego.hearthstone.CartasManagerContract;
-import com.example.diego.hearthstone.CartasManagerDbHelper;
-import com.example.diego.hearthstone.LoadActivity;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -27,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
 
 /**
  * Created by blukstack on 01/04/2015.
@@ -56,8 +53,15 @@ public class JSONManager {
     }
 
 
-    public class RellenaBD_JSON extends AsyncTask<String, Void, JSONArray> {
-        protected JSONArray doInBackground(String... urls) {
+    public class RellenaBD_JSON extends AsyncTask<Object, Void, Void> {
+
+        private Handler mHandle=new Handler();
+
+        protected Void doInBackground(Object... obj) {
+
+            final MainActivity ma= (MainActivity) obj[1];
+
+
             InputStream is = null;
             String result = "";
             JSONObject json = null;
@@ -66,13 +70,14 @@ public class JSONManager {
             dbRW = mDbHelper.getWritableDatabase();
             try {
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpGet httpget = new HttpGet(urls[0]);
+                HttpGet httpget = new HttpGet((String) obj[0]);
                 //HttpPost httppost = new HttpPost(urls[0]);
                 HttpResponse response = httpclient.execute(httpget);
                 //HttpResponse response = httpclient.execute(httppost);
                 HttpEntity entity = response.getEntity();
                 is = entity.getContent();
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
             try {
@@ -87,6 +92,7 @@ public class JSONManager {
                 is.close();
                 result = sb.toString();
             } catch (Exception e) {
+                e.printStackTrace();
             }
 
             try {
@@ -109,13 +115,23 @@ public class JSONManager {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            return array_cards;
+
+
+            mHandle.post(new Runnable() {
+                @Override
+                public void run() {
+                    ma.rellena();
+                }
+            });
+
+            return null;
         }
-        protected void onPostExecute(JSONArray objeto_cartas){
+
+        /*protected void onPostExecute(JSONArray objeto_cartas){
             Intent intent2;
             intent2 = new Intent(contexto, LoadActivity.class);
             contexto.startActivity(intent2);
-        }
+        }*/
     }
 
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
