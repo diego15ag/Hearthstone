@@ -24,10 +24,13 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
     public ClickListener clickListener;
     private ArrayList<Carta> cartas;
     private Context context;
+    private JSONManager jsonhelp;
 
     public RecyclerViewAdapterCartas(ArrayList<Carta> cartas,Context context) {
         this.cartas=cartas;
         this.context=context;
+        jsonhelp = new JSONManager(context);
+        jsonhelp.startBG();
     }
 
 
@@ -75,10 +78,11 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
 
                 if(cartas.get(i).getCantidad()!=position) {
                     String carta = cartas.get(i).getNombre();
-
+                    jsonhelp.setCantidad(position, cartas.get(i).getId());
                     Toast.makeText(context, "Se acaban de seleccionar " + position + " " + carta, Toast.LENGTH_SHORT).show();
 
                     //Aqui va lo tuyo Jaime position=cantidad y cartas.get(i) es la carta seleccionada
+
 
 
                 }

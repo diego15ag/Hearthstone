@@ -47,9 +47,23 @@ public class JSONManager {
         //new RellenaLista_JSON().execute(url_cards);
 
     }
+
     public void start(){
         mDbHelper = new CartasManagerDbHelper(contexto);
         dbRO = mDbHelper.getReadableDatabase();
+    }
+    public void startBG(){
+        new initparamsBD().execute();
+    }
+
+    public class initparamsBD extends AsyncTask<Void, Void, Void>{
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            mDbHelper = new CartasManagerDbHelper(contexto);
+            dbRO = mDbHelper.getReadableDatabase();
+            return null;
+        }
     }
 
 
@@ -250,6 +264,25 @@ public class JSONManager {
         c.close();
         return cantidad;
     }
+
+    public void setCantidad(int cantidad, int id){
+        // New value for one column
+        int rowId = id+1;
+        ContentValues values = new ContentValues();
+        values.put(CartasManagerContract.Carta.COLUMN_NAME_CANTIDAD, cantidad);
+
+       // Which row to update, based on the ID
+        String selection = CartasManagerContract.Carta._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(rowId) };
+
+        int count = dbRO.update(
+                CartasManagerContract.Carta.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+        System.out.printf("Carta con id %d en la BD updateada con la cantidad %d \n", rowId, cantidad);
+    }
+
 
     public static ArrayList<Carta> ordena_lista(ArrayList<Carta> cartas){
         Carta temp;
