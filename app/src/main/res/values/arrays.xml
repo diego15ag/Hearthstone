@@ -26,12 +26,11 @@
     </array>
 
     <array name="ClasesHearthstoneCartas" >
-        <item>Todas las cartas</item>
         <item>Druida</item>
-        <item>Sacerdote</item>
         <item>Cazador</item>
         <item>Mago</item>
         <item>Paladín</item>
+        <item>Sacerdote</item>
         <item>Pícaro</item>
         <item>Chaman</item>
         <item>Brujo</item>

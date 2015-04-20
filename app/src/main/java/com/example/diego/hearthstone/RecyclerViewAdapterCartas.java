@@ -2,6 +2,7 @@ package com.example.diego.hearthstone;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +45,7 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapterCartas.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(RecyclerViewAdapterCartas.ViewHolder viewHolder, final int i) {
 
         viewHolder.tvNombre.setText(cartas.get(i).getNombre());
 
@@ -65,6 +67,29 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
 
         viewHolder.spCantidad.setAdapter(adapter);
         viewHolder.spCantidad.setSelection(cantidad);
+
+
+        viewHolder.spCantidad.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                if(cartas.get(i).getCantidad()!=position) {
+                    String carta = cartas.get(i).getNombre();
+
+                    Toast.makeText(context, "Se acaban de seleccionar " + position + " " + carta, Toast.LENGTH_SHORT).show();
+
+                    //Aqui va lo tuyo Jaime position=cantidad y cartas.get(i) es la carta seleccionada
+
+
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         JSONManager ayudabd = new JSONManager(context);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivCarta);

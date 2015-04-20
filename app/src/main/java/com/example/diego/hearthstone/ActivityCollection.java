@@ -27,7 +27,7 @@ import android.support.v4.view.ViewPager;
 import java.util.ArrayList;
 
 
-public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks{
+public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks,MazosFragment.Callbacks{
 
     //para el drawer
     private DrawerLayout drawerLayout;
@@ -41,7 +41,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     CharSequence Titles[];
     int Numboftabs =2;
 
-    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -240,8 +239,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                     new FiltraLista().execute();
                     /*CartasFragment tabCartas= VPadapter.getCartasFragment();
                     tabCartas.cambiarLista(JSONManager.filtro_clase());*/
-                    progressDialog= ProgressDialog.show(ActivityCollection.this, getResources().getString(R.string.DialogLoading_title),
-                            getResources().getString(R.string.DialogLoading_description));
+
                     d.dismiss();
                 }
             });
@@ -261,6 +259,12 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         startActivity(i);
     }
 
+    @Override
+    public void onNewDeck() {
+        Intent i = new Intent(ActivityCollection.this,NuevoMazoActivity.class);
+        startActivity(i);
+    }
+
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
 
         @Override
@@ -271,7 +275,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
             CartasFragment tabCartas= VPadapter.getCartasFragment();
             tabCartas.cambiarLista(cartas_filtradas);
-            progressDialog.dismiss();
         }
     }
 }
