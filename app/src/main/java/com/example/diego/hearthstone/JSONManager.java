@@ -30,6 +30,8 @@ import java.util.ArrayList;
  */
 public class JSONManager {
     public static ArrayList<Carta> Cartas_array;
+    public static ArrayList<Mazo> Mazos_array;
+    public static ArrayList<Carta> Heroes_array;
     private CartasManagerDbHelper mDbHelper;
     private SQLiteDatabase dbRW;
     private SQLiteDatabase dbRO;

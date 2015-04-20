@@ -9,6 +9,13 @@ public class Mazo {
     private boolean predefinido;
     private String clase;
 
+    public Mazo(int id, String nombre, boolean predefinido, String clase) {
+        this.id = id;
+        this.nombre = nombre;
+        this.predefinido = predefinido;
+        this.clase = clase;
+    }
+
     public int getId() {
         return id;
     }
@@ -25,12 +32,7 @@ public class Mazo {
         return clase;
     }
 
-    public Mazo(int id, String nombre, boolean predefinido, String clase) {
-        this.id = id;
-        this.nombre = nombre;
-        this.predefinido = predefinido;
-        this.clase = clase;
-    }
+
 
     public void setId(int id) {
 

@@ -182,6 +182,7 @@ public class MainActivity extends ActionBarActivity {
             JSONManager ayudabd= new JSONManager(MainActivity.this);
             ayudabd.start();
             ArrayList<Carta> cartas_array = new ArrayList<Carta>();
+            ArrayList<Carta> heroes_array = new ArrayList<Carta>();
 
             //CopyOnWriteArrayList<Carta> Cartas_array= new CopyOnWriteArrayList<Carta>();
             try {
@@ -223,6 +224,7 @@ public class MainActivity extends ActionBarActivity {
                 Carta cAux;
 
                 int j=0;
+                int contador_heroes=0;
                 for (int i =0; i< array_cards.length() ; i++) {
                     if (array_cards.getJSONObject(i).getString("category").equals("hero") == false &&
                             array_cards.getJSONObject(i).getString("category").equals("ability") == false
@@ -242,13 +244,24 @@ public class MainActivity extends ActionBarActivity {
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());
                         j++;
                     }
+                    else if (array_cards.getJSONObject(i).getString("category").equals("hero") && contador_heroes < 9) {
+                        Carta c = new Carta();
+                        c.setId(i);
+                        c.setClase(array_cards.getJSONObject(i).getString("hero"));
+                        c.setNombre(array_cards.getJSONObject(i).getString("name"));
+                        c.setUrl(array_cards.getJSONObject(i).getString("image_url"));
+                        cAux=c;
+                        heroes_array.add(cAux);
+                        //System.out.printf("la carta %s es un heroe con id %d \n", c.getNombre(), c.getId());
+                        contador_heroes++;
+                    }
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             System.out.printf("La lista tiene tamaño: %d \n", cartas_array.size());
             JSONManager.Cartas_array=JSONManager.ordena_lista(cartas_array);
+            JSONManager.Heroes_array=heroes_array;
             return cartas_array;
         }
         protected void onPostExecute(ArrayList<Carta> objeto_cartas){
