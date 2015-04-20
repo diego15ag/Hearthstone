@@ -251,6 +251,26 @@ public class JSONManager {
         return cantidad;
     }
 
+    public static ArrayList<Carta> ordena_lista(ArrayList<Carta> cartas){
+        Carta temp;
+        for (int i=0; i < cartas.size() -1 ; i++) // ordenacion por coste
+            for (int j=i+1; j < cartas.size(); j++)
+                if(cartas.get(j).getCoste()< cartas.get(i).getCoste()){
+                    temp = cartas.get(i);
+                    cartas.set(i,cartas.get(j) );
+                    cartas.set(j, temp);
+                             }
+        for (int i=0; i < cartas.size() -1 ; i++) // ordenacion por orden alfabetico
+            for (int j=i+1; j < cartas.size(); j++)
+                if(cartas.get(j).getCoste() == cartas.get(i).getCoste())
+                    if(cartas.get(j).getNombre().compareTo(cartas.get(i).getNombre())<0 ) {
+                        temp = cartas.get(i);
+                        cartas.set(i, cartas.get(j));
+                        cartas.set(j, temp);
+                    }
+        return cartas;
+    }
+
     public static ArrayList<Carta> filtro_clase(){
         /*<array name="ClasesHearthstoneCartas" >
         <item>Todas las cartas</item>
@@ -324,10 +344,10 @@ public class JSONManager {
                 if (Cartas_array.get(i).getClase().equals("neutral"))
                     cartas_filtradas.add(Cartas_array.get(i));
         }
-
         return cartas_filtradas;
 
     }
 
 
 }
+

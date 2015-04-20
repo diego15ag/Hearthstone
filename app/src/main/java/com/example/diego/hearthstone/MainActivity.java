@@ -67,11 +67,9 @@ public class MainActivity extends ActionBarActivity {
             bd.execute(url_cards,this);
         }
         else{
-            /*progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
+            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                     getResources().getString(R.string.DialogLoading_description));
-            new RellenaLista_JSON().execute(url_cards);*/
-            Intent intent2 = new Intent(this, LoadActivity.class);
-            startActivity(intent2);
+            new RellenaLista_JSON().execute(url_cards);
         }
 
 
@@ -250,7 +248,7 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             System.out.printf("La lista tiene tamaño: %d \n", cartas_array.size());
-            JSONManager.Cartas_array=cartas_array;
+            JSONManager.Cartas_array=JSONManager.ordena_lista(cartas_array);
             return cartas_array;
         }
         protected void onPostExecute(ArrayList<Carta> objeto_cartas){
@@ -261,7 +259,7 @@ public class MainActivity extends ActionBarActivity {
                         .execute(objeto_cartas.get(i).getUrl(), objeto_cartas.get(i).getNombre());
             }*/
 
-            System.out.printf("Hola estoy antes del finish \n");
+            System.out.printf("Lista cargada \n");
             progressDialog.dismiss();
             //finish();
         }

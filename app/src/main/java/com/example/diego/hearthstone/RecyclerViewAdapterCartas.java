@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -16,7 +17,7 @@ import java.util.List;
 /**
  * Created by Jonatan on 16/4/15.
  */
-public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerViewAdapterCartas.ViewHolder>  {
+public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerViewAdapterCartas.ViewHolder> {
 
     public ClickListener clickListener;
     private ArrayList<Carta> cartas;
@@ -43,8 +44,6 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapterCartas.ViewHolder viewHolder, int i) {
-
-
 
         viewHolder.tvNombre.setText(cartas.get(i).getNombre());
 
@@ -87,6 +86,8 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         return cartas.get(position);
     }
 
+
+
     protected class ViewHolder
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
@@ -94,6 +95,7 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         public ImageView ivCarta;
         public TextView tvNombre;
         public Spinner spCantidad;
+
 
         public ViewHolder(View itemView) {
             super(itemView);

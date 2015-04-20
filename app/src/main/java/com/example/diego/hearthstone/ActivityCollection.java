@@ -1,8 +1,10 @@
 package com.example.diego.hearthstone;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -22,6 +24,8 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.support.v4.view.ViewPager;
 
+import java.util.ArrayList;
+
 
 public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks{
 
@@ -36,6 +40,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     SlidingTabLayout tabs;
     CharSequence Titles[];
     int Numboftabs =2;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -231,12 +237,11 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     JSONManager.position_clase=position;
-
-                    CartasFragment tabCartas= VPadapter.getCartasFragment();
-                    tabCartas.cambiarLista(JSONManager.filtro_clase());
-
-                    /*FragmentManager fragmentManager = getSupportFragmentManager();
-                    CartasFragment fragment = (CartasFragment) fragmentManager.findFragmentById(R.id.ca);*/
+                    new FiltraLista().execute();
+                    /*CartasFragment tabCartas= VPadapter.getCartasFragment();
+                    tabCartas.cambiarLista(JSONManager.filtro_clase());*/
+                    progressDialog= ProgressDialog.show(ActivityCollection.this, getResources().getString(R.string.DialogLoading_title),
+                            getResources().getString(R.string.DialogLoading_description));
                     d.dismiss();
                 }
             });
@@ -254,5 +259,19 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         Intent i =new Intent(ActivityCollection.this, DetallesCartaActivity.class);
         i.putExtra(DetallesCartaActivity.imagen,carta.getUrl());
         startActivity(i);
+    }
+
+    public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
+
+        @Override
+        protected ArrayList<Carta> doInBackground(Void... params) {
+            return JSONManager.filtro_clase();
+        }
+
+        protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
+            CartasFragment tabCartas= VPadapter.getCartasFragment();
+            tabCartas.cambiarLista(cartas_filtradas);
+            progressDialog.dismiss();
+        }
     }
 }

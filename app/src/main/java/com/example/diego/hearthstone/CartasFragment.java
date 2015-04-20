@@ -25,10 +25,10 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.tab_cartas,container,false);
-
+        System.out.printf("Estoy en el oncreateView de cartasfragment \n");
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
-        rva=new RecyclerViewAdapterCartas(JSONManager.filtro_clase(),getActivity().getApplicationContext());
+        rva=new RecyclerViewAdapterCartas(JSONManager.Cartas_array,getActivity().getApplicationContext());
         rva.setClickListener(this);
         recyclerView.setAdapter(rva);
 
