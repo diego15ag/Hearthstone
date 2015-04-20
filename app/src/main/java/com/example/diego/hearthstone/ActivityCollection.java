@@ -1,7 +1,7 @@
 package com.example.diego.hearthstone;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -187,12 +188,13 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
+    //metodo que muestra el dialogo de seleccion de clase
     private void mostrarDialogoClase(int seleccion){
         final Dialog d = new Dialog(ActivityCollection.this);
 
         String [] contenido={};
 
-
+        //Si estamos en la pestaña de cartas
         if(seleccion==0) {
             //Para mostrar las opciones que se corresponderian con carta
             d.setTitle(getResources().getString(R.string.select_clase));
@@ -204,18 +206,51 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    //Cambiar el icono en la toolbar de la clase
+                    ActionMenuItemView item= (ActionMenuItemView) findViewById(R.id.action_filter);
+
+                    if(position==0)
+                        item.setIcon(getResources().getDrawable(R.mipmap.druida));
+
+                    else if(position==1)
+                        item.setIcon(getResources().getDrawable(R.mipmap.cazador));
+
+                    else if(position==2)
+                        item.setIcon(getResources().getDrawable(R.mipmap.mago));
+
+                    else if(position==3)
+                        item.setIcon(getResources().getDrawable(R.mipmap.paladin));
+
+                    else if(position==4)
+                        item.setIcon(getResources().getDrawable(R.mipmap.sacerdote));
+
+                    else if(position==5)
+                        item.setIcon(getResources().getDrawable(R.mipmap.picaro));
+
+                    else if(position==6)
+                        item.setIcon(getResources().getDrawable(R.mipmap.chaman));
+
+                    else if(position==7)
+                        item.setIcon(getResources().getDrawable(R.mipmap.brujo));
+
+                    else if(position==8)
+                        item.setIcon(getResources().getDrawable(R.mipmap.guerrero));
+
+                    else
+                        item.setIcon(getResources().getDrawable(R.mipmap.hearthstone_logo));
+
+                    //Filtrar las cartas por su clase
                     JSONManager.position_clase=position;
                     new FiltraLista().execute();
-                    /*CartasFragment tabCartas= VPadapter.getCartasFragment();
-                    tabCartas.cambiarLista(JSONManager.filtro_clase());*/
 
+                    //Se cierra el dialogo
                     d.dismiss();
                 }
             });
+
+            d.show();
         }
-
-
-        d.show();
 
     }
 

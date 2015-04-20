@@ -52,6 +52,44 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         inflater.inflate(R.menu.menu_activity_collection_cartas, menu);
+
+
+        //El icono para seleccionar la clase tendra una imagen distinta dependiendo de la clase seleccionada
+        MenuItem item= menu.findItem(R.id.action_filter);
+
+        int position=JSONManager.position_clase;
+
+        if(position==0)
+            item.setIcon(getResources().getDrawable(R.mipmap.druida));
+
+        else if(position==1)
+            item.setIcon(getResources().getDrawable(R.mipmap.cazador));
+
+        else if(position==2)
+            item.setIcon(getResources().getDrawable(R.mipmap.mago));
+
+        else if(position==3)
+            item.setIcon(getResources().getDrawable(R.mipmap.paladin));
+
+        else if(position==4)
+            item.setIcon(getResources().getDrawable(R.mipmap.sacerdote));
+
+        else if(position==5)
+            item.setIcon(getResources().getDrawable(R.mipmap.picaro));
+
+        else if(position==6)
+            item.setIcon(getResources().getDrawable(R.mipmap.chaman));
+
+        else if(position==7)
+            item.setIcon(getResources().getDrawable(R.mipmap.brujo));
+
+        else if(position==8)
+            item.setIcon(getResources().getDrawable(R.mipmap.guerrero));
+
+        else
+            item.setIcon(getResources().getDrawable(R.mipmap.hearthstone_logo));
+
+
         super.onCreateOptionsMenu(menu, inflater);
 
     }
