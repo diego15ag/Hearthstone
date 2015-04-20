@@ -103,6 +103,8 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
     public void cambiarLista(ArrayList<Carta> cartas){
         rva.cambiaArray(cartas);
+        //Fijamos el scroll al principio
+        recyclerView.scrollToPosition(0);
     }
 
     @Override
