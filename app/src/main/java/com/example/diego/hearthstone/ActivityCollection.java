@@ -112,6 +112,10 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         Intent i1=new Intent(ActivityCollection.this,CartaPersonalizadaActivity.class);
                         startActivity(i1);
                         break;
+                    case 2:
+                        Intent i2=new Intent(ActivityCollection.this, HeroSelectionActivity.class);
+                        startActivity(i2);
+                        break;
                 }
 
                 drawerLayout.closeDrawer(layoutDelDrawer);

@@ -3,7 +3,7 @@
     <array name="NavigationDrawerValues" >
         <item>Colección</item>
         <item>Carta personalizada</item>
-        <item>Opcion 3</item>
+        <item>Arena</item>
         <item>Opcion 4</item>
     </array>
 
@@ -15,10 +15,10 @@
     <array name="ClasesHearthstone" >
         <item>Todos los mazos</item>
         <item>Druida</item>
-        <item>Sacerdote</item>
         <item>Cazador</item>
         <item>Mago</item>
         <item>Paladín</item>
+        <item>Sacerdote</item>
         <item>Pícaro</item>
         <item>Chaman</item>
         <item>Brujo</item>

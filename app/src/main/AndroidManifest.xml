@@ -37,6 +37,10 @@
             android:name=".NuevoMazoActivity"
             android:label="@string/title_activity_nuevo_mazo" >
         </activity>
+        <activity
+            android:name=".HeroSelectionActivity"
+            android:label="@string/title_activity_hero_selection" >
+        </activity>
     </application>
 
 </manifest>

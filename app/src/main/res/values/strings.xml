@@ -25,6 +25,7 @@
     <string name="DialogLoading_description">Cargando</string>
     <string name="title_activity_detalles_carta">DetallesCartaActivity</string>
     <string name="title_activity_nuevo_mazo">Nuevo Mazo</string>
+    <string name="title_activity_hero_selection">Arena</string>
 
 
 </resources>
