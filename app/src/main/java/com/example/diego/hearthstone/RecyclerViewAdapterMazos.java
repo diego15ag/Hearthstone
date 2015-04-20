@@ -49,7 +49,29 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         viewHolder.tvHeroe.setText(mazos.get(i).getClase());
 
         //Aqui habria que mostrar una imagen dependiendo del heroe
-        viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(R.mipmap.hearthstone_logo));
+        int id;
+
+        if(mazos.get(i).getClase().equals("druid"))
+            id=R.mipmap.druida;
+        else if (mazos.get(i).getClase().equals("hunter"))
+            id=R.mipmap.cazador;
+        else if (mazos.get(i).getClase().equals("mage"))
+            id=R.mipmap.mago;
+        else if (mazos.get(i).getClase().equals("paladin"))
+            id=R.mipmap.paladin;
+        else if (mazos.get(i).getClase().equals("priest"))
+            id=R.mipmap.sacerdote;
+        else if (mazos.get(i).getClase().equals("rogue"))
+            id=R.mipmap.picaro;
+        else if (mazos.get(i).getClase().equals("shaman"))
+            id=R.mipmap.chaman;
+        else if (mazos.get(i).getClase().equals("warlock"))
+            id=R.mipmap.brujo;
+        else
+            id=R.mipmap.guerrero;
+
+        viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
+        
 
     }
 
