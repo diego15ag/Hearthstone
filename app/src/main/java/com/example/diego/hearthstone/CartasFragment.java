@@ -8,6 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,6 +24,13 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     RecyclerView recyclerView;
     RecyclerViewAdapterCartas rva;
     private Callbacks mCallback;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -37,6 +47,15 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
         return v;
     }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.menu_activity_collection_cartas, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+
+    }
+
 
     @Override
     public void itemClicked(View view, int position) {

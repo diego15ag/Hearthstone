@@ -24,6 +24,8 @@ public class NuevoMazoActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
@@ -50,6 +52,10 @@ public class NuevoMazoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id==android.R.id.home){
+            finish();
             return true;
         }
 

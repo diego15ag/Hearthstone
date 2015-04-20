@@ -34,6 +34,20 @@
                 android:id="@+id/tvCuenta"
                 android:textSize="40dp"
                 android:layout_gravity="center_vertical" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ibGuardarMAzo"
+                android:background="@color/ColorPrimary"
+                android:src="@drawable/ic_action_save" />
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="match_parent"
+                android:id="@+id/ibBorrarMazo"
+                android:background="@color/ColorPrimary"
+                android:src="@drawable/ic_action_delete" />
         </LinearLayout>
 
     </FrameLayout>

@@ -43,7 +43,7 @@
             android:divider="@android:color/transparent"
             android:dividerHeight="0dp"
             android:background="#ffa29f7d"/>
-        </LinearLayout>
+    </LinearLayout>
 
 
 </android.support.v4.widget.DrawerLayout>

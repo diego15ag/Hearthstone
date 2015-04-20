@@ -78,27 +78,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         tabs.setViewPager(pager);
 
 
-        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i1) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-                if(i==1){
-                    Log.i("Log","Pestaña mazos");
-                    //Borrar boton filtar
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
-
-
         //Codigo para el drawer
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
         drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -148,7 +127,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_collection, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        /*MenuItem searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -163,7 +143,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                 Log.i("texto", s);
                 return false;
             }
-        });
+        });*/
 
         return true;
     }
@@ -208,23 +188,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         String [] contenido={};
 
-        if(seleccion==1) {
-            //Para mostrar las opciones que se corresponderian con mazos
-            d.setTitle(getResources().getString(R.string.select_clase));
-            d.setContentView(R.layout.dialogo_sel_clase);
 
-            contenido=getResources().getStringArray(R.array.ClasesHearthstone);
-            ListView lvSeleccion= (ListView) d.findViewById(R.id.lvSeleccionClase);
-            lvSeleccion.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contenido));
-            lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    d.dismiss();
-                }
-            });
-        }
-
-        else if(seleccion==0) {
+        if(seleccion==0) {
             //Para mostrar las opciones que se corresponderian con carta
             d.setTitle(getResources().getString(R.string.select_clase));
             d.setContentView(R.layout.dialogo_sel_clase);

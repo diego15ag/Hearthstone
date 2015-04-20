@@ -71,7 +71,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
             id=R.mipmap.guerrero;
 
         viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
-        
+
 
     }
 

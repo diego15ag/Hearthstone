@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -21,8 +23,10 @@ public class MazosFragment extends Fragment{
     RecyclerViewAdapterMazos rva;
     private Callbacks mCallback;
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 
         View v = inflater.inflate(R.layout.tab_mazos,container,false);
 
@@ -42,6 +46,8 @@ public class MazosFragment extends Fragment{
 
         return v;
     }
+
+
 
     public interface Callbacks {
         public void onNewDeck();
