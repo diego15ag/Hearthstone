@@ -78,6 +78,7 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
 
                 if(cartas.get(i).getCantidad()!=position) {
                     String carta = cartas.get(i).getNombre();
+                    cartas.get(i).setCantidad(position);
                     jsonhelp.setCantidad(position, cartas.get(i).getId());
                     Toast.makeText(context, "Se acaban de seleccionar " + position + " " + carta, Toast.LENGTH_SHORT).show();
 
