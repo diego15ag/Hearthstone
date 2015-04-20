@@ -244,7 +244,8 @@ public class MainActivity extends ActionBarActivity {
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());
                         j++;
                     }
-                    else if (array_cards.getJSONObject(i).getString("category").equals("hero") && contador_heroes < 9) {
+                    else if (array_cards.getJSONObject(i).getString("category").equals("hero") &&
+                            array_cards.getJSONObject(i).getString("name").equals("Lord Jaraxxus")==false && contador_heroes < 9) {
                         Carta c = new Carta();
                         c.setId(i);
                         c.setClase(array_cards.getJSONObject(i).getString("hero"));
