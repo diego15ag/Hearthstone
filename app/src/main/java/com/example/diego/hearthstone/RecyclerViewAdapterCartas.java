@@ -91,9 +91,12 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
             }
         });
 
+        //Obtenemos la url de la imagen mas pequeña
+        String url=cartas.get(i).getUrl().replaceAll("medium","small");
+
         JSONManager ayudabd = new JSONManager(context);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivCarta);
-        im.execute(cartas.get(i).getUrl());
+        im.execute(url);
     }
 
 

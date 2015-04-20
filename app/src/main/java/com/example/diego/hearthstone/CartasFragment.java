@@ -25,7 +25,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v =inflater.inflate(R.layout.tab_cartas,container,false);
-      
+
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_cartas);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
