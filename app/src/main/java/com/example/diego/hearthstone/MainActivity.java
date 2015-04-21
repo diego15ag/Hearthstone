@@ -187,6 +187,7 @@ public class MainActivity extends ActionBarActivity {
             ayudabd.start();
             ArrayList<Carta> cartas_array = new ArrayList<Carta>();
             ArrayList<Carta> heroes_array = new ArrayList<Carta>();
+            ArrayList<Mazo> mazos_nopredefinidos = new ArrayList<Mazo>();
 
             //CopyOnWriteArrayList<Carta> Cartas_array= new CopyOnWriteArrayList<Carta>();
             try {
@@ -266,7 +267,9 @@ public class MainActivity extends ActionBarActivity {
             }
             System.out.printf("La lista tiene tamaño: %d \n", cartas_array.size());
             JSONManager.Cartas_array=JSONManager.ordena_lista(cartas_array);
-            JSONManager.Heroes_array=heroes_array;
+            JSONManager.Heroes_array=JSONManager.ordena_heroes(heroes_array);
+
+            JSONManager.Mazos_array = ayudabd.getMazosNoPredefinidos();
             return cartas_array;
         }
         protected void onPostExecute(ArrayList<Carta> objeto_cartas){

@@ -1,5 +1,7 @@
 package com.example.diego.hearthstone;
 
+import java.util.ArrayList;
+
 /**
  * Created by blukstack on 07/04/2015.
  */
@@ -8,12 +10,18 @@ public class Mazo {
     private String nombre;
     private boolean predefinido;
     private String clase;
+    private ArrayList<Carta> cartas;
 
-    public Mazo(int id, String nombre, boolean predefinido, String clase) {
+
+    public Mazo() {
+    }
+
+    public Mazo(int id, String nombre, boolean predefinido, String clase, ArrayList<Carta> cartas) {
         this.id = id;
         this.nombre = nombre;
         this.predefinido = predefinido;
         this.clase = clase;
+        this.cartas = cartas;
     }
 
     public int getId() {
@@ -49,5 +57,13 @@ public class Mazo {
 
     public void setClase(String clase) {
         this.clase = clase;
+    }
+
+    public ArrayList<Carta> getCartas() {
+        return cartas;
+    }
+
+    public void setCartas(ArrayList<Carta> cartas) {
+        this.cartas = cartas;
     }
 }

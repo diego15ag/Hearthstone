@@ -267,6 +267,82 @@ public class JSONManager {
         return cantidad;
     }
 
+    public ArrayList<Mazo> getMazosNoPredefinidos(){
+        //System.out.printf("estoy en mazos no predefinidos \n");
+        String[] projection = { CartasManagerContract.Mazo._ID, CartasManagerContract.Mazo.COLUMN_NAME_NAME
+        , CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, CartasManagerContract.Mazo.COLUMN_NAME_CLASS};
+        String whereColum = CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO + "=?";
+        String[] valor = {String.valueOf(0)};
+        Cursor c = dbRO.query(
+                CartasManagerContract.Mazo.TABLE_NAME, // Nombre de la tabla
+                projection, // Columnas a devolver
+                whereColum, // Columnas de la cláusula WHERE
+                valor, // Valores de la cláusula WHERE
+                null, // Agrupamiento
+                null, // Filtro por grupos
+                null);
+        int id;
+        String nombre;
+        int predefinido;
+        boolean predefinido2;
+        String clase;
+        ArrayList<Mazo> mazos = new ArrayList<Mazo>();
+        //Mazo maux;
+        while (c.moveToNext()){
+            Mazo m;
+            id=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo._ID));
+            nombre=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_NAME));
+            predefinido=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO));
+            if (predefinido==0)
+                predefinido2=false;
+            else
+                predefinido2=true;
+            clase=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_CLASS));
+            m = new Mazo(id, nombre, predefinido2 , clase, getCartasFromMazo(id));
+            mazos.add(m);
+        }
+        c.close();
+        for (int i=0; i < mazos.size(); i++) {
+            System.out.printf("El mazo %s de la clase %s tiene id: %d \n",
+                    mazos.get(i).getNombre(), mazos.get(i).getClase(), mazos.get(i).getId());
+            for (int j=0; j<mazos.get(i).getCartas().size(); j++)
+                System.out.printf("Carta: %s \n", mazos.get(i).getCartas().get(j).getNombre());
+        }
+
+
+        return mazos;
+    }
+
+    private ArrayList<Carta> getCartasFromMazo(int idmazo){
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        String[] projection = { CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA };
+        String whereColum = CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO+ "=?";
+        String[] valor = {String.valueOf(idmazo)};
+
+        Cursor c = dbRO.query(
+                CartasManagerContract.Carta_Mazo.TABLE_NAME, // Nombre de la tabla
+                projection, // Columnas a devolver
+                whereColum, // Columnas de la cláusula WHERE
+                valor, // Valores de la cláusula WHERE
+                null, // Agrupamiento
+                null, // Filtro por grupos
+                null);
+        int idcarta;
+        while (c.moveToNext()) {
+            idcarta = c.getInt(c.getColumnIndex(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA));
+            cartas.add(getCartaById(idcarta-1));
+        }
+        c.close();
+        return cartas;
+    }
+
+    private Carta getCartaById(int idcarta){
+        int posicion = 0;
+        while (JSONManager.Cartas_array.get(posicion).getId() != idcarta)
+            posicion++;
+        return JSONManager.Cartas_array.get(posicion);
+    }
+
     public void setCantidad(int cantidad, int id){
         // New value for one column
         int rowId = id+1;
@@ -303,6 +379,52 @@ public class JSONManager {
                         cartas.set(i, cartas.get(j));
                         cartas.set(j, temp);
                     }
+        return cartas;
+    }
+
+    public static ArrayList<Carta> ordena_heroes(ArrayList<Carta> cartas) {
+        Carta temp;
+        for (int i = 0; i < cartas.size(); i++) {
+            if (cartas.get(i).getClase().equals("druid")) {
+                temp = cartas.get(0);
+                cartas.set(0, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("hunter")) {
+                temp = cartas.get(1);
+                cartas.set(1, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("mage")) {
+                temp = cartas.get(2);
+                cartas.set(2, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("paladin")) {
+                temp = cartas.get(3);
+                cartas.set(3, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("priest")) {
+                temp = cartas.get(4);
+                cartas.set(4, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("rogue")) {
+                temp = cartas.get(5);
+                cartas.set(5, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("shaman")) {
+                temp = cartas.get(6);
+                cartas.set(6, cartas.get(i));
+                cartas.set(i, temp);
+            } else if (cartas.get(i).getClase().equals("warlock")) {
+                temp = cartas.get(7);
+                cartas.set(7, cartas.get(i));
+                cartas.set(i, temp);
+            } else {
+                temp = cartas.get(8);
+                cartas.set(8, cartas.get(i));
+                cartas.set(i, temp);
+            }
+        }
+        /*for (int i = 0; i < cartas.size(); i++)
+            System.out.printf("%s \n", cartas.get(i).getNombre());*/
         return cartas;
     }
 
