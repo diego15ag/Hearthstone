@@ -2,10 +2,12 @@ package com.example.diego.hearthstone;
 
 import android.app.Dialog;
 
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -26,6 +28,7 @@ import android.widget.Spinner;
 import android.support.v4.view.ViewPager;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks,MazosFragment.Callbacks{
@@ -107,20 +110,36 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                     //Pestaña cartas
                     if(landscape){
                         Carta carta;
-                        if(VPadapter.getCartasFragment()!=null) {
 
-                            if (VPadapter.getCartasFragment().cartaselect == null)
-                                carta = JSONManager.filtro_clase().get(0);
 
-                            else carta = VPadapter.getCartasFragment().cartaselect;
+                        List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+
+                        CartasFragment cartasFragment=null;
+                        boolean encontrado=false;
+                        int j=0;
+
+                        while(j<allFragments.size()&&!encontrado){
+                            if( allFragments.get(j)instanceof CartasFragment) {
+                                cartasFragment= ((CartasFragment) allFragments.get(j));
+
+                                encontrado=true;
+
+                                j++;
+                            }
                         }
 
-                        else carta = JSONManager.filtro_clase().get(0);
+                        if(encontrado){
+                            if (cartasFragment.cartaselect == null)
+                                carta = JSONManager.filtro_clase().get(0);
+
+                            else carta = cartasFragment.cartaselect;
 
                             DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                                     newInstance(carta);
                             getSupportFragmentManager().beginTransaction()
                                     .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                        }
+
 
                     }
                 }
@@ -359,8 +378,23 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         }
 
         protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
-            CartasFragment tabCartas= VPadapter.getCartasFragment();
-            tabCartas.cambiarLista(cartas_filtradas);
+
+
+            //Recorremos los fragmentos y cuando tengamos el de cartas modificamos el RV
+            List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+
+            boolean encontrado=false;
+            int i=0;
+
+            while(i<allFragments.size()&&!encontrado){
+                if( allFragments.get(i)instanceof CartasFragment) {
+                    ((CartasFragment) allFragments.get(i)).cambiarLista(cartas_filtradas);
+
+                    encontrado=true;
+                    i++;
+                }
+            }
+
         }
     }
 }
