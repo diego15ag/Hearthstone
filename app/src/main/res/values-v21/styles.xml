@@ -4,7 +4,8 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
-
+        <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/ColorPrimaryDark</item>
     </style>
 
 </resources>
