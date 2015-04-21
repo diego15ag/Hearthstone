@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/ColorPrimary">
+        android:background="@color/ColorFondo">
 
         <LinearLayout
             android:orientation="vertical"
@@ -30,7 +30,8 @@
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/ColorPrimaryDark" />
+                    android:backgroundTint="@color/ColorButton"
+                    android:textColor="@color/ColorLetra" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
@@ -39,7 +40,8 @@
                     android:text="@string/CustomPhoto_RotatePhoto"
                     android:id="@+id/buttonRotate"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/ColorPrimaryDark" />
+                    android:backgroundTint="@color/ColorButton"
+                    android:textColor="@color/ColorLetra" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -47,7 +49,8 @@
                     android:text="@string/CustomPhoto_LoadPhoto"
                     android:id="@+id/buttonLoadPhoto"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/ColorPrimaryDark" />
+                    android:backgroundTint="@color/ColorButton"
+                    android:textColor="@color/ColorLetra" />
             </LinearLayout>
 
             <Button
@@ -55,19 +58,22 @@
                 android:layout_height="wrap_content"
                 android:text="@string/CustomPhoto_SaveImage"
                 android:id="@+id/buttonSavePhoto"
-                android:backgroundTint="@color/ColorPrimaryDark" />
+                android:backgroundTint="@color/ColorButton"
+                android:textColor="@color/ColorLetra" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextName"
-                android:hint="@string/CustomPhoto_Name" />
+                android:hint="@string/CustomPhoto_Name"
+                android:textColor="@color/ColorButton" />
 
             <EditText
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/editTextDescription"
-                android:hint="@string/CustomPhoto_Description" />
+                android:hint="@string/CustomPhoto_Description"
+                android:textColor="@color/ColorButton" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -92,13 +98,15 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Damage"
-                        android:id="@+id/textViewDamage" />
+                        android:id="@+id/textViewDamage"
+                        android:textColor="@color/ColorButton" />
 
                     <Spinner
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spinnerDamage"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/ColorFondo" />
 
 
                 </LinearLayout>
@@ -114,13 +122,15 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Life"
-                        android:id="@+id/textViewLife" />
+                        android:id="@+id/textViewLife"
+                        android:textColor="@color/ColorButton" />
 
                     <Spinner
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spinnerLife"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/ColorFondo" />
 
                 </LinearLayout>
 
@@ -135,13 +145,15 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Cost"
-                        android:id="@+id/textViewCost" />
+                        android:id="@+id/textViewCost"
+                        android:textColor="@color/ColorButton" />
 
                     <Spinner
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:id="@+id/spinnerCost"
-                        android:spinnerMode="dropdown" />
+                        android:spinnerMode="dropdown"
+                        android:backgroundTint="@color/ColorFondo" />
 
                 </LinearLayout>
             </LinearLayout>
