@@ -107,14 +107,21 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                     //Pestaña cartas
                     if(landscape){
                         Carta carta;
-                        if(VPadapter.getCartasFragment().cartaselect==null)
-                            carta=JSONManager.filtro_clase().get(0);
-                        else carta=VPadapter.getCartasFragment().cartaselect;
+                        if(VPadapter.getCartasFragment()!=null) {
 
-                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
-                                newInstance(carta);
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                            if (VPadapter.getCartasFragment().cartaselect == null)
+                                carta = JSONManager.filtro_clase().get(0);
+
+                            else carta = VPadapter.getCartasFragment().cartaselect;
+                        }
+
+                        else carta = JSONManager.filtro_clase().get(0);
+
+                            DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                                    newInstance(carta);
+                            getSupportFragmentManager().beginTransaction()
+                                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+
                     }
                 }
             }
