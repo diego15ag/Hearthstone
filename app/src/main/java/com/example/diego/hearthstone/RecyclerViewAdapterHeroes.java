@@ -44,7 +44,8 @@ public class RecyclerViewAdapterHeroes extends RecyclerView.Adapter<RecyclerView
     @Override
     public void onBindViewHolder(RecyclerViewAdapterHeroes.ViewHolder viewHolder, final int i) {
 
-        viewHolder.tvClase.setText(heroes.get(i).getClase());
+        String classes[] = context.getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+        viewHolder.tvClase.setText(classes[i]);
 
         //Obtenemos la url de la imagen mas pequeña
         String url = heroes.get(i).getUrl().replaceAll("medium","small");
