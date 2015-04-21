@@ -40,7 +40,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_cartas);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
-        JSONManager.position_clase=0;
+        //JSONManager.position_clase=0;
 
         rva=new RecyclerViewAdapterCartas(JSONManager.filtro_clase(),getActivity().getApplicationContext());
         rva.setClickListener(this);

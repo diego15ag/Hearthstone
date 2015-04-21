@@ -199,7 +199,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         //Para que se muestre en el fragmento detalles al iniciarse la primera carta
         if(pager.getCurrentItem()==0&&landscape){
-            JSONManager.position_clase=0;
+            //JSONManager.position_clase=0;
 
             DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
                     newInstance(JSONManager.filtro_clase().get(0));
