@@ -30,11 +30,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter{
         if(position == 0) // if the position is 0 we are returning the First tab
         {
             tabCartas = new CartasFragment();
+
             return tabCartas;
         }
         else             // As we are having 2 tabs if the position is now 0 it must be 1 so we are returning second tab
         {
             MazosFragment tabMazos = new MazosFragment();
+
             return tabMazos;
         }
 

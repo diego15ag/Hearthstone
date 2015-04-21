@@ -17,7 +17,7 @@ import com.melnykov.fab.FloatingActionButton;
 /**
  * Created by Diego on 13/4/15.
  */
-public class MazosFragment extends Fragment{
+public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.ClickListener{
 
     RecyclerView recyclerView;
     RecyclerViewAdapterMazos rva;
@@ -33,8 +33,8 @@ public class MazosFragment extends Fragment{
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_mazos);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
-        //rva=new RecyclerViewAdapterMazos(,getActivity().getApplicationContext());
-        //recyclerView.setAdapter(rva);
+        rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
+        recyclerView.setAdapter(rva);
 
         FloatingActionButton fab= (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -47,6 +47,12 @@ public class MazosFragment extends Fragment{
         return v;
     }
 
+    @Override
+    public void itemClicked(View view, int position) {
+        //Abrir los detalles del mazo
+
+
+    }
 
 
     public interface Callbacks {

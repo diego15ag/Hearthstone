@@ -83,6 +83,8 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
             }
         });
 
+
+        //Recycler view con los heroes
         recyclerView = (RecyclerView) findViewById(R.id.recycler_heroes);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
 

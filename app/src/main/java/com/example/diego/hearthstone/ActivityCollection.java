@@ -41,6 +41,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     SlidingTabLayout tabs;
     CharSequence Titles[];
     int Numboftabs =2;
+    private boolean landscape;
 
 
     @Override
@@ -53,6 +54,11 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         if(toolbar!=null){
             setSupportActionBar(toolbar);
         }
+
+        if(findViewById(R.id.fragmentContainer)!=null)
+            landscape=true;
+        else landscape=false;
+
 
         Titles = getResources().getStringArray(R.array.TabTitles);
 
@@ -77,6 +83,46 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+
+
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 1) {
+                    //Pestaña mazos
+                    if(landscape){
+                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                                newInstance(JSONManager.filtro_clase().get(0));
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    }
+
+                }
+                else if(i==0){
+                    //Pestaña cartas
+                    if(landscape){
+                        Carta carta;
+                        if(VPadapter.getCartasFragment().cartaselect==null)
+                            carta=JSONManager.filtro_clase().get(0);
+                        else carta=VPadapter.getCartasFragment().cartaselect;
+
+                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                                newInstance(carta);
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
 
 
         //Codigo para el drawer
@@ -124,6 +170,16 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             }
         });
 
+
+        //Para que se muestre en el fragmento detalles al iniciarse la primera carta
+        if(pager.getCurrentItem()==0&&landscape){
+            JSONManager.position_clase=0;
+
+            DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                    newInstance(JSONManager.filtro_clase().get(0));
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+        }
 
     }
 
@@ -244,6 +300,14 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                     JSONManager.position_clase=position;
                     new FiltraLista().execute();
 
+                    //Para mostrar la primera carta en el fragento detalles
+                    if(landscape){
+                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                                newInstance(JSONManager.filtro_clase().get(0));
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    }
+
                     //Se cierra el dialogo
                     d.dismiss();
                 }
@@ -254,13 +318,24 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
     }
 
+    //Si se selecciona una carta en la pestaña de cartas
     @Override
     public void onCardSelected(Carta carta) {
         //Habria que ver si se inicia un fragmento o una actividad
         Log.i("carta",carta.getNombre());
-        Intent i =new Intent(ActivityCollection.this, DetallesCartaActivity.class);
-        i.putExtra(DetallesCartaActivity.imagen,carta.getUrl());
-        startActivity(i);
+
+        //Si no estamos en landscape abrimos una actividad
+        if(!landscape) {
+            Intent i = new Intent(ActivityCollection.this, DetallesCartaActivity.class);
+            i.putExtra(DetallesCartaActivity.imagen, carta.getUrl());
+            startActivity(i);
+        }
+        //Si si lo estamos modificamos el fragmento
+        else{
+            DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.newInstance(carta);
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+        }
     }
 
     @Override

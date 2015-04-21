@@ -45,8 +45,12 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
     @Override
     public void onBindViewHolder(RecyclerViewAdapterMazos.ViewHolder viewHolder, final int i) {
 
+        //El nombre del mazo y su clase
         viewHolder.tvNombre.setText(mazos.get(i).getNombre());
         viewHolder.tvHeroe.setText(mazos.get(i).getClase());
+
+        //el numero de cartas del mazo
+        viewHolder.tvNCartas.setText(mazos.get(i).getCartas().size()+"/30");
 
         //Aqui habria que mostrar una imagen dependiendo del heroe
         int id;
@@ -99,6 +103,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         public ImageView ivMazo;
         public TextView tvNombre;
         public TextView tvHeroe;
+        public TextView tvNCartas;
 
 
         public ViewHolder(View itemView) {
@@ -107,6 +112,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
             this.ivMazo= (ImageView) itemView.findViewById(R.id.ivMazo);
             this.tvNombre= (TextView) itemView.findViewById(R.id.tvMazo);
             this.tvHeroe= (TextView) itemView.findViewById(R.id.tvHeroe);
+            this.tvNCartas= (TextView) itemView.findViewById(R.id.tvNCartas);
 
             itemView.setOnClickListener(this);
         }

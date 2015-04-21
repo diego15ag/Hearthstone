@@ -24,6 +24,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     RecyclerView recyclerView;
     RecyclerViewAdapterCartas rva;
     private Callbacks mCallback;
+    Carta cartaselect;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,6 +99,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     @Override
     public void itemClicked(View view, int position) {
         Carta carta=rva.get(position);
+        cartaselect=carta;
         mCallback.onCardSelected(carta);
     }
 

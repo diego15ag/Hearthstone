@@ -27,25 +27,36 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical">
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Large Text"
+                    android:text="Nuevo mazo 1"
                     android:id="@+id/tvMazo" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="Large Text"
+                    android:text="Sacerdote"
                     android:id="@+id/tvHeroe" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="30/30"
+                android:id="@+id/tvNCartas"
+                android:layout_gravity="center_vertical"
+                android:textSize="40dp"
+                android:paddingLeft="20dp" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

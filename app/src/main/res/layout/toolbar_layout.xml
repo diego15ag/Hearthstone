@@ -14,6 +14,7 @@
         android:minHeight="?attr/actionBarSize"
         android:background="@color/ColorPrimary"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
-        xmlns:android="http://schemas.android.com/apk/res/android"/>
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        style="@style/Base.Theme.AppCompat.Light.DarkActionBar" />
 
 </LinearLayout>
