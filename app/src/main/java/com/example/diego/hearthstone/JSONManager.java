@@ -384,45 +384,13 @@ public class JSONManager {
 
     public static ArrayList<Carta> ordena_heroes(ArrayList<Carta> cartas) {
         Carta temp;
-        for (int i = 0; i < cartas.size(); i++) {
-            if (cartas.get(i).getClase().equals("druid")) {
-                temp = cartas.get(0);
-                cartas.set(0, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("hunter")) {
-                temp = cartas.get(1);
-                cartas.set(1, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("mage")) {
-                temp = cartas.get(2);
-                cartas.set(2, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("paladin")) {
-                temp = cartas.get(3);
-                cartas.set(3, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("priest")) {
-                temp = cartas.get(4);
-                cartas.set(4, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("rogue")) {
-                temp = cartas.get(5);
-                cartas.set(5, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("shaman")) {
-                temp = cartas.get(6);
-                cartas.set(6, cartas.get(i));
-                cartas.set(i, temp);
-            } else if (cartas.get(i).getClase().equals("warlock")) {
-                temp = cartas.get(7);
-                cartas.set(7, cartas.get(i));
-                cartas.set(i, temp);
-            } else {
-                temp = cartas.get(8);
-                cartas.set(8, cartas.get(i));
-                cartas.set(i, temp);
-            }
-        }
+        for (int i=0; i < cartas.size() -1 ; i++) // ordenacion por orden alfabetico
+            for (int j=i+1; j < cartas.size(); j++)
+                    if(cartas.get(j).getClase().compareTo(cartas.get(i).getClase())<0 ) {
+                        temp = cartas.get(i);
+                        cartas.set(i, cartas.get(j));
+                        cartas.set(j, temp);
+                    }
         /*for (int i = 0; i < cartas.size(); i++)
             System.out.printf("%s \n", cartas.get(i).getNombre());*/
         return cartas;
