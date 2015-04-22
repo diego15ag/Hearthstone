@@ -37,21 +37,21 @@
                 android:layout_height="wrap_content">
 
                 <Button
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/CustomPhoto_NewPhoto"
                     android:id="@+id/buttonNewPhoto"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:backgroundTint="@color/ColorButton"
                     android:textColor="@color/ColorLetra" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
-                    android:layout_width="fill_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:text="@string/CustomPhoto_RotatePhoto"
                     android:id="@+id/buttonRotate"
                     android:layout_weight="1"
@@ -59,11 +59,11 @@
                     android:textColor="@color/ColorLetra" />
 
                 <Button
-                    android:layout_width="fill_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/CustomPhoto_LoadPhoto"
                     android:id="@+id/buttonLoadPhoto"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:backgroundTint="@color/ColorButton"
                     android:textColor="@color/ColorLetra" />
             </LinearLayout>
