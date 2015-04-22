@@ -266,6 +266,11 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             System.out.printf("La lista tiene tamaño: %d \n", cartas_array.size());
+            /*ArrayList<Carta> cartas_mazo = new ArrayList<Carta>(); // codigo de prueba de insercion de mazo
+            for (int i=0; i<30; i++)
+                cartas_mazo.add(cartas_array.get(i));
+            Mazo m = new Mazo(-1, "Daru_Noob", false, "druid", cartas_mazo);
+            ayudabd.creaMazo(m);*/
             JSONManager.Cartas_array=JSONManager.ordena_lista(cartas_array);
             JSONManager.Heroes_array=JSONManager.ordena_heroes(heroes_array);
 

@@ -53,6 +53,7 @@ public class JSONManager {
     public void start(){
         mDbHelper = new CartasManagerDbHelper(contexto);
         dbRO = mDbHelper.getReadableDatabase();
+        dbRW = mDbHelper.getWritableDatabase();
     }
     public void startBG(){
         new initparamsBD().execute();
@@ -265,6 +266,34 @@ public class JSONManager {
         int cantidad = c.getInt(c.getColumnIndex(CartasManagerContract.Carta.COLUMN_NAME_CANTIDAD));
         c.close();
         return cantidad;
+    }
+
+    public void creaMazo(Mazo mazo){
+        ContentValues values = new ContentValues();
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_NAME, mazo.getNombre());
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, 0);
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_CLASS, mazo.getClase());
+        long newRowId;
+        newRowId = dbRW.insert(
+                CartasManagerContract.Mazo.TABLE_NAME,
+                null,
+                values
+        );
+        System.out.printf("La nueva fila es: %d \n", newRowId);
+        System.out.printf("Mazo %s insertado \n", mazo.getNombre());
+        ContentValues valuescartas = new ContentValues();
+        for (int i=0; i< mazo.getCartas().size();i++) {
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
+                    mazo.getCartas().get(i).getId());
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO, (int)newRowId);
+            dbRW.insert(
+                    CartasManagerContract.Carta_Mazo.TABLE_NAME,
+                    null,
+                    valuescartas
+            );
+            System.out.printf("Carta %s insertada en el mazo %s \n",  mazo.getCartas().get(i).getNombre(), mazo.getNombre());
+        }
+
     }
 
     public ArrayList<Mazo> getMazosNoPredefinidos(){
