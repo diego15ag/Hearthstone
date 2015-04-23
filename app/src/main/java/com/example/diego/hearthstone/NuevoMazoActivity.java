@@ -15,6 +15,8 @@ public class NuevoMazoActivity extends ActionBarActivity {
 
     RecyclerView recyclerView;
     RecyclerViewAdapterCartas rva;
+    public static String referencia="referencia";
+    public static String mazoClase = "mazoClase";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,6 @@ public class NuevoMazoActivity extends ActionBarActivity {
 
         else
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-
-
-
 
         JSONManager.position_clase=0;
 

@@ -44,6 +44,7 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
             }
         });
 
+
         return v;
     }
 

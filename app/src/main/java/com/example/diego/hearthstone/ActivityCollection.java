@@ -130,8 +130,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
                         DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                                 newInstance(carta);
-                        getSupportFragmentManager().beginTransaction().
-                                replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
 
 
                     }
@@ -364,8 +364,43 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
     @Override
     public void onNewDeck() {
-        Intent i = new Intent(ActivityCollection.this,NuevoMazoActivity.class);
-        startActivity(i);
+        final Dialog d = new Dialog(ActivityCollection.this);
+
+        String[] contenido = {};
+
+        //Si estamos en la pestaña de cartas
+        //Para mostrar las opciones que se corresponderian con carta
+        d.setTitle(getResources().getString(R.string.select_clase));
+        d.setContentView(R.layout.dialogo_sel_clase);
+
+        contenido = getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+        ListView lvSeleccion = (ListView) d.findViewById(R.id.lvSeleccionClase);
+        lvSeleccion.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contenido));
+        lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Cambiar el icono en la toolbar de la clase
+                ActionMenuItemView item = (ActionMenuItemView) findViewById(R.id.action_filter);
+
+
+
+                //Para mostrar la primera carta en el fragento detalles
+                if (landscape) {
+                    DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                            newInstance(JSONManager.filtro_clase().get(0));
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                }
+
+                //Se cierra el dialogo
+                Intent i = new Intent(ActivityCollection.this, NuevoMazoActivity.class);
+                i.putExtra(NuevoMazoActivity.mazoClase, position);
+                i.putExtra(NuevoMazoActivity.referencia, -1);
+                startActivity(i);
+                d.dismiss();
+            }
+        });
+        d.show();
     }
 
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
