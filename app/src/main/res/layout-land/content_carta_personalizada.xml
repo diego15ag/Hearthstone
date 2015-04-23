@@ -10,7 +10,8 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/ColorFondo"
-        android:weightSum="4">
+        android:weightSum="4"
+        android:layout_weight="3">
 
         <LinearLayout
             android:orientation="vertical"
@@ -29,7 +30,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:weightSum="1">
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -46,7 +48,9 @@
                     android:layout_alignParentStart="true"
                     android:layout_weight="2"
                     android:backgroundTint="@color/ColorButton"
-                    android:textColor="@color/ColorLetra" />
+                    android:textColor="@color/ColorLetra"
+                    android:layout_margin="5dp"
+                    android:background="@color/ColorButton" />
 
                 <Button
                     style="?android:attr/buttonStyleSmall"
@@ -56,7 +60,9 @@
                     android:id="@+id/buttonRotate"
                     android:layout_weight="1"
                     android:backgroundTint="@color/ColorButton"
-                    android:textColor="@color/ColorLetra" />
+                    android:textColor="@color/ColorLetra"
+                    android:layout_margin="5dp"
+                    android:background="@color/ColorButton" />
 
                 <Button
                     android:layout_width="wrap_content"
@@ -65,7 +71,9 @@
                     android:id="@+id/buttonLoadPhoto"
                     android:layout_weight="2"
                     android:backgroundTint="@color/ColorButton"
-                    android:textColor="@color/ColorLetra" />
+                    android:textColor="@color/ColorLetra"
+                    android:layout_margin="5dp"
+                    android:background="@color/ColorButton" />
             </LinearLayout>
 
             <Button
@@ -74,7 +82,9 @@
                 android:text="@string/CustomPhoto_SaveImage"
                 android:id="@+id/buttonSavePhoto"
                 android:backgroundTint="@color/ColorButton"
-                android:textColor="@color/ColorLetra" />
+                android:textColor="@color/ColorLetra"
+                android:layout_margin="5dp"
+                android:background="@color/ColorButton" />
 
             <EditText
                 android:layout_width="match_parent"
@@ -90,7 +100,8 @@
                 android:id="@+id/editTextDescription"
                 android:hint="@string/CustomPhoto_Description"
                 android:textColorHint="@color/ColorButton"
-                android:textColor="@color/ColorButton" />
+                android:textColor="@color/ColorButton"
+                android:layout_weight="1.80" />
 
             <LinearLayout
                 android:orientation="horizontal"
