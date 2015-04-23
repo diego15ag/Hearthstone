@@ -1,5 +1,7 @@
 package com.example.diego.hearthstone;
 
+import android.content.res.Configuration;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -27,7 +29,17 @@ public class NuevoMazoActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+
+        if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        ==Configuration.SCREENLAYOUT_SIZE_LARGE)
+           recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+
+        else
+            recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+
+
+
 
         JSONManager.position_clase=0;
 
