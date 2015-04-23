@@ -1,5 +1,7 @@
 package com.example.diego.hearthstone;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -12,6 +14,8 @@ import android.widget.ImageView;
 public class DetallesCartaActivity extends ActionBarActivity {
 
     public static final String imagen="IMAGEN";
+    public static final int RESULT_OK=1;
+    public static final String CARTA="CARTA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +27,8 @@ public class DetallesCartaActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
 
+
+
         //Mostrar boton hacia atras
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -30,12 +36,30 @@ public class DetallesCartaActivity extends ActionBarActivity {
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         Bundle datos= getIntent().getExtras();
+        Carta c= (Carta) datos.getSerializable(DetallesCartaActivity.imagen);
+
+        if(this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        ==Configuration.SCREENLAYOUT_SIZE_LARGE){
+
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(DetallesCartaActivity.CARTA,c);
+
+            setResult(RESULT_OK,returnIntent);
+            finish();
+
+        }
 
         ImageView ivCarta = (ImageView) findViewById(R.id.ivCarta);
 
         JSONManager ayudabd = new JSONManager(this);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(ivCarta);
-        im.execute(datos.getString(imagen,""));
+
+
+        if(c==null)
+            im.execute("");
+
+        else im.execute(c.getUrl());
     }
 
 

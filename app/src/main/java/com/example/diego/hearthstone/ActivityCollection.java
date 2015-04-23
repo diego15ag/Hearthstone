@@ -46,6 +46,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     int Numboftabs =2;
     private boolean landscape;
 
+    public final int CARTA_RESULTADO=1;
+
 
 
 
@@ -112,7 +114,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
                                 newInstance(JSONManager.filtro_clase().get(0));
                         getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
                     }
 
                 } else if (i == 0) {
@@ -128,8 +130,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
                         DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                                 newInstance(carta);
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                        getSupportFragmentManager().beginTransaction().
+                                replace(R.id.fragmentContainer, detallesCartaFragment).commit();
 
 
                     }
@@ -195,7 +197,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
                     newInstance(JSONManager.filtro_clase().get(0));
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
         }
 
     }
@@ -310,7 +312,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
                                 newInstance(JSONManager.filtro_clase().get(0));
                         getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
                     }
 
                     //Se cierra el dialogo
@@ -332,15 +334,32 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         //Si no estamos en landscape abrimos una actividad
         if(!landscape) {
             Intent i = new Intent(ActivityCollection.this, DetallesCartaActivity.class);
-            i.putExtra(DetallesCartaActivity.imagen, carta.getUrl());
-            startActivity(i);
+            i.putExtra(DetallesCartaActivity.imagen, carta);
+            startActivityForResult(i, CARTA_RESULTADO);
         }
         //Si si lo estamos modificamos el fragmento
         else{
             DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.newInstance(carta);
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==CARTA_RESULTADO){
+            if(landscape){
+                Carta c= (Carta) data.getSerializableExtra(DetallesCartaActivity.CARTA);
+
+                DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.newInstance(c);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+
+                VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
+            }
+        }
+
     }
 
     @Override

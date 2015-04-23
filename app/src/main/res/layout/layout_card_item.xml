@@ -23,7 +23,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/imageViewCarta"
                 android:cropToPadding="false"
-                android:src="@drawable/base" />
+                android:src="@mipmap/hearthstone_logo" />
 
             <LinearLayout
                 android:orientation="vertical"
