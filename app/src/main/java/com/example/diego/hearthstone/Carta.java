@@ -1,9 +1,11 @@
 package com.example.diego.hearthstone;
 
+import java.io.Serializable;
+
 /**
  * Created by blukstack on 07/04/2015.
  */
-public class Carta {
+public class Carta implements Serializable{
     private int id;
     private String nombre;
     private String clase;
