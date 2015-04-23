@@ -45,7 +45,7 @@ public class MainActivity extends ActionBarActivity {
     private String DB_FULL_PATH = "/data/data/com.example.diego.hearthstone/databases/CartasManager.db";
     private JSONManager ayudabd;
 
-    ProgressDialog progressDialog;
+    static ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

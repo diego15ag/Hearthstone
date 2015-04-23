@@ -137,7 +137,8 @@ public class JSONManager {
             mHandle.post(new Runnable() {
                 @Override
                 public void run() {
-                    ma.rellena();
+                    if(ma!=null)
+                        ma.rellena();
                 }
             });
 

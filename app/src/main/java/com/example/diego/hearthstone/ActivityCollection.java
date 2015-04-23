@@ -47,6 +47,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     private boolean landscape;
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,8 +67,16 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         Titles = getResources().getStringArray(R.array.TabTitles);
 
-        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
-        VPadapter =  new ViewPagerAdapter(getSupportFragmentManager(),Titles,Numboftabs);
+
+
+
+            // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        VPadapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        CartasFragment saver = (CartasFragment) getLastCustomNonConfigurationInstance();
+        if (saver != null) {
+            VPadapter.cartasFragment=saver;
+        }
 
         // Assigning ViewPager View and setting the adapter
         pager = (ViewPager) findViewById(R.id.pager);
@@ -105,40 +115,21 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                                 .add(R.id.fragmentContainer, detallesCartaFragment).commit();
                     }
 
-                }
-                else if(i==0){
+                } else if (i == 0) {
                     //Pestaña cartas
-                    if(landscape){
+                    if (landscape) {
                         Carta carta;
 
 
-                        List<Fragment> allFragments = getSupportFragmentManager().getFragments();
+                        if (VPadapter.cartasFragment.cartaselect == null)
+                            carta = JSONManager.filtro_clase().get(0);
 
-                        CartasFragment cartasFragment=null;
-                        boolean encontrado=false;
-                        int j=0;
+                        else carta = VPadapter.cartasFragment.cartaselect;
 
-                        while(j<allFragments.size()&&!encontrado){
-                            if( allFragments.get(j)instanceof CartasFragment) {
-                                cartasFragment= ((CartasFragment) allFragments.get(j));
-
-                                encontrado=true;
-
-                                j++;
-                            }
-                        }
-
-                        if(encontrado){
-                            if (cartasFragment.cartaselect == null)
-                                carta = JSONManager.filtro_clase().get(0);
-
-                            else carta = cartasFragment.cartaselect;
-
-                            DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
-                                    newInstance(carta);
-                            getSupportFragmentManager().beginTransaction()
-                                    .add(R.id.fragmentContainer, detallesCartaFragment).commit();
-                        }
+                        DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                                newInstance(carta);
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
 
 
                     }
@@ -215,24 +206,12 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_activity_collection, menu);
 
-        /*MenuItem searchItem = menu.findItem(R.id.action_search);
-        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String s) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String s) {
-                //Aqui se actuaria de acuerdo al texto introducido en la barra de buscar
-                Log.i("texto", s);
-                return false;
-            }
-        });*/
-
         return true;
+    }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+        return VPadapter.cartasFragment;
     }
 
     @Override
@@ -379,21 +358,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
 
-
-            //Recorremos los fragmentos y cuando tengamos el de cartas modificamos el RV
-            List<Fragment> allFragments = getSupportFragmentManager().getFragments();
-
-            boolean encontrado=false;
-            int i=0;
-
-            while(i<allFragments.size()&&!encontrado){
-                if( allFragments.get(i)instanceof CartasFragment) {
-                    ((CartasFragment) allFragments.get(i)).cambiarLista(cartas_filtradas);
-
-                    encontrado=true;
-                    i++;
-                }
-            }
+            VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
 
         }
     }
