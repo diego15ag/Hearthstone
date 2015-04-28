@@ -94,8 +94,6 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         return mazos.get(position);
     }
 
-
-
     protected class ViewHolder
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
