@@ -1,7 +1,12 @@
 package com.example.diego.hearthstone;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -415,5 +420,23 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
 
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (!isOnline()){
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }

@@ -1,10 +1,15 @@
 package com.example.diego.hearthstone;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -52,34 +57,48 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (!isOnline() || getIntent().getBooleanExtra("EXIT", false)) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle(R.string.disconnected_title);
+            dialog.setMessage(R.string.disconnected_message);
+            dialog.setCancelable(false);
+            dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    System.exit(0);
+                }
+            });
+            dialog.show();
 
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
 
-        ayudabd= new JSONManager(MainActivity.this);
-        if (!checkDataBase()) {
-            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
-                    getResources().getString(R.string.DialogLoading_description));
-            JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
-            bd.execute(url_cards,this);
-        }
-        else{
-            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
-                    getResources().getString(R.string.DialogLoading_description));
-            new RellenaLista_JSON().execute(url_cards);
+
+        if (isOnline()) {
+            ayudabd = new JSONManager(MainActivity.this);
+            if (!checkDataBase()) {
+                progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
+                        getResources().getString(R.string.DialogLoading_description));
+                JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
+                bd.execute(url_cards, this);
+            } else {
+                progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
+                        getResources().getString(R.string.DialogLoading_description));
+                new RellenaLista_JSON().execute(url_cards);
+            }
         }
 
 
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
-        drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
-        lvDrawerLayout= (ListView) findViewById(R.id.left_drawer);
-        lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.NavigationDrawerValues)));
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        lvDrawerLayout = (ListView) findViewById(R.id.left_drawer);
+        lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.NavigationDrawerValues)));
 
 
-        mDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
@@ -99,17 +118,17 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (position){
+                switch (position) {
                     case 0:
-                        Intent i=new Intent(MainActivity.this,ActivityCollection.class);
+                        Intent i = new Intent(MainActivity.this, ActivityCollection.class);
                         startActivity(i);
                         break;
                     case 1:
-                        Intent i1=new Intent(MainActivity.this,CartaPersonalizadaActivity.class);
+                        Intent i1 = new Intent(MainActivity.this, CartaPersonalizadaActivity.class);
                         startActivity(i1);
                         break;
                     case 2:
-                        Intent i2=new Intent(MainActivity.this, HeroSelectionActivity.class);
+                        Intent i2 = new Intent(MainActivity.this, HeroSelectionActivity.class);
                         startActivity(i2);
                         break;
                 }
@@ -118,7 +137,6 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-
 
     }
 
@@ -171,19 +189,19 @@ public class MainActivity extends ActionBarActivity {
         return checkDB != null ? true : false;
     }
 
-    public void rellena(){
+    public void rellena() {
 
         new RellenaLista_JSON().execute(url_cards);
     }
 
-    public class RellenaLista_JSON extends AsyncTask<String, Void, ArrayList<Carta> > {
+    public class RellenaLista_JSON extends AsyncTask<String, Void, ArrayList<Carta>> {
         protected ArrayList<Carta> doInBackground(String... urls) {
             InputStream is = null;
             String result = "";
             JSONObject json = null;
-            JSONArray array_cards= null;
+            JSONArray array_cards = null;
             //JSONManager.Cartas_array.
-            JSONManager ayudabd= new JSONManager(MainActivity.this);
+            JSONManager ayudabd = new JSONManager(MainActivity.this);
             ayudabd.start();
             ArrayList<Carta> cartas_array = new ArrayList<Carta>();
             ArrayList<Carta> heroes_array = new ArrayList<Carta>();
@@ -228,9 +246,9 @@ public class MainActivity extends ActionBarActivity {
                 array_cards = json.getJSONArray("cards");
                 Carta cAux;
 
-                int j=0;
-                int contador_heroes=0;
-                for (int i =0; i< array_cards.length() ; i++) {
+                int j = 0;
+                int contador_heroes = 0;
+                for (int i = 0; i < array_cards.length(); i++) {
                     if (array_cards.getJSONObject(i).getString("category").equals("hero") == false &&
                             array_cards.getJSONObject(i).getString("category").equals("ability") == false
                             && array_cards.getJSONObject(i).getString("collectible").equals("true") == true) {
@@ -242,21 +260,20 @@ public class MainActivity extends ActionBarActivity {
                         c.setUrl(array_cards.getJSONObject(i).getString("image_url"));
                         c.setTipo(array_cards.getJSONObject(i).getString("quality"));
                         c.setCoste(array_cards.getJSONObject(i).getInt("mana"));
-                        c.setObtenida(ayudabd.getObtenida(j+1)); // la bd empieza en 1, la lista en 0
-                        c.setCantidad(ayudabd.getCantidad(j+1));
-                        cAux=c;
+                        c.setObtenida(ayudabd.getObtenida(j + 1)); // la bd empieza en 1, la lista en 0
+                        c.setCantidad(ayudabd.getCantidad(j + 1));
+                        cAux = c;
                         cartas_array.add(cAux);
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());
                         j++;
-                    }
-                    else if (array_cards.getJSONObject(i).getString("category").equals("hero") &&
+                    } else if (array_cards.getJSONObject(i).getString("category").equals("hero") &&
                             array_cards.getJSONObject(i).getString("health").equals("30") && contador_heroes < 9) {
                         Carta c = new Carta();
                         c.setId(i);
                         c.setClase(array_cards.getJSONObject(i).getString("hero"));
                         c.setNombre(array_cards.getJSONObject(i).getString("name"));
                         c.setUrl(array_cards.getJSONObject(i).getString("image_url"));
-                        cAux=c;
+                        cAux = c;
                         heroes_array.add(cAux);
                         //System.out.printf("la carta %s es un heroe con id %d \n", c.getNombre(), c.getId());
                         contador_heroes++;
@@ -271,13 +288,14 @@ public class MainActivity extends ActionBarActivity {
                 cartas_mazo.add(cartas_array.get(i));
             Mazo m = new Mazo(-1, "Daru_Noob", false, "druid", cartas_mazo);
             ayudabd.creaMazo(m);*/
-            JSONManager.Cartas_array=JSONManager.ordena_lista(cartas_array);
-            JSONManager.Heroes_array=JSONManager.ordena_heroes(heroes_array);
+            JSONManager.Cartas_array = JSONManager.ordena_lista(cartas_array);
+            JSONManager.Heroes_array = JSONManager.ordena_heroes(heroes_array);
 
             JSONManager.Mazos_array = ayudabd.getMazosNoPredefinidos();
             return cartas_array;
         }
-        protected void onPostExecute(ArrayList<Carta> objeto_cartas){
+
+        protected void onPostExecute(ArrayList<Carta> objeto_cartas) {
             /*for (int i =0; i< objeto_cartas.size() ; i++)
                 System.out.printf("Carta %s en posicion %d en memoria \n", objeto_cartas.get(i).getNombre(), i);*/
             /*for (int i=0; i< objeto_cartas.size(); i++) {
@@ -289,5 +307,13 @@ public class MainActivity extends ActionBarActivity {
             progressDialog.dismiss();
             //finish();
         }
+
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }
