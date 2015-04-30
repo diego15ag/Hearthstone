@@ -49,6 +49,13 @@
                 android:id="@+id/ibBorrarMazo"
                 android:background="@color/ColorButton"
                 android:src="@drawable/ic_action_delete" />
+
+            <ImageButton
+                android:layout_width="100dp"
+                android:layout_height="match_parent"
+                android:id="@+id/imageButton"
+                android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
+                android:background="@color/ColorButton" />
         </LinearLayout>
 
     </FrameLayout>

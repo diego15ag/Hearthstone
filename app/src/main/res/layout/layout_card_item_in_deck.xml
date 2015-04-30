@@ -52,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButtonDelete"
                 android:src="@drawable/abc_ic_clear_mtrl_alpha"
-                android:layout_gravity="center|right" />
+                android:layout_gravity="center_vertical|right" />
         </LinearLayout>
 
     </android.support.v7.widget.CardView>

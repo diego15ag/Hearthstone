@@ -11,14 +11,17 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import java.util.ArrayList;
 
 
 public class NuevoMazoActivity extends ActionBarActivity {
 
     RecyclerView recyclerView;
-    RecyclerViewAdapterCartas rva;
+    RecyclerViewAdapterNewMazo rva;
     public static String referencia="referencia";
     public static String mazoClase = "mazoClase";
 
@@ -44,9 +47,17 @@ public class NuevoMazoActivity extends ActionBarActivity {
         else
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
-        JSONManager.position_clase=0;
 
-        rva=new RecyclerViewAdapterCartas(JSONManager.filtro_clase(), getApplicationContext());
+
+        int clase = getIntent().getExtras().getInt(mazoClase);
+        int ref = getIntent().getExtras().getInt(referencia);
+        JSONManager.position_clase=clase;
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        for(int i=0;i<cartas.size();i++){
+            Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
+            cartas.add(JSONManager.filtro_clase().get(i).clone());
+        }
+        rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
         recyclerView.setAdapter(rva);
 
     }

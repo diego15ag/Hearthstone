@@ -104,4 +104,10 @@ public class Carta implements Serializable{
     public int getCoste() {
         return coste;
     }
+
+    public Carta clone(){
+        Carta c =new Carta(this.id, this.nombre, this.clase, this.url, this.tipo, this.coste);
+        c.setCantidad(this.cantidad);
+        return c;
+    }
 }
