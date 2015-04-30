@@ -8,6 +8,6 @@
         android:layout_height="match_parent"
         android:id="@+id/ivCarta"
         android:layout_gravity="center_horizontal"
-        android:background="@color/ColorFondo" />
+         />
 
 </FrameLayout>
