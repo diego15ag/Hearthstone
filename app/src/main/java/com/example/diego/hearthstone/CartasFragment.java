@@ -2,6 +2,9 @@ package com.example.diego.hearthstone;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -47,6 +50,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
         rva=new RecyclerViewAdapterCartas(JSONManager.filtro_clase(),getActivity().getApplicationContext());
         rva.setClickListener(this);
+
         recyclerView.setAdapter(rva);
 
         return v;
@@ -125,5 +129,23 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
 
     public interface Callbacks {
         public void onCardSelected(Carta carta);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isOnline()){
+            Intent intent = new Intent(getActivity().getApplicationContext(), MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.putExtra("EXIT", true);
+            startActivity(intent);
+        }
+    }
+
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager)
+                getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
     }
 }
