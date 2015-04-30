@@ -3,6 +3,7 @@ package com.example.diego.hearthstone;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -44,7 +45,17 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
         View v =inflater.inflate(R.layout.tab_cartas,container,false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_cartas);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
+        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+
+        if(this.getResources().getConfiguration().orientation!= Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        ==Configuration.SCREENLAYOUT_SIZE_LARGE||this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        !=Configuration.SCREENLAYOUT_SIZE_LARGE)
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+
+        else
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
         //JSONManager.position_clase=0;
 
