@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,9 @@ public class NuevoMazoActivity extends ActionBarActivity {
     RecyclerViewAdapterNewMazo rva;
     public static String referencia="referencia";
     public static String mazoClase = "mazoClase";
+    public int clase;
+    public static ArrayList<Carta> cartas;
+    public static ArrayList<Integer> cantidades_elegidas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,18 +52,29 @@ public class NuevoMazoActivity extends ActionBarActivity {
         else
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
-
-
-        int clase = getIntent().getExtras().getInt(mazoClase);
+        clase = getIntent().getExtras().getInt(mazoClase);
         int ref = getIntent().getExtras().getInt(referencia);
-        JSONManager.position_clase=clase;
-        ArrayList<Carta> cartas = new ArrayList<Carta>();
-        for(int i=0;i<cartas.size();i++){
-            Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
+        //JSONManager.position_clase=clase;
+        if(cartas==null)
+            cartas = new ArrayList<Carta>();
+        cantidades_elegidas = new ArrayList<Integer>();
+        /*for(int i=0;i<JSONManager.filtro_clase().size();i++){
             cartas.add(JSONManager.filtro_clase().get(i).clone());
-        }
+            Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
+        }*/
         rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
         recyclerView.setAdapter(rva);
+
+        ImageButton botoncartas= (ImageButton) findViewById(R.id.imageButton);
+
+        botoncartas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(NuevoMazoActivity.this, EleccionCartasMazoActivity.class);
+                i.putExtra("clase", clase);
+                startActivity(i);
+            }
+        });
 
     }
 
