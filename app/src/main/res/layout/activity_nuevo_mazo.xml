@@ -28,34 +28,50 @@
             android:background="@color/ColorButton">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="23/30"
                 android:id="@+id/tvCuenta"
                 android:textSize="40dp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:layout_weight="3"
+                android:gravity="center_horizontal" />
 
-            <ImageView
-                android:layout_width="64dp"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/ibGuardarMAzo"
-                android:background="@color/ColorButton"
-                android:src="@drawable/ic_action_save" />
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical">
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="match_parent"
-                android:id="@+id/ibBorrarMazo"
-                android:background="@color/ColorButton"
-                android:src="@drawable/ic_action_delete" />
 
-            <ImageButton
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right">
+
+                    <ImageButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btAdd"
+                        android:src="@android:drawable/ic_input_add"
+                        android:layout_gravity="center_vertical|right" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--<ImageButton
                 android:layout_width="100dp"
                 android:layout_height="match_parent"
                 android:id="@+id/imageButton"
                 android:src="@drawable/abc_btn_radio_to_on_mtrl_015"
-                android:background="@color/ColorButton" />
+                android:background="@color/ColorButton" />-->
+
+
         </LinearLayout>
 
     </FrameLayout>

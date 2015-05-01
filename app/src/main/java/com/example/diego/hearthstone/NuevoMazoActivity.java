@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 import java.util.ArrayList;
@@ -65,7 +66,7 @@ public class NuevoMazoActivity extends ActionBarActivity {
         rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
         recyclerView.setAdapter(rva);
 
-        ImageButton botoncartas= (ImageButton) findViewById(R.id.imageButton);
+        ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
 
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
