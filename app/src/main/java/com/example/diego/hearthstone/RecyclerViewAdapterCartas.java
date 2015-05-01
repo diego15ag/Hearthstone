@@ -46,8 +46,7 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         View view =
                 LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.layout_card_item,viewGroup,false);
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
-        ImageLoader.getInstance().init(config);
+
 
         return new RecyclerViewAdapterCartas.ViewHolder(view);
     }

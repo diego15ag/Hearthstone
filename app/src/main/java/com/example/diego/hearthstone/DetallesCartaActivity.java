@@ -13,6 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 
 public class DetallesCartaActivity extends ActionBarActivity {
 
@@ -55,14 +57,17 @@ public class DetallesCartaActivity extends ActionBarActivity {
 
         ImageView ivCarta = (ImageView) findViewById(R.id.ivCarta);
 
-        JSONManager ayudabd = new JSONManager(this);
+        if(c!=null)
+            ImageLoader.getInstance().displayImage(c.getUrl(),ivCarta);
+
+        /*JSONManager ayudabd = new JSONManager(this);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(ivCarta);
 
 
         if(c==null)
             im.execute("");
 
-        else im.execute(c.getUrl());
+        else im.execute(c.getUrl());*/
     }
 
 

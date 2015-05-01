@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 /**
@@ -50,9 +52,11 @@ public class RecyclerViewAdapterHeroes extends RecyclerView.Adapter<RecyclerView
         //Obtenemos la url de la imagen mas pequeña
         String url = heroes.get(i).getUrl().replaceAll("medium","small");
 
-        JSONManager ayudabd = new JSONManager(context);
+        ImageLoader.getInstance().displayImage(url,viewHolder.ivHeroe);
+
+        /*JSONManager ayudabd = new JSONManager(context);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivHeroe);
-        im.execute(url);
+        im.execute(url);*/
     }
 
 

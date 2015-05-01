@@ -2,6 +2,7 @@ package com.example.diego.hearthstone;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
@@ -126,6 +127,10 @@ public class JSONManager {
             }
             try {
                 array_cards = json.getJSONArray("cards");
+
+                //Borramos una antigua bd si existiese y creamos una nueva
+                mDbHelper.borrar(dbRW);
+
                 for (int i =0; i< array_cards.length() ; i++)  // insercion en BD
                     if(array_cards.getJSONObject(i).getString("category").equals("hero")==false &&
                             array_cards.getJSONObject(i).getString("category").equals("ability") == false
@@ -136,6 +141,10 @@ public class JSONManager {
                 e.printStackTrace();
             }
 
+            SharedPreferences sp= contexto.getSharedPreferences("Preferencias",Context.MODE_PRIVATE);
+            SharedPreferences.Editor edit= sp.edit();
+            edit.putBoolean("BDCargada",true);
+            edit.commit();
 
             mHandle.post(new Runnable() {
                 @Override

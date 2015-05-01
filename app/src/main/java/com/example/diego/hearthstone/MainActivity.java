@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
@@ -23,6 +24,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -50,7 +54,11 @@ public class MainActivity extends ActionBarActivity {
     private String DB_FULL_PATH = "/data/data/com.example.diego.hearthstone/databases/CartasManager.db";
     private JSONManager ayudabd;
 
+    private static boolean cargado=false;
+
     static ProgressDialog progressDialog;
+
+    SharedPreferences sp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +84,21 @@ public class MainActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
 
+        sp=getSharedPreferences("Preferencias",MODE_PRIVATE);
+
+        //Para la funcion que carga las imagenes
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
+        ImageLoader.getInstance().init(config);
 
         if (isOnline()) {
             ayudabd = new JSONManager(MainActivity.this);
-            if (!checkDataBase()) {
+            if (!sp.getBoolean("BDCargada",false)) {
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                         getResources().getString(R.string.DialogLoading_description));
                 JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
                 bd.execute(url_cards, this);
-            } else {
+            }
+            else if(!cargado){
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                         getResources().getString(R.string.DialogLoading_description));
                 new RellenaLista_JSON().execute(url_cards);
@@ -304,6 +318,7 @@ public class MainActivity extends ActionBarActivity {
             }*/
 
             System.out.printf("Lista cargada \n");
+            cargado=true;
             progressDialog.dismiss();
             //finish();
         }

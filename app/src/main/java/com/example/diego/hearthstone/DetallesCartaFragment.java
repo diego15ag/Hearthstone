@@ -13,6 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 
 public class DetallesCartaFragment extends Fragment {
 
@@ -47,9 +49,11 @@ public class DetallesCartaFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_detalles_carta, container, false);
         ImageView ivCarta= (ImageView) view.findViewById(R.id.ivCarta);
 
-        JSONManager ayudabd = new JSONManager(getActivity());
+        ImageLoader.getInstance().displayImage(url_imagen,ivCarta);
+
+        /*JSONManager ayudabd = new JSONManager(getActivity());
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(ivCarta);
-        im.execute(url_imagen);
+        im.execute(url_imagen);*/
 
         return view;
     }
