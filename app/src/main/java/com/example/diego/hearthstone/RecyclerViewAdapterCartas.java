@@ -13,6 +13,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,6 +46,8 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         View view =
                 LayoutInflater.from(viewGroup.getContext())
                         .inflate(R.layout.layout_card_item,viewGroup,false);
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).build();
+        ImageLoader.getInstance().init(config);
 
         return new RecyclerViewAdapterCartas.ViewHolder(view);
     }
@@ -95,9 +100,11 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         //Obtenemos la url de la imagen mas pequeña
         String url=cartas.get(i).getUrl().replaceAll("medium","small");
 
-        JSONManager ayudabd = new JSONManager(context);
+        ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
+
+        /*JSONManager ayudabd = new JSONManager(context);
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivCarta);
-        im.execute(url);
+        im.execute(url);*/
     }
 
 
