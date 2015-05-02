@@ -46,6 +46,10 @@
             android:name=".EleccionCartasMazoActivity"
             android:label="@string/title_activity_eleccion_cartas_mazo">
         </activity>
+        <activity
+            android:name=".ActivityArena"
+            android:label="@string/title_activity_activity_arena">
+        </activity>
     </application>
 
 </manifest>

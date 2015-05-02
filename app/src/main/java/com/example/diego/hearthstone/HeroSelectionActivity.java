@@ -31,6 +31,8 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
 
+    public static String HeroKey = "HeroKey";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,9 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
     public void itemClicked(View view, int position) {
         Carta heroe=rvh.get(position);
         Toast.makeText(getApplicationContext(), heroe.getClase() + " seleccionado", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(HeroSelectionActivity.this, ActivityArena.class);
+        i.putExtra(HeroKey,position);
+        startActivity(i);
     }
 
     @Override
