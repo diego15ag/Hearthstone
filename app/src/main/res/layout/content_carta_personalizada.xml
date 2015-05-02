@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/scrollView"
-        android:background="@color/ColorFondo">
+        android:background="#ffffffff">
 
         <LinearLayout
             android:orientation="vertical"
@@ -103,7 +103,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Damage"
                         android:id="@+id/textViewDamage"
-                        android:textColor="@color/ColorButton" />
+                        android:textColor="@color/ColorLetra" />
 
                     <Spinner
                         android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Life"
                         android:id="@+id/textViewLife"
-                        android:textColor="@color/ColorButton" />
+                        android:textColor="@color/ColorLetra" />
 
                     <Spinner
                         android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/CustomPhoto_Cost"
                         android:id="@+id/textViewCost"
-                        android:textColor="@color/ColorButton" />
+                        android:textColor="@color/ColorLetra" />
 
                     <Spinner
                         android:layout_width="wrap_content"
