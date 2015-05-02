@@ -23,13 +23,14 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
     RecyclerView recyclerView;
     RecyclerViewAdapterCartasMazo rva;
     int clase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_eleccion_cartas_mazo);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
 
@@ -37,9 +38,9 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        if(this.getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE&&
-                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
-                        ==Configuration.SCREENLAYOUT_SIZE_LARGE)
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                (Configuration.SCREENLAYOUT_SIZE_MASK & getResources().getConfiguration().screenLayout)
+                        == Configuration.SCREENLAYOUT_SIZE_LARGE)
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
         else
@@ -51,16 +52,16 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
 
         ManipulaArray(cartas_eleccion, clase);
 
-        rva=new RecyclerViewAdapterCartasMazo(cartas_eleccion, getApplicationContext());
+        rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, getApplicationContext());
         recyclerView.setAdapter(rva);
 
-        ImageButton botonañadecartas= (ImageButton) findViewById(R.id.imageButton);
+        ImageButton botonañadecartas = (ImageButton) findViewById(R.id.imageButton);
 
         botonañadecartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                NuevoMazoActivity.cartas= ResuelveConflicto();
+                ResuelveConflicto();
                 Intent i = new Intent(EleccionCartasMazoActivity.this, NuevoMazoActivity.class);
                 i.putExtra(NuevoMazoActivity.mazoClase, clase);
                 i.putExtra(NuevoMazoActivity.referencia, -1);
@@ -69,37 +70,59 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
         });
     }
 
-    private ArrayList<Carta> ResuelveConflicto(){
-        ArrayList<Carta> c= new ArrayList<Carta>();
-        for(int i=0; i<RecyclerViewAdapterCartasMazo.cartas_elegidas.size(); i++)
-            if(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getCantidad()!=0)
-                c.add(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).clone());
-        return c;
+    private void ResuelveConflicto() {
+        //ArrayList<Carta> c = new ArrayList<Carta>();
+        boolean flag;
+        if (NuevoMazoActivity.cartas.size() != 0) {
+            for (int i = 0; i < RecyclerViewAdapterCartasMazo.cartas_elegidas.size(); i++) {
+                flag = false;
+                for (int j = 0; j < NuevoMazoActivity.cartas.size(); j++) {
+                    if (RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getCantidad() != 0) {
+                        if (RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getId() == NuevoMazoActivity.cartas.get(j).getId()) {
+                            //c.add(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).clone());
+                            NuevoMazoActivity.cartas.get(j).setCantidad(NuevoMazoActivity.cartas.get(j).getCantidad() +
+                                    RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getCantidad());
+                            flag = true;
+                        }
+                        else if (j == NuevoMazoActivity.cartas.size() - 1 && flag == false) { // la carta i elegida no esta en el array de cartas del mazo
+                            NuevoMazoActivity.cartas.add(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).clone());
+                            j++;
+                            flag=true;
+                        }
+                    }
+                }
+            }
+        }
+        else {
+            for (int i = 0; i < RecyclerViewAdapterCartasMazo.cartas_elegidas.size(); i++)
+                if (RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getCantidad() != 0)
+                    NuevoMazoActivity.cartas.add(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).clone());
+        }
     }
 
-    private void ManipulaArray(ArrayList<Carta> cartas_eleccion, int clase){
+    private void ManipulaArray(ArrayList<Carta> cartas_eleccion, int clase) {
         ArrayList<Carta> cartas_clase = JSONManager.filtro_clase_param(clase);
-        for(int i=0; i<cartas_clase.size();i++) // añadimos al array de eleccion las cartas de clase
-            if(cartas_clase.get(i).getCantidad()>0)
+        for (int i = 0; i < cartas_clase.size(); i++) // añadimos al array de eleccion las cartas de clase
+            if (cartas_clase.get(i).getCantidad() > 0)
                 cartas_eleccion.add(cartas_clase.get(i).clone());
 
         ArrayList<Carta> cartas_comunes = JSONManager.filtro_clase_param(9);
-        for(int i=0; i<cartas_comunes.size();i++) // añadimos al array de eleccion las cartas comunes
-            if(cartas_comunes.get(i).getCantidad()>0)
+        for (int i = 0; i < cartas_comunes.size(); i++) // añadimos al array de eleccion las cartas comunes
+            if (cartas_comunes.get(i).getCantidad() > 0)
                 cartas_eleccion.add(cartas_comunes.get(i).clone());
 
         // Si se habia elegido previamente alguna carta comprobamos que el maximo seleccionable sea la cantidad - la cantidad seleccionada
-        System.out.printf("Tamaño  de cartas para eleccion: %d \n", cartas_eleccion.size());
+        System.out.printf("Tamaño de cartas para eleccion: %d \n", cartas_eleccion.size());
         System.out.printf("Tamaño de cartas de NuevoMazoActivity: %d \n", NuevoMazoActivity.cartas.size());
-        for(int i=0; i < NuevoMazoActivity.cartas.size(); i++)
-            for(int j=0; j < cartas_eleccion.size(); j++) {
+        for (int i = 0; i < NuevoMazoActivity.cartas.size(); i++)
+            for (int j = 0; j < cartas_eleccion.size(); j++) {
                 if (NuevoMazoActivity.cartas.get(i).getId() == cartas_eleccion.get(j).getId()) {
                     cartas_eleccion.get(j).setCantidad(cartas_eleccion.get(j).getCantidad() -
                             NuevoMazoActivity.cartas.get(i).getCantidad()); // usamos cantidad para checkear en el spinner del adapter
                     if (cartas_eleccion.get(j).getCantidad() == 0) {
                         System.out.printf("Eliminada de eleccion la carta: %s \n", cartas_eleccion.get(j).getNombre());
                         cartas_eleccion.remove(j);
-                        j=j-1;
+                        j = j - 1;
                     }
                 }
             }
@@ -132,7 +155,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (!isOnline()){
+        if (!isOnline()) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             intent.putExtra("EXIT", true);

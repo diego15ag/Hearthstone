@@ -58,6 +58,7 @@ public class NuevoMazoActivity extends ActionBarActivity {
         //JSONManager.position_clase=clase;
         if(cartas==null)
             cartas = new ArrayList<Carta>();
+
         cantidades_elegidas = new ArrayList<Integer>();
         /*for(int i=0;i<JSONManager.filtro_clase().size();i++){
             cartas.add(JSONManager.filtro_clase().get(i).clone());
@@ -71,6 +72,11 @@ public class NuevoMazoActivity extends ActionBarActivity {
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for (int i = 0; i < cartas.size(); i++)
+                    if (cartas.get(i).getCantidad() == 0) {
+                        cartas.remove(i);
+                        i=i-1;
+                    }
                 Intent i = new Intent(NuevoMazoActivity.this, EleccionCartasMazoActivity.class);
                 i.putExtra("clase", clase);
                 startActivity(i);

@@ -79,7 +79,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 cartas_elegidas.get(i).setCantidad(position);
-                /*Toast.makeText(context, "Modificando cantidad de: " + cartas.get(i).getNombre()
+                /*Toast.makeText(context, "Modificando cantidad de: " + cartas_elegidas.get(i).getNombre()
                         + " en " + Integer.toString(position), Toast.LENGTH_SHORT).show();*/
                 /*int j = 0;
                 if (cartas_elegidas.size() != 0) {
