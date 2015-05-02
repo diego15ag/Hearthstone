@@ -97,8 +97,9 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
                     cartas_eleccion.get(j).setCantidad(cartas_eleccion.get(j).getCantidad() -
                             NuevoMazoActivity.cartas.get(i).getCantidad()); // usamos cantidad para checkear en el spinner del adapter
                     if (cartas_eleccion.get(j).getCantidad() == 0) {
-                        cartas_eleccion.remove(j);
                         System.out.printf("Eliminada de eleccion la carta: %s \n", cartas_eleccion.get(j).getNombre());
+                        cartas_eleccion.remove(j);
+                        j=j-1;
                     }
                 }
             }
