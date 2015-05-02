@@ -48,13 +48,15 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
         viewHolder.btDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!viewHolder.spCantidad.getText().toString().equals("0")){
+                if(viewHolder.spCantidad.getText().toString().equals("0")==false){
                     int c =new Integer(viewHolder.spCantidad.getText().toString());
                     viewHolder.spCantidad.setText(new Integer(c-1).toString());
                     cartas.get(i).setCantidad(c-1);
                     System.out.printf("Se ha disminuido la cantidad seleccionada de la carta %s",
                             cartas.get(i).getNombre());
                 }
+                /*else
+                    cartas.remove(i);*/
             }
         });
 
