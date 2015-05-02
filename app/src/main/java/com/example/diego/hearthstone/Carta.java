@@ -14,6 +14,7 @@ public class Carta implements Serializable{
     private String tipo;
     private int coste;
     private int cantidad;
+    private int pesos[] = {0,0,0,0,0,0,0,0,0};
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;
@@ -36,6 +37,7 @@ public class Carta implements Serializable{
         this.url = url;
         this.tipo = tipo;
         this.coste = coste;
+
     }
 
     public void setId(int id) {
@@ -65,6 +67,12 @@ public class Carta implements Serializable{
 
     public void setCoste(int coste) {
         this.coste = coste;
+    }
+
+    public void setPesos(int[] newpesos){
+        for(int i=0;i<pesos.length;i++){
+            pesos[i]=newpesos[i];
+        }
     }
 
     public Carta(int id, String nombre, String clase, String url, String tipo, int coste) {
@@ -103,6 +111,13 @@ public class Carta implements Serializable{
 
     public int getCoste() {
         return coste;
+    }
+
+    public int getPeso(int heroe){
+        if(heroe<pesos.length)
+            return pesos[heroe];
+        else
+            return -1;
     }
 
     public Carta clone(){
