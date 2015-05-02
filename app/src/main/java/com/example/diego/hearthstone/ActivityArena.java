@@ -205,11 +205,11 @@ public class ActivityArena extends ActionBarActivity {
         int value3 = listaCartas.get(sp3.getSelectedItemPosition()).getPeso(heroClass);
         String url;
         if (value1 >= value2 && value1 >= value3) {
-            url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl().replaceAll("medium", "small");
+            url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl();
         } else if (value2 >= value3) {
-            url = listaCartas.get(sp2.getSelectedItemPosition()).getUrl().replaceAll("medium", "small");
+            url = listaCartas.get(sp2.getSelectedItemPosition()).getUrl();
         } else {
-            url = listaCartas.get(sp3.getSelectedItemPosition()).getUrl().replaceAll("medium", "small");
+            url = listaCartas.get(sp3.getSelectedItemPosition()).getUrl();
         }
         ImageLoader.getInstance().displayImage(url, ivW);
     }
