@@ -70,6 +70,7 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
             Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
         }*/
         rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
+
         rva.setClickListener(this);
         recyclerView.setAdapter(rva);
 

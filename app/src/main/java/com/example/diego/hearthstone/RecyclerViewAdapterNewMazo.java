@@ -57,9 +57,17 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
                 if(viewHolder.spCantidad.getText().toString().equals("0")==false){
                     int c =new Integer(viewHolder.spCantidad.getText().toString());
                     viewHolder.spCantidad.setText(new Integer(c-1).toString());
-                    cartas.get(i).setCantidad(c-1);
+                    cartas.get(i).setCantidad(c - 1);
+
                     System.out.printf("Se ha disminuido la cantidad seleccionada de la carta %s",
                             cartas.get(i).getNombre());
+
+                    if(cartas.get(i).getCantidad()==0){
+                        cartas.remove(i);
+                        notifyDataSetChanged();
+                    }
+
+
                     clickListener.cambiadoNumero();
                 }
                 /*else
