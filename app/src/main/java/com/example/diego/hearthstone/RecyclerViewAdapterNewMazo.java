@@ -22,11 +22,17 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
 
     private ArrayList<Carta> cartas;
     private Context context;
+    public ClickListener clickListener;
 
     public RecyclerViewAdapterNewMazo(ArrayList<Carta> cartas,Context context) {
         this.cartas=cartas;
         this.context=context;
     }
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+    }
+
     @Override
     public RecyclerViewAdapterNewMazo.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view =
@@ -54,6 +60,7 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
                     cartas.get(i).setCantidad(c-1);
                     System.out.printf("Se ha disminuido la cantidad seleccionada de la carta %s",
                             cartas.get(i).getNombre());
+                    clickListener.cambiadoNumero();
                 }
                 /*else
                     cartas.remove(i);*/
@@ -72,6 +79,15 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemCount() {
         return cartas.size();
+    }
+
+    public int getNumeroCartas(){
+        int ret=0;
+
+        for(int i=0;i<cartas.size();i++){
+            ret+=cartas.get(i).getCantidad();
+        }
+        return ret;
     }
 
     protected class ViewHolder
@@ -97,6 +113,8 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
 
     public interface ClickListener {
         public void itemClicked(View view,int position);
+        public void cambiadoNumero();
+
     }
 
 }

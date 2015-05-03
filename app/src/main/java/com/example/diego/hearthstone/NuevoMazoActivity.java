@@ -17,11 +17,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
 
-public class NuevoMazoActivity extends ActionBarActivity {
+public class NuevoMazoActivity extends ActionBarActivity implements RecyclerViewAdapterNewMazo.ClickListener{
 
     RecyclerView recyclerView;
     RecyclerViewAdapterNewMazo rva;
@@ -30,6 +31,8 @@ public class NuevoMazoActivity extends ActionBarActivity {
     public int clase;
     public static ArrayList<Carta> cartas;
     public static ArrayList<Integer> cantidades_elegidas;
+
+    private TextView tvNumeroCartas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,8 @@ public class NuevoMazoActivity extends ActionBarActivity {
         }
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        tvNumeroCartas= (TextView) findViewById(R.id.tvCuenta);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
@@ -65,6 +70,7 @@ public class NuevoMazoActivity extends ActionBarActivity {
             Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
         }*/
         rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
+        rva.setClickListener(this);
         recyclerView.setAdapter(rva);
 
         ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
@@ -83,7 +89,10 @@ public class NuevoMazoActivity extends ActionBarActivity {
             }
         });
 
+
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -120,6 +129,9 @@ public class NuevoMazoActivity extends ActionBarActivity {
             intent.putExtra("EXIT", true);
             startActivity(intent);
         }
+        else{
+            tvNumeroCartas.setText(rva.getNumeroCartas()+"/30");
+        }
     }
 
     public boolean isOnline() {
@@ -127,5 +139,16 @@ public class NuevoMazoActivity extends ActionBarActivity {
                 getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
+    }
+
+    @Override
+    public void itemClicked(View view, int position) {
+
+    }
+
+    @Override
+    public void cambiadoNumero() {
+        tvNumeroCartas.setText(rva.getNumeroCartas()+"/30");
+
     }
 }
