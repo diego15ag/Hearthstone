@@ -55,7 +55,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
         rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, getApplicationContext());
         recyclerView.setAdapter(rva);
 
-        ImageButton botonañadecartas = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton botonañadecartas = (ImageButton) findViewById(R.id.ivOk);
 
         botonañadecartas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -146,6 +146,10 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id==android.R.id.home){
+            finish();
             return true;
         }
 

@@ -378,7 +378,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         d.setTitle(getResources().getString(R.string.select_clase));
         d.setContentView(R.layout.dialogo_sel_clase);
 
-        contenido = getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+        contenido = getResources().getStringArray(R.array.ClasesHearthstone);
         ListView lvSeleccion = (ListView) d.findViewById(R.id.lvSeleccionClase);
         lvSeleccion.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contenido));
         lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {

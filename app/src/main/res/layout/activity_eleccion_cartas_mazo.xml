@@ -27,20 +27,32 @@
             android:background="@color/ColorButton">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="23/30"
                 android:id="@+id/tvCuenta"
                 android:textSize="40dp"
-                android:layout_gravity="center_vertical" />
+                android:layout_gravity="center_vertical"
+                android:layout_weight="3"
+                android:gravity="center_horizontal"
+                android:textStyle="bold"
+                android:textColor="@android:color/white" />
 
-            <ImageButton
-                android:layout_width="64dp"
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:id="@+id/imageButton"
-                android:src="@drawable/ic_action_save"
-                android:background="@color/ColorButton" />
+                android:layout_weight="1">
+
+                <ImageButton
+                    android:layout_width="64dp"
+                    android:layout_height="match_parent"
+                    android:id="@+id/ivOk"
+                    android:src="@drawable/ok_button"
+                    android:layout_gravity="right" />
+            </LinearLayout>
+
         </LinearLayout>
 
     </FrameLayout>
