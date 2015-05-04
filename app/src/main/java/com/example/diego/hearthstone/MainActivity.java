@@ -280,7 +280,7 @@ public class MainActivity extends ActionBarActivity {
                         cartas_array.add(cAux);
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());
                         j++;
-                    } else if (array_cards.getJSONObject(i).getString("category").equals("hero") &&
+                    } /*else if (array_cards.getJSONObject(i).getString("category").equals("hero") &&
                             array_cards.getJSONObject(i).getString("health").equals("30") && contador_heroes < 9) {
                         Carta c = new Carta();
                         c.setId(i);
@@ -291,7 +291,7 @@ public class MainActivity extends ActionBarActivity {
                         heroes_array.add(cAux);
                         //System.out.printf("la carta %s es un heroe con id %d \n", c.getNombre(), c.getId());
                         contador_heroes++;
-                    }
+                    }*/
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -303,8 +303,8 @@ public class MainActivity extends ActionBarActivity {
             Mazo m = new Mazo(-1, "Daru_Noob", false, "druid", cartas_mazo);
             ayudabd.creaMazo(m);*/
             JSONManager.Cartas_array = JSONManager.ordena_lista(cartas_array);
-            JSONManager.Heroes_array = JSONManager.ordena_heroes(heroes_array);
-
+            //JSONManager.Heroes_array = JSONManager.ordena_heroes(heroes_array);
+            JSONManager.Heroes_array = JSONManager.fotos_heroes();
             JSONManager.Mazos_array = ayudabd.getMazosNoPredefinidos();
             return cartas_array;
         }

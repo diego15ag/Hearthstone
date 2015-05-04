@@ -440,6 +440,27 @@ public class JSONManager {
         return cartas;
     }
 
+    public static ArrayList<Carta> fotos_heroes() {
+        String[] urls= new String[9];
+        urls[0]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/6/63/Malfurion_Stormrage-f.png/250px-Malfurion_Stormrage-f.png?version=8febdbbb3c11afe80d7d4de4da134a99";
+        urls[1]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/d/d8/Rexxar-f.png/250px-Rexxar-f.png?version=83245767b6820ef49dc494582c9c54a1";
+        urls[2]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/7/73/Jaina_Proudmoore-f.png/250px-Jaina_Proudmoore-f.png?version=4e33b9d2ed9f179afa42c42abd2f13a1";
+        urls[3]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/5/53/Uther_Lightbringer-f.png/250px-Uther_Lightbringer-f.png?version=39c5c298740540e3151cf58f52aa2a39";
+        urls[4]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/b/b3/Anduin_Wrynn-f.png/250px-Anduin_Wrynn-f.png?version=592f40180a0885ba6c267dc16fc23f3b";
+        urls[5]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/7/72/Valeera_Sanguinar-f.png/250px-Valeera_Sanguinar-f.png?version=c49b35b82c17424ab370f0247aae51db";
+        urls[6]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/f4/Thrall-f.png/250px-Thrall-f.png?version=4fb3d012f5817083769f77069d982dab";
+        urls[7]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/3/38/Guldan-f.png/250px-Guldan-f.png?version=ab6020ec133b75370d1243f05f37caf8";
+        urls[8]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/5/5c/Garrosh_Hellscream-f.png/250px-Garrosh_Hellscream-f.png?version=d9afac26684d44d5bfda81278a16a819";
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        Carta c;
+        for(int i=0; i<9;i++) {
+            c = new Carta();
+            c.setUrl(urls[i]);
+            cartas.add(c);
+        }
+        return cartas;
+    }
+
     public static ArrayList<Carta> filtro_clase(){
         /*<array name="ClasesHearthstoneCartas" >
         <item>Druida</item>
