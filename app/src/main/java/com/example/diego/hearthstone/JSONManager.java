@@ -69,6 +69,7 @@ public class JSONManager {
         protected Void doInBackground(Void... params) {
             mDbHelper = new CartasManagerDbHelper(contexto);
             dbRO = mDbHelper.getReadableDatabase();
+            dbRW = mDbHelper.getWritableDatabase();
             return null;
         }
     }
@@ -294,8 +295,8 @@ public class JSONManager {
                 null,
                 values
         );
-        System.out.printf("La nueva fila es: %d \n", newRowId);
-        System.out.printf("Mazo %s insertado \n", mazo.getNombre());
+        System.out.printf("Mazo %s insertado en BD con id %d \n", mazo.getNombre(), newRowId);
+        JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
         ContentValues valuescartas = new ContentValues();
         for (int i=0; i< mazo.getCartas().size();i++) {
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
@@ -347,13 +348,9 @@ public class JSONManager {
         }
         c.close();
         for (int i=0; i < mazos.size(); i++) {
-            System.out.printf("El mazo %s de la clase %s tiene id: %d \n",
+            System.out.printf("Se ha sacado el mazo %s de la clase %s con id: %d de la base de datos \n",
                     mazos.get(i).getNombre(), mazos.get(i).getClase(), mazos.get(i).getId());
-            for (int j=0; j<mazos.get(i).getCartas().size(); j++)
-                System.out.printf("Carta: %s \n", mazos.get(i).getCartas().get(j).getNombre());
         }
-
-
         return mazos;
     }
 
@@ -438,6 +435,27 @@ public class JSONManager {
         /*for (int i = 0; i < cartas.size(); i++)
             System.out.printf("%s \n", cartas.get(i).getNombre());*/
         return cartas;
+    }
+
+    public static String getNameFromPositionClase(int position){
+        if (position==0)
+            return "druid";
+        else if (position==1)
+            return "hunter";
+        else if (position==2)
+            return "mage";
+        else if (position==3)
+            return "paladin";
+        else if (position==4)
+            return "priest";
+        else if (position==5)
+            return "rogue";
+        else if (position==6)
+            return "shaman";
+        else if (position==7)
+            return "warlock";
+        else
+            return "warrior";
     }
 
     public static ArrayList<Carta> fotos_heroes() {

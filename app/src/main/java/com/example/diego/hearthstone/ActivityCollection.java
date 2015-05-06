@@ -398,6 +398,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                 }
 
                 //Se cierra el dialogo
+                if(NuevoMazoActivity.cartas!=null)
+                    NuevoMazoActivity.cartas = new ArrayList<Carta>();
                 Intent i = new Intent(ActivityCollection.this, NuevoMazoActivity.class);
                 i.putExtra(NuevoMazoActivity.mazoClase, position);
                 i.putExtra(NuevoMazoActivity.referencia, -1);

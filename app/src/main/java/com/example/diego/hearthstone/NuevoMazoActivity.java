@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -30,14 +31,17 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
     public static String mazoClase = "mazoClase";
     public int clase;
     public static ArrayList<Carta> cartas;
-    public static ArrayList<Integer> cantidades_elegidas;
 
     private TextView tvNumeroCartas;
+    JSONManager ayudabd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nuevo_mazo);
+
+        ayudabd = new JSONManager(NuevoMazoActivity.this);
+        ayudabd.startBG();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if(toolbar!=null){
@@ -63,8 +67,6 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         //JSONManager.position_clase=clase;
         if(cartas==null)
             cartas = new ArrayList<Carta>();
-
-        cantidades_elegidas = new ArrayList<Integer>();
         /*for(int i=0;i<JSONManager.filtro_clase().size();i++){
             cartas.add(JSONManager.filtro_clase().get(i).clone());
             Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
@@ -75,18 +77,41 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         recyclerView.setAdapter(rva);
 
         ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
+        ImageButton botonguardar= (ImageButton) findViewById(R.id.btguardar);
 
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i = 0; i < cartas.size(); i++)
+                /*for (int i = 0; i < cartas.size(); i++)
                     if (cartas.get(i).getCantidad() == 0) {
                         cartas.remove(i);
                         i=i-1;
-                    }
+                    }*/
                 Intent i = new Intent(NuevoMazoActivity.this, EleccionCartasMazoActivity.class);
                 i.putExtra("clase", clase);
                 startActivity(i);
+            }
+        });
+
+        botonguardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(JSONManager.Mazos_array==null)
+                    JSONManager.Mazos_array= new ArrayList<Mazo>();
+
+                if(rva.getNumeroCartas()>30)
+                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
+                else if (rva.getNumeroCartas()==0)
+                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
+                else{
+                    Mazo m= new Mazo(-1, "Darukek", false, JSONManager.getNameFromPositionClase(clase), cartas );
+                    JSONManager.Mazos_array.add(m);
+                    ayudabd.creaMazo(m);
+                    Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(NuevoMazoActivity.this, ActivityCollection.class);
+                    startActivity(i);
+                }
+
             }
         });
 
