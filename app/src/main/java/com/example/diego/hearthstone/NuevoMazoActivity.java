@@ -31,6 +31,7 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
     public static String mazoClase = "mazoClase";
     public int clase;
     public static ArrayList<Carta> cartas;
+    public static int RESULT_OK=1;
 
     private TextView tvNumeroCartas;
     JSONManager ayudabd;
@@ -65,19 +66,14 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         clase = getIntent().getExtras().getInt(mazoClase);
         int ref = getIntent().getExtras().getInt(referencia);
         //JSONManager.position_clase=clase;
-        if(cartas==null)
+        /*if(cartas==null)
             cartas = new ArrayList<Carta>();
-        /*for(int i=0;i<JSONManager.filtro_clase().size();i++){
-            cartas.add(JSONManager.filtro_clase().get(i).clone());
-            Log.i("cantidad",String.valueOf( cartas.get(i).getCantidad()));
-        }*/
-        rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
+        /*rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
 
         rva.setClickListener(this);
-        recyclerView.setAdapter(rva);
+        recyclerView.setAdapter(rva);*/
 
         ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
-        ImageButton botonguardar= (ImageButton) findViewById(R.id.btguardar);
 
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,32 +89,10 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
             }
         });
 
-        botonguardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(JSONManager.Mazos_array==null)
-                    JSONManager.Mazos_array= new ArrayList<Mazo>();
 
-                if(rva.getNumeroCartas()>30)
-                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
-                else if (rva.getNumeroCartas()==0)
-                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
-                else{
-                    Mazo m= new Mazo(-1, "Darukek", false, JSONManager.getNameFromPositionClase(clase), cartas );
-                    JSONManager.Mazos_array.add(m);
-                    ayudabd.creaMazo(m);
-                    Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(NuevoMazoActivity.this, ActivityCollection.class);
-                    startActivity(i);
-                }
-
-            }
-        });
 
 
     }
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -135,7 +109,24 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_save) {
+
+            if(JSONManager.Mazos_array==null)
+                JSONManager.Mazos_array= new ArrayList<Mazo>();
+
+            if(rva.getNumeroCartas()>30)
+                Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
+            else if (rva.getNumeroCartas()==0)
+                Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
+            else{
+                Mazo m= new Mazo(-1, "Darukek", false, JSONManager.getNameFromPositionClase(clase), cartas );
+                JSONManager.Mazos_array.add(m);
+                ayudabd.creaMazo(m);
+                Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();
+                setResult(RESULT_OK);
+                finish();
+            }
+
             return true;
         }
         else if(id==android.R.id.home){
@@ -156,8 +147,19 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
             startActivity(intent);
         }
         else{
+
+            if(cartas==null)
+                cartas = new ArrayList<Carta>();
+
+            rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
+
+            rva.setClickListener(this);
+            recyclerView.setAdapter(rva);
+
             tvNumeroCartas.setText(rva.getNumeroCartas()+"/30");
         }
+
+
     }
 
     public boolean isOnline() {

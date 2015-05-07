@@ -52,6 +52,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     private boolean landscape;
 
     public final int CARTA_RESULTADO=1;
+    public final int MAZO_RESULTADO=2;
 
 
 
@@ -71,11 +72,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             landscape=true;
         else landscape=false;
 
-
         Titles = getResources().getStringArray(R.array.TabTitles);
-
-
-
 
             // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         VPadapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
@@ -193,7 +190,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
             }
         });
-
 
         //Para que se muestre en el fragmento detalles al iniciarse la primera carta
         if(pager.getCurrentItem()==0&&landscape){
@@ -363,6 +359,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
                 VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
             }
+        }else if (requestCode==MAZO_RESULTADO){
+            pager.setCurrentItem(1);
         }
 
     }
@@ -403,7 +401,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                 Intent i = new Intent(ActivityCollection.this, NuevoMazoActivity.class);
                 i.putExtra(NuevoMazoActivity.mazoClase, position);
                 i.putExtra(NuevoMazoActivity.referencia, -1);
-                startActivity(i);
+                startActivityForResult(i, MAZO_RESULTADO);
                 d.dismiss();
             }
         });

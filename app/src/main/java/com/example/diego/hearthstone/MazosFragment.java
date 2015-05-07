@@ -37,9 +37,6 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_mazos);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
-        rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
-        recyclerView.setAdapter(rva);
-
         FloatingActionButton fab= (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,6 +81,8 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
             intent.putExtra("EXIT", true);
             startActivity(intent);
         }
+        rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
+        recyclerView.setAdapter(rva);
     }
 
     public boolean isOnline() {
