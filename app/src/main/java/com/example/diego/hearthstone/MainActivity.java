@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
@@ -94,7 +95,14 @@ public class MainActivity extends ActionBarActivity {
         sp=getSharedPreferences("Preferencias",MODE_PRIVATE);
 
         //Para la funcion que carga las imagenes
-        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext()).build();
+        DisplayImageOptions defaultOptions = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .build();
+
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+                .diskCacheSize(1024 * 420 * 44)
+                .defaultDisplayImageOptions(defaultOptions)
+                .build();
         ImageLoader.getInstance().init(config);
 
         if (isOnline()) {
