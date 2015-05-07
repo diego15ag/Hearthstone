@@ -133,7 +133,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                                 newInstance(carta);
                         getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
 
 
                     }

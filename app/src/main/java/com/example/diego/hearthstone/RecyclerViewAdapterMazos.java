@@ -47,7 +47,6 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
         //El nombre del mazo y su clase
         viewHolder.tvNombre.setText(mazos.get(i).getNombre());
-        viewHolder.tvHeroe.setText(mazos.get(i).getClase());
 
         //el numero de cartas del mazo
 
@@ -104,7 +103,6 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
         public ImageView ivMazo;
         public TextView tvNombre;
-        public TextView tvHeroe;
         public TextView tvNCartas;
 
 
@@ -113,7 +111,6 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
             this.ivMazo= (ImageView) itemView.findViewById(R.id.ivMazo);
             this.tvNombre= (TextView) itemView.findViewById(R.id.tvMazo);
-            this.tvHeroe= (TextView) itemView.findViewById(R.id.tvHeroe);
             this.tvNCartas= (TextView) itemView.findViewById(R.id.tvNCartas);
 
             itemView.setOnClickListener(this);

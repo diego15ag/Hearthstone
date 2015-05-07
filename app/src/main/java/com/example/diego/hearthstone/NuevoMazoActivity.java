@@ -11,11 +11,13 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.InputFilter;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
     public int clase;
     public static ArrayList<Carta> cartas;
     public static int RESULT_OK=1;
+    public EditText editTextNombre;
 
     private TextView tvNumeroCartas;
     JSONManager ayudabd;
@@ -90,7 +93,10 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         });
 
 
-
+        editTextNombre = (EditText) findViewById(R.id.editTextNombre);
+        InputFilter filters[] = new InputFilter[1];
+        filters[0] = new InputFilter.LengthFilter(15);
+        editTextNombre.setFilters(filters);
 
     }
 
@@ -118,8 +124,10 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
                 Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
             else if (rva.getNumeroCartas()==0)
                 Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
+            else if (editTextNombre.getText().toString().equals(""))
+                Toast.makeText(NuevoMazoActivity.this, "No se puede crear un mazo sin nombre", Toast.LENGTH_SHORT).show();
             else{
-                Mazo m= new Mazo(-1, "Darukek", false, JSONManager.getNameFromPositionClase(clase), cartas );
+                Mazo m= new Mazo(-1, editTextNombre.getText().toString(), false, JSONManager.getNameFromPositionClase(clase), cartas );
                 JSONManager.Mazos_array.add(m);
                 ayudabd.creaMazo(m);
                 Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();

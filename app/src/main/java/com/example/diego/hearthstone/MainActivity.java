@@ -65,11 +65,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        if(checkDataBase()==false) {
+        /*if(checkDataBase()==false) {
             ayudabd = new JSONManager(MainActivity.this);
             JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
             bd.execute(url_cards, this);
-        }
+        }*/
 
 
         if (!isOnline() || getIntent().getBooleanExtra("EXIT", false)) {
