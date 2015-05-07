@@ -302,6 +302,7 @@ public class JSONManager {
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
                     mazo.getCartas().get(i).getId());
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO, (int)newRowId);
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD, mazo.getCartas().get(i).getCantidad());
             dbRW.insert(
                     CartasManagerContract.Carta_Mazo.TABLE_NAME,
                     null,
@@ -356,7 +357,8 @@ public class JSONManager {
 
     private ArrayList<Carta> getCartasFromMazo(int idmazo){
         ArrayList<Carta> cartas = new ArrayList<Carta>();
-        String[] projection = { CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA };
+        String[] projection = { CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
+                CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD  };
         String whereColum = CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO+ "=?";
         String[] valor = {String.valueOf(idmazo)};
 
@@ -369,9 +371,12 @@ public class JSONManager {
                 null, // Filtro por grupos
                 null);
         int idcarta;
+        Carta carta;
         while (c.moveToNext()) {
             idcarta = c.getInt(c.getColumnIndex(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA));
-            cartas.add(getCartaById(idcarta-1));
+            carta= getCartaById(idcarta-1);
+            carta.setCantidad(c.getInt(c.getColumnIndex(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD)));
+            cartas.add(carta);
         }
         c.close();
         return cartas;
@@ -381,7 +386,7 @@ public class JSONManager {
         int posicion = 0;
         while (JSONManager.Cartas_array.get(posicion).getId() != idcarta)
             posicion++;
-        return JSONManager.Cartas_array.get(posicion);
+        return JSONManager.Cartas_array.get(posicion).clone();
     }
 
     public void setCantidad(int cantidad, int id){

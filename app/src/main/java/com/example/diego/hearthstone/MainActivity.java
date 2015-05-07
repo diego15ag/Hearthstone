@@ -65,6 +65,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(checkDataBase()==false) {
+            ayudabd = new JSONManager(MainActivity.this);
+            JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
+            bd.execute(url_cards, this);
+        }
+
+
         if (!isOnline() || getIntent().getBooleanExtra("EXIT", false)) {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle(R.string.disconnected_title);
@@ -331,4 +338,6 @@ public class MainActivity extends ActionBarActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
+
 }

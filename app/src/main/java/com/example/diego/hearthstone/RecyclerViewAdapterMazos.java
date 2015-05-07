@@ -50,7 +50,11 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         viewHolder.tvHeroe.setText(mazos.get(i).getClase());
 
         //el numero de cartas del mazo
-        viewHolder.tvNCartas.setText(mazos.get(i).getCartas().size()+"/30");
+
+        int cartasmazo=0;
+        for (int j=0; j< mazos.get(i).getCartas().size();j++)
+            cartasmazo = cartasmazo + mazos.get(i).getCartas().get(j).getCantidad();
+        viewHolder.tvNCartas.setText(cartasmazo+"/30");
 
         //Aqui habria que mostrar una imagen dependiendo del heroe
         int id;
