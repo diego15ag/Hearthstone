@@ -50,7 +50,7 @@ public class RecyclerViewAdapterHeroes extends RecyclerView.Adapter<RecyclerView
         viewHolder.tvClase.setText(classes[i]);
 
         //Obtenemos la url de la imagen mas pequeña
-        String url = heroes.get(i).getUrl().replaceAll("medium","small");
+        String url = heroes.get(i).getUrl();
 
         ImageLoader.getInstance().displayImage(url,viewHolder.ivHeroe);
 

@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 /**
@@ -75,12 +77,10 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
             }
         });
 
-        //Obtenemos la url de la imagen mas pequeña
-        String url=cartas.get(i).getUrl().replaceAll("medium","small");
+        //Obtenemos la url de la imagen
+        String url=cartas.get(i).getUrl();
 
-        JSONManager ayudabd = new JSONManager(context);
-        JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivCarta);
-        im.execute(url);
+        ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
     }
 
 

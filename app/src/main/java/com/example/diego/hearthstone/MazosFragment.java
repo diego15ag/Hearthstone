@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -47,6 +48,7 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
 
         else
             recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
+
 
         FloatingActionButton fab= (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +95,7 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
         }
         rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
         recyclerView.setAdapter(rva);
+
     }
 
     public boolean isOnline() {

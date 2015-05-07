@@ -18,81 +18,98 @@
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:paddingLeft="10dp">
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/sp1Pick"
-            android:layout_gravity="center"
-            android:layout_weight="1" />
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/iv1Pick"
-            android:src="@drawable/base"
-            android:layout_weight="1"
-            android:layout_gravity="right" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/iv1Pick"
+                android:src="@mipmap/hearthstone_logo"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:paddingLeft="10dp">
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/sp2Pick"
-            android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_vertical" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/iv2Pick"
-            android:src="@drawable/base"
-            android:layout_weight="1"
-            android:layout_gravity="right" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/iv2Pick"
+                android:src="@mipmap/hearthstone_logo"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:paddingLeft="10dp">
 
         <Spinner
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/sp3Pick"
-            android:layout_weight="1"
-            android:layout_gravity="center" />
+            android:layout_gravity="center_vertical" />
 
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/iv3Pick"
-            android:src="@drawable/base"
-            android:layout_weight="1"
-            android:layout_gravity="right" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/iv3Pick"
+                android:src="@mipmap/hearthstone_logo"
+                android:layout_weight="1"
+                android:layout_gravity="right" />
+        </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/ivWinner"
-            android:src="@drawable/base" />
+            android:src="@mipmap/hearthstone_logo" />
     </LinearLayout>
 </LinearLayout>
 
