@@ -37,6 +37,7 @@
     <string name="button_carta">Añadir cartas</string>
     <string name="title_activity_activity_arena">Arena</string>
     <string name="hint_nombre_mazo">Nombre</string>
+    <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
 
 
 </resources>

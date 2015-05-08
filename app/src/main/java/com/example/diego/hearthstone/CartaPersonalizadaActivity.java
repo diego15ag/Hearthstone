@@ -121,6 +121,10 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
                         Intent i2=new Intent(CartaPersonalizadaActivity.this, HeroSelectionActivity.class);
                         startActivity(i2);
                         break;
+                    case 3:
+                        Intent i3=new Intent(CartaPersonalizadaActivity.this,MazosPredefinidosActivity.class);
+                        startActivity(i3);
+                        break;
                 }
 
                 drawerLayout.closeDrawer(layoutDelDrawer);
