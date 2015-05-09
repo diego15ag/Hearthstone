@@ -351,6 +351,116 @@ public class JSONManager {
         mazos.add(new Mazo(-1, "Warrior Control", true, "warrior", cartas));
         cartas = new ArrayList<Carta>();
         // crear nuevos mazos a continuacion
+        // Paladin
+        cartas.add(getCartaByName("Blessing of Wisdom",1));
+        cartas.add(getCartaByName("Humility",1));
+        cartas.add(getCartaByName("Equality",2));
+        cartas.add(getCartaByName("Holy Light",1));
+        cartas.add(getCartaByName("Aldor Peacekeeper",2));
+        cartas.add(getCartaByName("Consecration",2));
+        cartas.add(getCartaByName("Truesilver Champion",2));
+        cartas.add(getCartaByName("Guardian of Kings", 2));
+        cartas.add(getCartaByName("Lay on Hands",1));
+        cartas.add(getCartaByName("Tirion Fordring",1));
+        cartas.add(getCartaByName("Zombie Chow",2));
+        cartas.add(getCartaByName("Wild Pyromancer",2));
+        cartas.add(getCartaByName("Acolyte of Pain",1));
+        cartas.add(getCartaByName("Big Game Hunter",1));
+        cartas.add(getCartaByName("Spellbreaker",1));
+        cartas.add(getCartaByName("Harrison Jones",1));
+        cartas.add(getCartaByName("Sludge Belcher",2));
+        cartas.add(getCartaByName("Stampeding Kodo",1));
+        cartas.add(getCartaByName("Cairne Bloodhoof",1));
+        cartas.add(getCartaByName("Sylvanas Windrunner",1));
+        cartas.add(getCartaByName("The Black Knight",1));
+        cartas.add(getCartaByName("Ysera",1));
+        mazos.add(new Mazo(-1, "Paladin Control", true, "paladin", cartas));
+        cartas = new ArrayList<Carta>();
+        // Mage
+        cartas.add(getCartaByName("Ice Lance",2));
+        cartas.add(getCartaByName("Frostbolt",2));
+        cartas.add(getCartaByName("Bloodmage Thalnos",1));
+        cartas.add(getCartaByName("Doomsayer", 2));
+        cartas.add(getCartaByName("Loot Hoarder",2));
+        cartas.add(getCartaByName("Mad Scientist",2));
+        cartas.add(getCartaByName("Arcane Intellect",2));
+        cartas.add(getCartaByName("Frost Nova", 2));
+        cartas.add(getCartaByName("Ice Barrier",2));
+        cartas.add(getCartaByName("Ice Block",2));
+        cartas.add(getCartaByName("Acolyte of Pain",2));
+        cartas.add(getCartaByName("Cone of Cold",1));
+        cartas.add(getCartaByName("Fireball",2));
+        cartas.add(getCartaByName("Blizzard",2));
+        cartas.add(getCartaByName("Flamestrike",2));
+        cartas.add(getCartaByName("Archmage Antonidas",1));
+        cartas.add(getCartaByName("Alexstrasza",1));
+        mazos.add(new Mazo(-1, "Freeze Mage", true, "mage", cartas));
+        cartas = new ArrayList<Carta>();
+        // Warlock
+        cartas.add(getCartaByName("Mortal Coil",2));
+        cartas.add(getCartaByName("Soulfire",2));
+        cartas.add(getCartaByName("Ancient Watcher",2));
+        cartas.add(getCartaByName("Ironbeak Owl", 2));
+        cartas.add(getCartaByName("Sunfury Protector",2));
+        cartas.add(getCartaByName("Big Game Hunter",1));
+        cartas.add(getCartaByName("Earthen Ring Farseer",2));
+        cartas.add(getCartaByName("Hellfire", 1));
+        cartas.add(getCartaByName("Shadowflame",2));
+        cartas.add(getCartaByName("Defender of Argus",1));
+        cartas.add(getCartaByName("Twilight Drake",2));
+        cartas.add(getCartaByName("Sludge Belcher",2));
+        cartas.add(getCartaByName("Siphon Soul",2));
+        cartas.add(getCartaByName("Sylvanas Windrunner",1));
+        cartas.add(getCartaByName("Ragnaros the Firelord",1));
+        cartas.add(getCartaByName("Lord Jaraxxus",1));
+        cartas.add(getCartaByName("Mountain Giant",2));
+        cartas.add(getCartaByName("Molten Giant",2));
+        mazos.add(new Mazo(-1, "Handlock", true, "warlock", cartas));
+        cartas = new ArrayList<Carta>();
+        // Druid
+        cartas.add(getCartaByName("Innervate",2));
+        cartas.add(getCartaByName("Wild Growth",2));
+        cartas.add(getCartaByName("Wrath",2));
+        cartas.add(getCartaByName("Savage Roar", 2));
+        cartas.add(getCartaByName("Big Game Hunter",1));
+        cartas.add(getCartaByName("Shade of Naxxramas",2));
+        cartas.add(getCartaByName("Swipe",2));
+        cartas.add(getCartaByName("Chillwind Yeti", 2));
+        cartas.add(getCartaByName("Keeper of the Grove",2));
+        cartas.add(getCartaByName("Azure Drake",1));
+        cartas.add(getCartaByName("Druid of the Claw",2));
+        cartas.add(getCartaByName("Loatheb",1));
+        cartas.add(getCartaByName("Sludge Belcher",2));
+        cartas.add(getCartaByName("Force of Nature",2));
+        cartas.add(getCartaByName("Sylvanas Windrunner",1));
+        cartas.add(getCartaByName("Ancient of Lore",2));
+        cartas.add(getCartaByName("Ancient of War",1));
+        cartas.add(getCartaByName("Cenarius",1));
+        mazos.add(new Mazo(-1, "2 x Combo", true, "druid", cartas));
+        cartas = new ArrayList<Carta>();
+        // Rogue
+        cartas.add(getCartaByName("Backstab",2));
+        cartas.add(getCartaByName("Preparation",2));
+        cartas.add(getCartaByName("Shadowstep",2));
+        cartas.add(getCartaByName("Cold Blood", 2));
+        cartas.add(getCartaByName("Conceal",1));
+        cartas.add(getCartaByName("Deadly Poison",2));
+        cartas.add(getCartaByName("Blade Flurry",1));
+        cartas.add(getCartaByName("Eviscerate", 2));
+        cartas.add(getCartaByName("Sap",2));
+        cartas.add(getCartaByName("Shiv",1));
+        cartas.add(getCartaByName("Fan of Knives",2));
+        cartas.add(getCartaByName("SI:7 Agent",2));
+        cartas.add(getCartaByName("Bloodmage Thalnos",1));
+        cartas.add(getCartaByName("Earthen Ring Farseer",2));
+        cartas.add(getCartaByName("Azure Drake",2));
+        cartas.add(getCartaByName("Leeroy Jenkins",1));
+        cartas.add(getCartaByName("Loatheb",1));
+        cartas.add(getCartaByName("Gadgetzan Auctioneer",2));
+        mazos.add(new Mazo(-1, "Miracle Rogue", true, "rogue", cartas));
+        cartas = new ArrayList<Carta>();
+        // Más mazos
+
         return mazos;
     }
 
