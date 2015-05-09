@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -410,6 +411,16 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             }
         });
         d.show();
+    }
+
+    @Override
+    public void onMazoSelected(Mazo m) {
+        Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, NuevoMazoActivity.class);
+        i.putExtra(NuevoMazoActivity.mazoClase, m.getClase());
+        i.putExtra(NuevoMazoActivity.referencia, m.getId());
+        NuevoMazoActivity.cartas= m.getCartas();
+        startActivity(i);
     }
 
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {

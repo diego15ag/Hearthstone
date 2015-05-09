@@ -137,6 +137,11 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
 
             return true;
         }
+        else if(id ==R.id.action_delete){
+            Toast.makeText(NuevoMazoActivity.this, "El mazo no se ha guardado", Toast.LENGTH_SHORT).show();
+            finish();
+            return true;
+        }
         else if(id==android.R.id.home){
             finish();
             return true;

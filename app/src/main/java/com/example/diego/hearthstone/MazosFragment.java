@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -64,13 +65,14 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
     @Override
     public void itemClicked(View view, int position) {
         //Abrir los detalles del mazo
-
-
+        Mazo m=rva.get(position).clone();
+        mCallback.onMazoSelected(m);
     }
 
 
     public interface Callbacks {
         public void onNewDeck();
+        public void onMazoSelected(Mazo m);
     }
 
     @Override
@@ -104,4 +106,5 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
 }

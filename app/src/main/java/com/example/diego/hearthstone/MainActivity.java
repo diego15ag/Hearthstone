@@ -280,7 +280,7 @@ public class MainActivity extends ActionBarActivity {
                 Carta cAux;
 
                 int j = 0;
-                int contador_heroes = 0;
+                //int contador_heroes = 0;
                 for (int i = 0; i < array_cards.length(); i++) {
                     if (array_cards.getJSONObject(i).getString("category").equals("hero") == false &&
                             array_cards.getJSONObject(i).getString("category").equals("ability") == false
@@ -316,25 +316,19 @@ public class MainActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             System.out.printf("La lista tiene tamaño: %d \n", cartas_array.size());
-            /*ArrayList<Carta> cartas_mazo = new ArrayList<Carta>(); // codigo de prueba de insercion de mazo
-            for (int i=0; i<30; i++)
-                cartas_mazo.add(cartas_array.get(i));
-            Mazo m = new Mazo(-1, "Daru_Noob", false, "druid", cartas_mazo);
-            ayudabd.creaMazo(m);*/
             JSONManager.Cartas_array = JSONManager.ordena_lista(cartas_array);
             //JSONManager.Heroes_array = JSONManager.ordena_heroes(heroes_array);
             JSONManager.Heroes_array = JSONManager.fotos_heroes();
             JSONManager.Mazos_array = ayudabd.getMazosNoPredefinidos();
+
+            if(JSONManager.control==1)
+                for(int i=0; i< JSONManager.declaraMazosPredefinidos().size();i++)
+                    ayudabd.creaMazo(JSONManager.declaraMazosPredefinidos().get(i));
+            JSONManager.Mazos_predefinidos_array = ayudabd.getMazosPredefinidos();
             return cartas_array;
         }
 
         protected void onPostExecute(ArrayList<Carta> objeto_cartas) {
-            /*for (int i =0; i< objeto_cartas.size() ; i++)
-                System.out.printf("Carta %s en posicion %d en memoria \n", objeto_cartas.get(i).getNombre(), i);*/
-            /*for (int i=0; i< objeto_cartas.size(); i++) {
-                new DownloadImageTask(imagen)
-                        .execute(objeto_cartas.get(i).getUrl(), objeto_cartas.get(i).getNombre());
-            }*/
 
             System.out.printf("Lista cargada \n");
             cargado=true;

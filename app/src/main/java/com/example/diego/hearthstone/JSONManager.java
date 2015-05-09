@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class JSONManager {
     public static ArrayList<Carta> Cartas_array;
     public static ArrayList<Mazo> Mazos_array;
+    public static ArrayList<Mazo> Mazos_predefinidos_array;
     public static ArrayList<Carta> Heroes_array;
     private CartasManagerDbHelper mDbHelper;
     private SQLiteDatabase dbRW;
@@ -42,15 +43,13 @@ public class JSONManager {
     private final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
     private Context contexto;
     public static int position_clase=0;
+    public static int control=0;
 
     public JSONManager(Context context){
         contexto = context;
-        //new RellenaBD_JSON().execute(url_cards);
-        //new RellenaLista_JSON().execute(url_cards);
     }
 
     public JSONManager(){
-        //new RellenaLista_JSON().execute(url_cards);
 
     }
 
@@ -154,15 +153,9 @@ public class JSONManager {
                         ma.rellena();
                 }
             });
-
+            control=1;
             return null;
         }
-
-        /*protected void onPostExecute(JSONArray objeto_cartas){
-            Intent intent2;
-            intent2 = new Intent(contexto, LoadActivity.class);
-            contexto.startActivity(intent2);
-        }*/
     }
 
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -287,7 +280,7 @@ public class JSONManager {
     public void creaMazo(Mazo mazo){
         ContentValues values = new ContentValues();
         values.put(CartasManagerContract.Mazo.COLUMN_NAME_NAME, mazo.getNombre());
-        values.put(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, 0);
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, mazo.isPredefinido());
         values.put(CartasManagerContract.Mazo.COLUMN_NAME_CLASS, mazo.getClase());
         long newRowId;
         newRowId = dbRW.insert(
@@ -296,7 +289,8 @@ public class JSONManager {
                 values
         );
         System.out.printf("Mazo %s insertado en BD con id %d \n", mazo.getNombre(), newRowId);
-        JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
+        if(mazo.isPredefinido()==false)
+            JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
         ContentValues valuescartas = new ContentValues();
         for (int i=0; i< mazo.getCartas().size();i++) {
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
@@ -313,12 +307,101 @@ public class JSONManager {
 
     }
 
+    private static Carta getCartaByName(String name, int cantidad){
+        Carta c= new Carta();
+
+        for(int i=0; i<JSONManager.Cartas_array.size();i++)
+            if(JSONManager.Cartas_array.get(i).getNombre().equals(name)){
+                c=JSONManager.Cartas_array.get(i).clone();
+                c.setCantidad(cantidad);
+                return c;
+        }
+        c.setNombre("FALLO EN NOMBRE");
+        c.setId(-1);
+        return c;
+    }
+
+    public static ArrayList<Mazo> declaraMazosPredefinidos(){
+        ArrayList<Mazo> mazos = new ArrayList<Mazo>();
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        cartas.add(getCartaByName("Execute",2));
+        cartas.add(getCartaByName("Shield Slam",2));
+        cartas.add(getCartaByName("Whirlwind",1));
+        cartas.add(getCartaByName("Armorsmith",2));
+        cartas.add(getCartaByName("Cruel Taskmaster",2));
+        cartas.add(getCartaByName("Fiery War Axe",2));
+        cartas.add(getCartaByName("Shield Block",2));
+        cartas.add(getCartaByName("Death's Bite",2));
+        cartas.add(getCartaByName("Brawl",1));
+        cartas.add(getCartaByName("Gorehowl",1));
+        cartas.add(getCartaByName("Grommash Hellscream",1));
+        cartas.add(getCartaByName("Big Game Hunter",1));
+        cartas.add(getCartaByName("Acolyte of Pain",2));
+        cartas.add(getCartaByName("Spellbreaker",1));
+        cartas.add(getCartaByName("Harrison Jones",1));
+        cartas.add(getCartaByName("Loatheb",1));
+        cartas.add(getCartaByName("Sludge Belcher",1));
+        cartas.add(getCartaByName("Sylvanas Windrunner",1));
+        cartas.add(getCartaByName("Cairne Bloodhoof",1));
+        cartas.add(getCartaByName("Baron Geddon",1));
+        cartas.add(getCartaByName("Ragnaros the Firelord",1));
+        cartas.add(getCartaByName("Alexstrasza",1));
+        /* el id que pongais en el mazo es irrelevante, se crea un mazo nuevo y cuando se lee de la BD se lee con el ID
+         que la BD le haya puesto */
+        mazos.add(new Mazo(-1, "Warrior Control", true, "warrior", cartas));
+        cartas = new ArrayList<Carta>();
+        // crear nuevos mazos a continuacion
+        return mazos;
+    }
+
     public ArrayList<Mazo> getMazosNoPredefinidos(){
         //System.out.printf("estoy en mazos no predefinidos \n");
         String[] projection = { CartasManagerContract.Mazo._ID, CartasManagerContract.Mazo.COLUMN_NAME_NAME
         , CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, CartasManagerContract.Mazo.COLUMN_NAME_CLASS};
         String whereColum = CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO + "=?";
         String[] valor = {String.valueOf(0)};
+        Cursor c = dbRO.query(
+                CartasManagerContract.Mazo.TABLE_NAME, // Nombre de la tabla
+                projection, // Columnas a devolver
+                whereColum, // Columnas de la cláusula WHERE
+                valor, // Valores de la cláusula WHERE
+                null, // Agrupamiento
+                null, // Filtro por grupos
+                null);
+        int id;
+        String nombre;
+        int predefinido;
+        boolean predefinido2;
+        String clase;
+        ArrayList<Mazo> mazos = new ArrayList<Mazo>();
+        //Mazo maux;
+        while (c.moveToNext()){
+            Mazo m;
+            id=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo._ID));
+            nombre=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_NAME));
+            predefinido=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO));
+            if (predefinido==0)
+                predefinido2=false;
+            else
+                predefinido2=true;
+            clase=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_CLASS));
+            m = new Mazo(id, nombre, predefinido2 , clase, getCartasFromMazo(id));
+            mazos.add(m);
+        }
+        c.close();
+        for (int i=0; i < mazos.size(); i++) {
+            System.out.printf("Se ha sacado el mazo %s de la clase %s con id: %d de la base de datos \n",
+                    mazos.get(i).getNombre(), mazos.get(i).getClase(), mazos.get(i).getId());
+        }
+        return mazos;
+    }
+
+    public ArrayList<Mazo> getMazosPredefinidos(){
+        //System.out.printf("estoy en mazos no predefinidos \n");
+        String[] projection = { CartasManagerContract.Mazo._ID, CartasManagerContract.Mazo.COLUMN_NAME_NAME
+                , CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, CartasManagerContract.Mazo.COLUMN_NAME_CLASS};
+        String whereColum = CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO + "=?";
+        String[] valor = {String.valueOf(1)};
         Cursor c = dbRO.query(
                 CartasManagerContract.Mazo.TABLE_NAME, // Nombre de la tabla
                 projection, // Columnas a devolver
