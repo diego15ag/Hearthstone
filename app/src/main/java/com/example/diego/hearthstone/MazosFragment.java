@@ -96,6 +96,7 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
             startActivity(intent);
         }
         rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
+        rva.setClickListener(this);
         recyclerView.setAdapter(rva);
 
     }

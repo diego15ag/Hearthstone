@@ -68,13 +68,6 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
 
         clase = getIntent().getExtras().getInt(mazoClase);
         int ref = getIntent().getExtras().getInt(referencia);
-        //JSONManager.position_clase=clase;
-        /*if(cartas==null)
-            cartas = new ArrayList<Carta>();
-        /*rva=new RecyclerViewAdapterNewMazo(cartas, getApplicationContext());
-
-        rva.setClickListener(this);
-        recyclerView.setAdapter(rva);*/
 
         ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
 
