@@ -2,6 +2,7 @@ package com.example.diego.hearthstone;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,9 +76,9 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
 
         viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
 
-        viewHolder.tvNumeroCartas.setText("cartas/30");
+        viewHolder.tvNumeroCartas.setText(getNumeroCartas(mazos.get(i))+"/30");
 
-        viewHolder.tvArcano.setText("Arcano/ArcanoTotal");
+        viewHolder.tvArcano.setText(String.valueOf(getArcano(mazos.get(i))));
 
     }
 
@@ -132,6 +133,51 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
 
     public interface ClickListener {
         public void itemClicked(View view, int position);
+    }
+
+    private int getArcano(Mazo m){
+        int arcano=0;
+
+        for(int i=0;i<m.getCartas().size();i++){
+            Carta c= m.getCartas().get(i);
+            //if(m.getCartas().get(i).) si no naxxramas
+            if(c.getTipo().equals("common"))
+                arcano+=40;
+            else if(c.getTipo().equals("rare"))
+                arcano+=100;
+            else if(c.getTipo().equals("epic"))
+                arcano+=400;
+            else if(c.getTipo().equals("legendary"))
+                arcano+=1600;
+        }
+
+        return arcano;
+    }
+
+
+
+    private int getNumeroCartas(Mazo m){
+        int cartas=0;
+        JSONManager ayuda= new JSONManager();
+
+        for(int i=0;i<m.getCartas().size();i++){
+
+            Carta necesitada= m.getCartas().get(i);
+            Carta obtenida= ayuda.getCartaById(necesitada.getId());
+
+            if(necesitada.getCantidad()>obtenida.getCantidad()) {
+                cartas += obtenida.getCantidad();
+                Log.i("obt",String.valueOf(obtenida.getCantidad()));
+            }
+
+            else {
+                cartas += necesitada.getCantidad();
+                Log.i("necesita",String.valueOf(necesitada.getCantidad()));
+            }
+
+        }
+
+        return cartas;
     }
 
 }

@@ -575,7 +575,7 @@ public class JSONManager {
         return cartas;
     }
 
-    private Carta getCartaById(int idcarta){
+    public Carta getCartaById(int idcarta){
         int posicion = 0;
         while (JSONManager.Cartas_array.get(posicion).getId() != idcarta)
             posicion++;
