@@ -130,8 +130,7 @@ public class ActivityArena extends ActionBarActivity {
         for (int i = 0; i < listaCartas.size(); i++) {
             nombres.add(listaCartas.get(i).getNombre());
         }
-        ArrayAdapter<String> nombresAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, nombres);
-        nombresAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
+        ArrayAdapter<String> nombresAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nombres);
 
         //Cambio del adaptador
         sp1.setAdapter(nombresAdapter);
