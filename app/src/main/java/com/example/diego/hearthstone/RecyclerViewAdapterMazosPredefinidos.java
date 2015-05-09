@@ -76,7 +76,7 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
 
         viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
 
-        viewHolder.tvNumeroCartas.setText(getNumeroCartas(mazos.get(i))+"/30");
+        viewHolder.tvNumeroCartas.setText(String.valueOf(getNumeroCartas(mazos.get(i)))+"/30");
 
         viewHolder.tvArcano.setText(String.valueOf(getArcano(mazos.get(i))));
 
@@ -160,22 +160,15 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
         int cartas=0;
         JSONManager ayuda= new JSONManager();
 
-        for(int i=0;i<m.getCartas().size();i++){
+        for(int i=0;i<m.getCartas().size();i++)
+            for(int j=0; j< JSONManager.Cartas_array.size(); j++)
+                if(m.getCartas().get(i).getId()==JSONManager.Cartas_array.get(j).getId()) {
+                    if (m.getCartas().get(i).getCantidad() == JSONManager.Cartas_array.get(j).getCantidad())
+                        cartas = cartas + JSONManager.Cartas_array.get(j).getCantidad();
+                    else if(m.getCartas().get(i).getCantidad() < JSONManager.Cartas_array.get(j).getCantidad())
+                        cartas = cartas + JSONManager.Cartas_array.get(j).getCantidad() - m.getCartas().get(i).getCantidad();
+                }
 
-            Carta necesitada= m.getCartas().get(i);
-            Carta obtenida= ayuda.getCartaById(necesitada.getId());
-
-            if(necesitada.getCantidad()>obtenida.getCantidad()) {
-                cartas += obtenida.getCantidad();
-                Log.i("obt",String.valueOf(obtenida.getCantidad()));
-            }
-
-            else {
-                cartas += necesitada.getCantidad();
-                Log.i("necesita",String.valueOf(necesitada.getCantidad()));
-            }
-
-        }
 
         return cartas;
     }

@@ -289,12 +289,17 @@ public class JSONManager {
                 values
         );
         System.out.printf("Mazo %s insertado en BD con id %d \n", mazo.getNombre(), newRowId);
-        if(mazo.isPredefinido()==false)
+        if(JSONManager.Mazos_array.size()==0 && mazo.isPredefinido()==false) {
+            JSONManager.Mazos_array = new ArrayList<Mazo>();
+            JSONManager.Mazos_array.add(mazo);
+            JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
+        }
+        else if(mazo.isPredefinido()==false)
             JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
         ContentValues valuescartas = new ContentValues();
         for (int i=0; i< mazo.getCartas().size();i++) {
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
-                    mazo.getCartas().get(i).getId());
+                    mazo.getCartas().get(i).getId()+1);
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO, (int)newRowId);
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD, mazo.getCartas().get(i).getCantidad());
             dbRW.insert(
@@ -460,7 +465,6 @@ public class JSONManager {
         mazos.add(new Mazo(-1, "Miracle Rogue", true, "rogue", cartas));
         cartas = new ArrayList<Carta>();
         // Más mazos
-
         return mazos;
     }
 
