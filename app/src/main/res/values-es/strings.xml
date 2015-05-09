@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hearthstone</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="drawer_open">Abrir</string>
+    <string name="drawer_close">Cerrar</string>
+    <string name="title_activity_activity_mazos">Colección</string>
+    <string name="action_buscar">Buscar</string>
+    <string name="action_filter">Filtrar por clase</string>
+    <string name="action_save">Guardar</string>
+    <string name="action_delete">Borrar</string>
+    <string name="select_clase">Seleccione una clase</string>
+    <string name="title_activity_carta_personalizada">Carta Personalizada</string>
+    <string name="CustomPhoto_NewPhoto">Sacar Foto</string>
+    <string name="CustomPhoto_RotatePhoto">Rotar</string>
+    <string name="CustomPhoto_LoadPhoto">Cargar Foto</string>
+    <string name="CustomPhoto_SaveImage">Guardar Imagen</string>
+    <string name="CustomPhoto_Damage">Daño</string>
+    <string name="CustomPhoto_Life">Vida</string>
+    <string name="CustomPhoto_Cost">Coste</string>
+    <string name="CustomPhoto_Description">Descripción</string>
+    <string name="CustomPhoto_Name">Nombre</string>
+    <string name="title_activity_load">LoadActivity</string>
+    <string name="DialogLoading_title">Se están cargando las dependencias</string>
+    <string name="DialogLoading_description">Cargando</string>
+    <string name="title_activity_detalles_carta">DetallesCartaActivity</string>
+    <string name="title_activity_nuevo_mazo">Nuevo Mazo</string>
+    <string name="title_activity_hero_selection">Arena</string>
+    <string name="disconnected_title">Desconectado</string>
+    <string name="disconnected_message">No hay conexión. La aplicación se detendrá.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_eleccion_cartas_mazo">EleccionCartasMazoActivity</string>
+    <string name="button_carta">Añadir cartas</string>
+    <string name="title_activity_activity_arena">Arena</string>
+    <string name="hint_nombre_mazo">Nombre</string>
+    <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
+    <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
+
+
+</resources>

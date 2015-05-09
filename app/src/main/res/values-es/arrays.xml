@@ -1,40 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <array name="NavigationDrawerValues" >
-        <item>Collection</item>
-        <item>Custom card</item>
+        <item>Colección</item>
+        <item>Carta personalizada</item>
         <item>Arena</item>
-        <item>Premade decks</item>
+        <item>Mazos predefinidos</item>
     </array>
 
     <array name="TabTitles" >
-        <item>Cards</item>
-        <item>Decks</item>
+        <item>Cartas</item>
+        <item>Mazos</item>
     </array>
 
     <array name="ClasesHearthstone" >
-        <item>Druid</item>
-        <item>Hunter</item>
-        <item>Mage</item>
-        <item>Paladin</item>
-        <item>Priest</item>
-        <item>Rogue</item>
-        <item>Shaman</item>
-        <item>Warlock</item>
-        <item>Warrior</item>
+        <item>Druida</item>
+        <item>Cazador</item>
+        <item>Mago</item>
+        <item>Paladín</item>
+        <item>Sacerdote</item>
+        <item>Pícaro</item>
+        <item>Chaman</item>
+        <item>Brujo</item>
+        <item>Guerrero</item>
     </array>
 
     <array name="ClasesHearthstoneCartas" >
-        <item>Druid</item>
-        <item>Hunter</item>
-        <item>Mage</item>
-        <item>Paladin</item>
-        <item>Priest</item>
-        <item>Rogue</item>
-        <item>Shaman</item>
-        <item>Warlock</item>
-        <item>Warrior</item>
-        <item>Common</item>
+        <item>Druida</item>
+        <item>Cazador</item>
+        <item>Mago</item>
+        <item>Paladín</item>
+        <item>Sacerdote</item>
+        <item>Pícaro</item>
+        <item>Chaman</item>
+        <item>Brujo</item>
+        <item>Guerrero</item>
+        <item>Común</item>
     </array>
 
     <array name="LifeDamage" >
