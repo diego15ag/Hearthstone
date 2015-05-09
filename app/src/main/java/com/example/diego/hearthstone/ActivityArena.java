@@ -24,6 +24,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Tupepo on 02/05/2015.
@@ -205,15 +206,44 @@ public class ActivityArena extends ActionBarActivity {
         int value1 = listaCartas.get(sp1.getSelectedItemPosition()).getPeso(heroClass);
         int value2 = listaCartas.get(sp2.getSelectedItemPosition()).getPeso(heroClass);
         int value3 = listaCartas.get(sp3.getSelectedItemPosition()).getPeso(heroClass);
-        String url;
+        String url="";
+        int ganador=1;
         if (value1 >= value2 && value1 >= value3) {
-            url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl();
+            if(value1==value2)
+                ganador=RandomiceBetweenTwo(1,2);
+            else if(value1==value3)
+                ganador=RandomiceBetweenTwo(1,3);
+            else
+                ganador = 1;
         } else if (value2 >= value3) {
-            url = listaCartas.get(sp2.getSelectedItemPosition()).getUrl();
+            if(value2==value3)
+                ganador=RandomiceBetweenTwo(2,3);
+            else
+                ganador=2;
         } else {
-            url = listaCartas.get(sp3.getSelectedItemPosition()).getUrl();
+            ganador=3;
+        }
+
+        switch(ganador){
+            case 1:
+                url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl();
+            case 2:
+                url = listaCartas.get(sp2.getSelectedItemPosition()).getUrl();
+            case 3:
+                url = listaCartas.get(sp3.getSelectedItemPosition()).getUrl();
         }
         ImageLoader.getInstance().displayImage(url, ivW);
+    }
+
+    public int RandomiceBetweenTwo(int a,int b){
+        Random rn = new Random();
+        int n = 10 - 0 + 1;
+        int i = rn.nextInt() % n;
+        if(i<=5){
+            return a;
+        }
+        else
+            return b;
     }
 
     @Override
