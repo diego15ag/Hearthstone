@@ -35,6 +35,7 @@ import java.util.ArrayList;
 public class JSONManager {
     public static ArrayList<Carta> Cartas_array;
     public static ArrayList<Mazo> Mazos_array;
+    public static ArrayList<Mazo> Mazos_predefinidos_array;
     public static ArrayList<Carta> Heroes_array;
     private CartasManagerDbHelper mDbHelper;
     private SQLiteDatabase dbRW;
@@ -42,15 +43,13 @@ public class JSONManager {
     private final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
     private Context contexto;
     public static int position_clase=0;
+    public static int control=0;
 
     public JSONManager(Context context){
         contexto = context;
-        //new RellenaBD_JSON().execute(url_cards);
-        //new RellenaLista_JSON().execute(url_cards);
     }
 
     public JSONManager(){
-        //new RellenaLista_JSON().execute(url_cards);
 
     }
 
@@ -69,6 +68,7 @@ public class JSONManager {
         protected Void doInBackground(Void... params) {
             mDbHelper = new CartasManagerDbHelper(contexto);
             dbRO = mDbHelper.getReadableDatabase();
+            dbRW = mDbHelper.getWritableDatabase();
             return null;
         }
     }
@@ -153,15 +153,9 @@ public class JSONManager {
                         ma.rellena();
                 }
             });
-
+            control=1;
             return null;
         }
-
-        /*protected void onPostExecute(JSONArray objeto_cartas){
-            Intent intent2;
-            intent2 = new Intent(contexto, LoadActivity.class);
-            contexto.startActivity(intent2);
-        }*/
     }
 
     public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
@@ -286,7 +280,7 @@ public class JSONManager {
     public void creaMazo(Mazo mazo){
         ContentValues values = new ContentValues();
         values.put(CartasManagerContract.Mazo.COLUMN_NAME_NAME, mazo.getNombre());
-        values.put(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, 0);
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, mazo.isPredefinido());
         values.put(CartasManagerContract.Mazo.COLUMN_NAME_CLASS, mazo.getClase());
         long newRowId;
         newRowId = dbRW.insert(
@@ -294,13 +288,15 @@ public class JSONManager {
                 null,
                 values
         );
-        System.out.printf("La nueva fila es: %d \n", newRowId);
-        System.out.printf("Mazo %s insertado \n", mazo.getNombre());
+        System.out.printf("Mazo %s insertado en BD con id %d \n", mazo.getNombre(), newRowId);
+        if(mazo.isPredefinido()==false)
+            JSONManager.Mazos_array.get(JSONManager.Mazos_array.size()-1).setId((int)newRowId);
         ContentValues valuescartas = new ContentValues();
         for (int i=0; i< mazo.getCartas().size();i++) {
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
                     mazo.getCartas().get(i).getId());
             valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO, (int)newRowId);
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD, mazo.getCartas().get(i).getCantidad());
             dbRW.insert(
                     CartasManagerContract.Carta_Mazo.TABLE_NAME,
                     null,
@@ -309,6 +305,53 @@ public class JSONManager {
             System.out.printf("Carta %s insertada en el mazo %s \n",  mazo.getCartas().get(i).getNombre(), mazo.getNombre());
         }
 
+    }
+
+    private static Carta getCartaByName(String name, int cantidad){
+        Carta c= new Carta();
+
+        for(int i=0; i<JSONManager.Cartas_array.size();i++)
+            if(JSONManager.Cartas_array.get(i).getNombre().equals(name)){
+                c=JSONManager.Cartas_array.get(i).clone();
+                c.setCantidad(cantidad);
+                return c;
+        }
+        c.setNombre("FALLO EN NOMBRE");
+        c.setId(-1);
+        return c;
+    }
+
+    public static ArrayList<Mazo> declaraMazosPredefinidos(){
+        ArrayList<Mazo> mazos = new ArrayList<Mazo>();
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        cartas.add(getCartaByName("Execute",2));
+        cartas.add(getCartaByName("Shield Slam",2));
+        cartas.add(getCartaByName("Whirlwind",1));
+        cartas.add(getCartaByName("Armorsmith",2));
+        cartas.add(getCartaByName("Cruel Taskmaster",2));
+        cartas.add(getCartaByName("Fiery War Axe",2));
+        cartas.add(getCartaByName("Shield Block",2));
+        cartas.add(getCartaByName("Death's Bite",2));
+        cartas.add(getCartaByName("Brawl",1));
+        cartas.add(getCartaByName("Gorehowl",1));
+        cartas.add(getCartaByName("Grommash Hellscream",1));
+        cartas.add(getCartaByName("Big Game Hunter",1));
+        cartas.add(getCartaByName("Acolyte of Pain",2));
+        cartas.add(getCartaByName("Spellbreaker",1));
+        cartas.add(getCartaByName("Harrison Jones",1));
+        cartas.add(getCartaByName("Loatheb",1));
+        cartas.add(getCartaByName("Sludge Belcher",1));
+        cartas.add(getCartaByName("Sylvanas Windrunner",1));
+        cartas.add(getCartaByName("Cairne Bloodhoof",1));
+        cartas.add(getCartaByName("Baron Geddon",1));
+        cartas.add(getCartaByName("Ragnaros the Firelord",1));
+        cartas.add(getCartaByName("Alexstrasza",1));
+        /* el id que pongais en el mazo es irrelevante, se crea un mazo nuevo y cuando se lee de la BD se lee con el ID
+         que la BD le haya puesto */
+        mazos.add(new Mazo(-1, "Warrior Control", true, "warrior", cartas));
+        cartas = new ArrayList<Carta>();
+        // crear nuevos mazos a continuacion
+        return mazos;
     }
 
     public ArrayList<Mazo> getMazosNoPredefinidos(){
@@ -347,19 +390,58 @@ public class JSONManager {
         }
         c.close();
         for (int i=0; i < mazos.size(); i++) {
-            System.out.printf("El mazo %s de la clase %s tiene id: %d \n",
+            System.out.printf("Se ha sacado el mazo %s de la clase %s con id: %d de la base de datos \n",
                     mazos.get(i).getNombre(), mazos.get(i).getClase(), mazos.get(i).getId());
-            for (int j=0; j<mazos.get(i).getCartas().size(); j++)
-                System.out.printf("Carta: %s \n", mazos.get(i).getCartas().get(j).getNombre());
         }
+        return mazos;
+    }
 
-
+    public ArrayList<Mazo> getMazosPredefinidos(){
+        //System.out.printf("estoy en mazos no predefinidos \n");
+        String[] projection = { CartasManagerContract.Mazo._ID, CartasManagerContract.Mazo.COLUMN_NAME_NAME
+                , CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO, CartasManagerContract.Mazo.COLUMN_NAME_CLASS};
+        String whereColum = CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO + "=?";
+        String[] valor = {String.valueOf(1)};
+        Cursor c = dbRO.query(
+                CartasManagerContract.Mazo.TABLE_NAME, // Nombre de la tabla
+                projection, // Columnas a devolver
+                whereColum, // Columnas de la cláusula WHERE
+                valor, // Valores de la cláusula WHERE
+                null, // Agrupamiento
+                null, // Filtro por grupos
+                null);
+        int id;
+        String nombre;
+        int predefinido;
+        boolean predefinido2;
+        String clase;
+        ArrayList<Mazo> mazos = new ArrayList<Mazo>();
+        //Mazo maux;
+        while (c.moveToNext()){
+            Mazo m;
+            id=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo._ID));
+            nombre=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_NAME));
+            predefinido=c.getInt(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_PREDEFINIDO));
+            if (predefinido==0)
+                predefinido2=false;
+            else
+                predefinido2=true;
+            clase=c.getString(c.getColumnIndex(CartasManagerContract.Mazo.COLUMN_NAME_CLASS));
+            m = new Mazo(id, nombre, predefinido2 , clase, getCartasFromMazo(id));
+            mazos.add(m);
+        }
+        c.close();
+        for (int i=0; i < mazos.size(); i++) {
+            System.out.printf("Se ha sacado el mazo %s de la clase %s con id: %d de la base de datos \n",
+                    mazos.get(i).getNombre(), mazos.get(i).getClase(), mazos.get(i).getId());
+        }
         return mazos;
     }
 
     private ArrayList<Carta> getCartasFromMazo(int idmazo){
         ArrayList<Carta> cartas = new ArrayList<Carta>();
-        String[] projection = { CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA };
+        String[] projection = { CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
+                CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD  };
         String whereColum = CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO+ "=?";
         String[] valor = {String.valueOf(idmazo)};
 
@@ -372,9 +454,12 @@ public class JSONManager {
                 null, // Filtro por grupos
                 null);
         int idcarta;
+        Carta carta;
         while (c.moveToNext()) {
             idcarta = c.getInt(c.getColumnIndex(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA));
-            cartas.add(getCartaById(idcarta-1));
+            carta= getCartaById(idcarta-1);
+            carta.setCantidad(c.getInt(c.getColumnIndex(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD)));
+            cartas.add(carta);
         }
         c.close();
         return cartas;
@@ -384,7 +469,7 @@ public class JSONManager {
         int posicion = 0;
         while (JSONManager.Cartas_array.get(posicion).getId() != idcarta)
             posicion++;
-        return JSONManager.Cartas_array.get(posicion);
+        return JSONManager.Cartas_array.get(posicion).clone();
     }
 
     public void setCantidad(int cantidad, int id){
@@ -437,6 +522,48 @@ public class JSONManager {
                     }
         /*for (int i = 0; i < cartas.size(); i++)
             System.out.printf("%s \n", cartas.get(i).getNombre());*/
+        return cartas;
+    }
+
+    public static String getNameFromPositionClase(int position){
+        if (position==0)
+            return "druid";
+        else if (position==1)
+            return "hunter";
+        else if (position==2)
+            return "mage";
+        else if (position==3)
+            return "paladin";
+        else if (position==4)
+            return "priest";
+        else if (position==5)
+            return "rogue";
+        else if (position==6)
+            return "shaman";
+        else if (position==7)
+            return "warlock";
+        else
+            return "warrior";
+    }
+
+    public static ArrayList<Carta> fotos_heroes() {
+        String[] urls= new String[9];
+        urls[0]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/6/63/Malfurion_Stormrage-f.png/250px-Malfurion_Stormrage-f.png?version=8febdbbb3c11afe80d7d4de4da134a99";
+        urls[1]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/d/d8/Rexxar-f.png/250px-Rexxar-f.png?version=83245767b6820ef49dc494582c9c54a1";
+        urls[2]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/7/73/Jaina_Proudmoore-f.png/250px-Jaina_Proudmoore-f.png?version=4e33b9d2ed9f179afa42c42abd2f13a1";
+        urls[3]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/5/53/Uther_Lightbringer-f.png/250px-Uther_Lightbringer-f.png?version=39c5c298740540e3151cf58f52aa2a39";
+        urls[4]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/b/b3/Anduin_Wrynn-f.png/250px-Anduin_Wrynn-f.png?version=592f40180a0885ba6c267dc16fc23f3b";
+        urls[5]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/7/72/Valeera_Sanguinar-f.png/250px-Valeera_Sanguinar-f.png?version=c49b35b82c17424ab370f0247aae51db";
+        urls[6]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/f/f4/Thrall-f.png/250px-Thrall-f.png?version=4fb3d012f5817083769f77069d982dab";
+        urls[7]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/3/38/Guldan-f.png/250px-Guldan-f.png?version=ab6020ec133b75370d1243f05f37caf8";
+        urls[8]="http://hydra-media.cursecdn.com/hearthstone.gamepedia.com/thumb/5/5c/Garrosh_Hellscream-f.png/250px-Garrosh_Hellscream-f.png?version=d9afac26684d44d5bfda81278a16a819";
+        ArrayList<Carta> cartas = new ArrayList<Carta>();
+        Carta c;
+        for(int i=0; i<9;i++) {
+            c = new Carta();
+            c.setUrl(urls[i]);
+            cartas.add(c);
+        }
         return cartas;
     }
 

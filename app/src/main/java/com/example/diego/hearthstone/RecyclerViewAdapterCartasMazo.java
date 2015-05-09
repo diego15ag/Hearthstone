@@ -127,7 +127,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
         });
 
         //Obtenemos la url de la imagen mas pequeña
-        String url = cartas.get(i).getUrl().replaceAll("medium", "small");
+        String url = cartas.get(i).getUrl();
 
         ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
 

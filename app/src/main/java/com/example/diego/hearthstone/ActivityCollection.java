@@ -31,6 +31,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.support.v4.view.ViewPager;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     private boolean landscape;
 
     public final int CARTA_RESULTADO=1;
+    public final int MAZO_RESULTADO=2;
 
 
 
@@ -71,11 +73,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             landscape=true;
         else landscape=false;
 
-
         Titles = getResources().getStringArray(R.array.TabTitles);
-
-
-
 
             // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
         VPadapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
@@ -136,7 +134,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                                 newInstance(carta);
                         getSupportFragmentManager().beginTransaction()
-                                .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
 
 
                     }
@@ -187,13 +185,16 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                         Intent i2=new Intent(ActivityCollection.this, HeroSelectionActivity.class);
                         startActivity(i2);
                         break;
+                    case 3:
+                        Intent i3 = new Intent(ActivityCollection.this, MazosPredefinidosActivity.class);
+                        startActivity(i3);
+                        break;
                 }
 
                 drawerLayout.closeDrawer(layoutDelDrawer);
 
             }
         });
-
 
         //Para que se muestre en el fragmento detalles al iniciarse la primera carta
         if(pager.getCurrentItem()==0&&landscape){
@@ -363,6 +364,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
                 VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
             }
+        }else if (requestCode==MAZO_RESULTADO){
+            pager.setCurrentItem(1);
         }
 
     }
@@ -378,7 +381,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         d.setTitle(getResources().getString(R.string.select_clase));
         d.setContentView(R.layout.dialogo_sel_clase);
 
-        contenido = getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+        contenido = getResources().getStringArray(R.array.ClasesHearthstone);
         ListView lvSeleccion = (ListView) d.findViewById(R.id.lvSeleccionClase);
         lvSeleccion.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contenido));
         lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -398,14 +401,26 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                 }
 
                 //Se cierra el dialogo
+                if(NuevoMazoActivity.cartas!=null)
+                    NuevoMazoActivity.cartas = new ArrayList<Carta>();
                 Intent i = new Intent(ActivityCollection.this, NuevoMazoActivity.class);
                 i.putExtra(NuevoMazoActivity.mazoClase, position);
                 i.putExtra(NuevoMazoActivity.referencia, -1);
-                startActivity(i);
+                startActivityForResult(i, MAZO_RESULTADO);
                 d.dismiss();
             }
         });
         d.show();
+    }
+
+    @Override
+    public void onMazoSelected(Mazo m) {
+        Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
+        Intent i = new Intent(this, NuevoMazoActivity.class);
+        i.putExtra(NuevoMazoActivity.mazoClase, m.getClase());
+        i.putExtra(NuevoMazoActivity.referencia, m.getId());
+        NuevoMazoActivity.cartas= m.getCartas();
+        startActivity(i);
     }
 
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {

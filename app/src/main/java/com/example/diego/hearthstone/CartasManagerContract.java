@@ -23,6 +23,7 @@ public class CartasManagerContract {
         public static final String TABLE_NAME = "Carta_Mazo";
         public static final String COLUMN_NAME_IDCARTA = "Id_carta";
         public static final String COLUMN_NAME_IDMAZO = "Id_mazo";
+        public static final String COLUMN_NAME_CANTIDAD = "Cantidad";
     }
 
     public static abstract class Mazo implements BaseColumns {

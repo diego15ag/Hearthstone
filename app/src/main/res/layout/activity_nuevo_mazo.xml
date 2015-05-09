@@ -27,6 +27,14 @@
             android:layout_gravity="bottom"
             android:background="@color/ColorButton">
 
+            <EditText
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/editTextNombre"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:hint="@string/hint_nombre_mazo" />
+
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -34,35 +42,18 @@
                 android:text="23/30"
                 android:id="@+id/tvCuenta"
                 android:textSize="40dp"
-                android:layout_gravity="center_vertical"
+                android:layout_gravity="center_vertical|right"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"
-                android:layout_weight="3"
+                android:layout_weight="1.01"
                 android:gravity="center_horizontal" />
 
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:layout_gravity="center_vertical">
-
-
-                <LinearLayout
-                    android:orientation="horizontal"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right">
-
-                    <ImageButton
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/btAdd"
-                        android:src="@android:drawable/ic_input_add"
-                        android:layout_gravity="center_vertical|right" />
-                </LinearLayout>
-
-            </LinearLayout>
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btAdd"
+                android:src="@android:drawable/ic_input_add"
+                android:layout_gravity="center_vertical|right" />
 
             <!--<ImageButton
                 android:layout_width="100dp"

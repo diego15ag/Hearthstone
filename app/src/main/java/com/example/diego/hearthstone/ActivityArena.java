@@ -130,7 +130,9 @@ public class ActivityArena extends ActionBarActivity {
         for (int i = 0; i < listaCartas.size(); i++) {
             nombres.add(listaCartas.get(i).getNombre());
         }
-        ArrayAdapter<String> nombresAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, nombres);
+        ArrayAdapter<String> nombresAdapter = new ArrayAdapter<String>(this, R.layout.spinner_item, nombres);
+        nombresAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown);
+
         //Cambio del adaptador
         sp1.setAdapter(nombresAdapter);
         sp2.setAdapter(nombresAdapter);
@@ -142,7 +144,7 @@ public class ActivityArena extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String url;
-                url = listaCartas.get(position).getUrl().replaceAll("medium", "small");
+                url = listaCartas.get(position).getUrl();
                 ImageLoader.getInstance().displayImage(url, iv1);
                 UpdateWinner();
             }
@@ -156,7 +158,7 @@ public class ActivityArena extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String url;
-                url = listaCartas.get(position).getUrl().replaceAll("medium", "small");
+                url = listaCartas.get(position).getUrl();
                 ImageLoader.getInstance().displayImage(url, iv2);
                 UpdateWinner();
             }
@@ -170,7 +172,7 @@ public class ActivityArena extends ActionBarActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String url;
-                url = listaCartas.get(position).getUrl().replaceAll("medium", "small");
+                url = listaCartas.get(position).getUrl();
                 ImageLoader.getInstance().displayImage(url, iv3);
                 UpdateWinner();
             }
@@ -189,11 +191,11 @@ public class ActivityArena extends ActionBarActivity {
             sp2.setSelection(pos2);
             sp3.setSelection(pos3);
             String url1,url2,url3;
-            url1 = listaCartas.get(pos1).getUrl().replaceAll("medium", "small");
+            url1 = listaCartas.get(pos1).getUrl();
             ImageLoader.getInstance().displayImage(url1, iv1);
-            url2 = listaCartas.get(pos2).getUrl().replaceAll("medium", "small");
+            url2 = listaCartas.get(pos2).getUrl();
             ImageLoader.getInstance().displayImage(url2, iv2);
-            url3 = listaCartas.get(pos3).getUrl().replaceAll("medium", "small");
+            url3 = listaCartas.get(pos3).getUrl();
             ImageLoader.getInstance().displayImage(url3, iv3);
             UpdateWinner();
         }

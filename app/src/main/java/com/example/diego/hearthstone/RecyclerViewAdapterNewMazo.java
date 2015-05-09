@@ -13,6 +13,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 /**
@@ -22,11 +24,17 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
 
     private ArrayList<Carta> cartas;
     private Context context;
+    public ClickListener clickListener;
 
     public RecyclerViewAdapterNewMazo(ArrayList<Carta> cartas,Context context) {
         this.cartas=cartas;
         this.context=context;
     }
+
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+    }
+
     @Override
     public RecyclerViewAdapterNewMazo.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view =
@@ -51,27 +59,43 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
                 if(viewHolder.spCantidad.getText().toString().equals("0")==false){
                     int c =new Integer(viewHolder.spCantidad.getText().toString());
                     viewHolder.spCantidad.setText(new Integer(c-1).toString());
-                    cartas.get(i).setCantidad(c-1);
+                    cartas.get(i).setCantidad(c - 1);
+
                     System.out.printf("Se ha disminuido la cantidad seleccionada de la carta %s",
                             cartas.get(i).getNombre());
+
+                    if(cartas.get(i).getCantidad()==0){
+                        cartas.remove(i);
+                        notifyDataSetChanged();
+                    }
+
+
+                    clickListener.cambiadoNumero();
                 }
                 /*else
                     cartas.remove(i);*/
             }
         });
 
-        //Obtenemos la url de la imagen mas pequeña
-        String url=cartas.get(i).getUrl().replaceAll("medium","small");
+        //Obtenemos la url de la imagen
+        String url=cartas.get(i).getUrl();
 
-        JSONManager ayudabd = new JSONManager(context);
-        JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(viewHolder.ivCarta);
-        im.execute(url);
+        ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
     }
 
 
     @Override
     public int getItemCount() {
         return cartas.size();
+    }
+
+    public int getNumeroCartas(){
+        int ret=0;
+
+        for(int i=0;i<cartas.size();i++){
+            ret+=cartas.get(i).getCantidad();
+        }
+        return ret;
     }
 
     protected class ViewHolder
@@ -97,6 +121,8 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
 
     public interface ClickListener {
         public void itemClicked(View view,int position);
+        public void cambiadoNumero();
+
     }
 
 }

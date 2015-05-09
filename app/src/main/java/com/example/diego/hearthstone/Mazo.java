@@ -66,4 +66,10 @@ public class Mazo {
     public void setCartas(ArrayList<Carta> cartas) {
         this.cartas = cartas;
     }
+
+    public Mazo clone(){
+        Mazo m= new Mazo(this.id, this.nombre, this.predefinido, this.clase, this.cartas);
+        return m;
+    }
+
 }

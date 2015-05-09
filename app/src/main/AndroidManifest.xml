@@ -44,11 +44,15 @@
         </activity>
         <activity
             android:name=".EleccionCartasMazoActivity"
-            android:label="@string/title_activity_eleccion_cartas_mazo">
+            android:label="@string/title_activity_eleccion_cartas_mazo" >
         </activity>
         <activity
             android:name=".ActivityArena"
-            android:label="@string/title_activity_activity_arena">
+            android:label="@string/title_activity_activity_arena" >
+        </activity>
+        <activity
+            android:name=".MazosPredefinidosActivity"
+            android:label="@string/title_activity_mazos_predefinidos" >
         </activity>
     </application>
 

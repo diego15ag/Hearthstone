@@ -3,6 +3,8 @@ package com.example.diego.hearthstone;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.melnykov.fab.FloatingActionButton;
 
@@ -35,10 +38,18 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
         View v = inflater.inflate(R.layout.tab_mazos,container,false);
 
         recyclerView = (RecyclerView) v.findViewById(R.id.recycler_mazos);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
+        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
 
-        rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
-        recyclerView.setAdapter(rva);
+        if(this.getResources().getConfiguration().orientation!= Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        ==Configuration.SCREENLAYOUT_SIZE_LARGE||this.getResources().getConfiguration().orientation==Configuration.ORIENTATION_LANDSCAPE&&
+                (Configuration.SCREENLAYOUT_SIZE_MASK&getResources().getConfiguration().screenLayout)
+                        !=Configuration.SCREENLAYOUT_SIZE_LARGE)
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+
+        else
+            recyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 1));
+
 
         FloatingActionButton fab= (FloatingActionButton) v.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -48,20 +59,20 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
             }
         });
 
-
         return v;
     }
 
     @Override
     public void itemClicked(View view, int position) {
         //Abrir los detalles del mazo
-
-
+        Mazo m=rva.get(position).clone();
+        mCallback.onMazoSelected(m);
     }
 
 
     public interface Callbacks {
         public void onNewDeck();
+        public void onMazoSelected(Mazo m);
     }
 
     @Override
@@ -84,6 +95,10 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
             intent.putExtra("EXIT", true);
             startActivity(intent);
         }
+        rva=new RecyclerViewAdapterMazos(JSONManager.Mazos_array,getActivity().getApplicationContext());
+        rva.setClickListener(this);
+        recyclerView.setAdapter(rva);
+
     }
 
     public boolean isOnline() {
@@ -92,4 +107,5 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
 }

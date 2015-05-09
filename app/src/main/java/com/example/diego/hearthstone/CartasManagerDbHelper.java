@@ -35,6 +35,7 @@ public class CartasManagerDbHelper extends SQLiteOpenHelper {
                     CartasManagerContract.Carta_Mazo._ID + " INTEGER PRIMARY KEY," +
                     CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA + " INTEGER NOT NULL," +
                     CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO + " INTEGER NOT NULL," +
+                    CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD + " INTEGER NOT NULL," +
                     "FOREIGN KEY(" +
                     CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA +
                     ") REFERENCES " + CartasManagerContract.Carta.TABLE_NAME +

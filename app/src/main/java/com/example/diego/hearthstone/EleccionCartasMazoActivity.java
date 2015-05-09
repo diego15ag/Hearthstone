@@ -55,17 +55,19 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
         rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, getApplicationContext());
         recyclerView.setAdapter(rva);
 
-        ImageButton botonañadecartas = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton botonAddCartas = (ImageButton) findViewById(R.id.ivOk);
 
-        botonañadecartas.setOnClickListener(new View.OnClickListener() {
+        botonAddCartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 ResuelveConflicto();
-                Intent i = new Intent(EleccionCartasMazoActivity.this, NuevoMazoActivity.class);
+               /* Intent i = new Intent(EleccionCartasMazoActivity.this, NuevoMazoActivity.class);
                 i.putExtra(NuevoMazoActivity.mazoClase, clase);
                 i.putExtra(NuevoMazoActivity.referencia, -1);
-                startActivity(i);
+                startActivity(i);*/
+
+                finish();
             }
         });
     }
@@ -146,6 +148,10 @@ public class EleccionCartasMazoActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            return true;
+        }
+        else if(id==android.R.id.home){
+            finish();
             return true;
         }
 

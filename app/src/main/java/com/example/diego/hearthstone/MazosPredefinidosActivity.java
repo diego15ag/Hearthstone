@@ -1,10 +1,7 @@
 package com.example.diego.hearthstone;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -22,46 +19,47 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class HeroSelectionActivity extends ActionBarActivity implements RecyclerViewAdapterHeroes.ClickListener {
+public class MazosPredefinidosActivity extends ActionBarActivity implements RecyclerViewAdapterMazosPredefinidos.ClickListener {
 
-    RecyclerView recyclerView;
-    RecyclerViewAdapterHeroes rvh;
     private DrawerLayout drawerLayout;
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
 
-    public static String HeroKey = "HeroKey";
-
+    private RecyclerView recyclerView;
+    private RecyclerViewAdapterMazosPredefinidos rva;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_hero_selection);
+        setContentView(R.layout.activity_mazos_predefinidos);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        if(toolbar!=null){
+        if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
 
+        //Codigo para el drawer
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
-        drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
-        lvDrawerLayout= (ListView) findViewById(R.id.left_drawer);
-        lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.NavigationDrawerValues)));
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        lvDrawerLayout = (ListView) findViewById(R.id.left_drawer);
+        lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.NavigationDrawerValues)));
 
 
-        mDrawerToggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.drawer_open,R.string.drawer_close) {
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
-            /** Called when a drawer has settled in a completely closed state. */
+            /**
+             * Called when a drawer has settled in a completely closed state.
+             */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-
             }
 
-            /** Called when a drawer has settled in a completely open state. */
+            /**
+             * Called when a drawer has settled in a completely open state.
+             */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-
             }
         };
         drawerLayout.setDrawerListener(mDrawerToggle);
@@ -70,54 +68,38 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                switch (position){
+                switch (position) {
                     case 0:
-                        Intent i=new Intent(HeroSelectionActivity.this,ActivityCollection.class);
+                        Intent i = new Intent(MazosPredefinidosActivity.this, ActivityCollection.class);
                         startActivity(i);
                         break;
                     case 1:
-                        Intent i1=new Intent(HeroSelectionActivity.this,CartaPersonalizadaActivity.class);
+                        Intent i1 = new Intent(MazosPredefinidosActivity.this, CartaPersonalizadaActivity.class);
                         startActivity(i1);
                         break;
                     case 2:
-                        break;
-                    case 3:
-                        Intent i3=new Intent(HeroSelectionActivity.this,MazosPredefinidosActivity.class);
-                        startActivity(i3);
+                        Intent i2 = new Intent(MazosPredefinidosActivity.this, HeroSelectionActivity.class);
+                        startActivity(i2);
                         break;
                 }
-
                 drawerLayout.closeDrawer(layoutDelDrawer);
-
             }
         });
 
+        recyclerView= (RecyclerView) findViewById(R.id.recycler_mazos_pred);
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
+        rva=new RecyclerViewAdapterMazosPredefinidos(JSONManager.Mazos_predefinidos_array,this);
+        rva.setClickListener(this);
+        recyclerView.setAdapter(rva);
 
-        //Recycler view con los heroes
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_heroes);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 3));
-
-        rvh = new RecyclerViewAdapterHeroes(JSONManager.Heroes_array, getApplicationContext());
-        rvh.setClickListener(this);
-        recyclerView.setAdapter(rvh);
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_hero_selection, menu);
+        getMenuInflater().inflate(R.menu.menu_mazos_predefinidos, menu);
         return true;
-    }
-
-    @Override
-    public void itemClicked(View view, int position) {
-        Carta heroe=rvh.get(position);
-        Toast.makeText(getApplicationContext(), heroe.getClase() + " seleccionado", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(HeroSelectionActivity.this, ActivityArena.class);
-        i.putExtra(HeroKey,position);
-        startActivity(i);
     }
 
     @Override
@@ -150,20 +132,7 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        if (!isOnline()){
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            intent.putExtra("EXIT", true);
-            startActivity(intent);
-        }
-    }
-
-    public boolean isOnline() {
-        ConnectivityManager connMgr = (ConnectivityManager)
-                getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return (networkInfo != null && networkInfo.isConnected());
+    public void itemClicked(View view, int position) {
+        Toast.makeText(this,"Elemento "+position,Toast.LENGTH_SHORT).show();
     }
 }

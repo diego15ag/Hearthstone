@@ -12,18 +12,21 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import java.util.ArrayList;
 
 /**
  * Created by Jonatan on 16/4/15.
  */
-public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewAdapterMazos.ViewHolder> {
+public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<RecyclerViewAdapterMazosPredefinidos.ViewHolder> {
 
     public ClickListener clickListener;
-    private ArrayList<Mazo>  mazos;
+
+    private ArrayList<Mazo> mazos;
     private Context context;
 
-    public RecyclerViewAdapterMazos(ArrayList<Mazo> mazos, Context context) {
+    public RecyclerViewAdapterMazosPredefinidos(ArrayList<Mazo> mazos, Context context) {
         this.mazos=mazos;
         this.context=context;
     }
@@ -34,26 +37,19 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
     }
 
     @Override
-    public RecyclerViewAdapterMazos.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public RecyclerViewAdapterMazosPredefinidos.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view =
                 LayoutInflater.from(viewGroup.getContext())
-                        .inflate(R.layout.layout_deck_item,viewGroup,false);
+                        .inflate(R.layout.layout_preset_deck_item,viewGroup,false);
 
-        return new RecyclerViewAdapterMazos.ViewHolder(view);
+
+        return new RecyclerViewAdapterMazosPredefinidos.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(RecyclerViewAdapterMazos.ViewHolder viewHolder, final int i) {
+    public void onBindViewHolder(RecyclerViewAdapterMazosPredefinidos.ViewHolder viewHolder, final int i) {
 
-        //El nombre del mazo y su clase
         viewHolder.tvNombre.setText(mazos.get(i).getNombre());
-
-        //el numero de cartas del mazo
-
-        int cartasmazo=0;
-        for (int j=0; j< mazos.get(i).getCartas().size();j++)
-            cartasmazo = cartasmazo + mazos.get(i).getCartas().get(j).getCantidad();
-        viewHolder.tvNCartas.setText(cartasmazo+"/30");
 
         //Aqui habria que mostrar una imagen dependiendo del heroe
         int id;
@@ -79,6 +75,9 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
         viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
 
+        viewHolder.tvNumeroCartas.setText("cartas/30");
+
+        viewHolder.tvArcano.setText("Arcano/ArcanoTotal");
 
     }
 
@@ -97,13 +96,16 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         return mazos.get(position);
     }
 
+
     protected class ViewHolder
             extends RecyclerView.ViewHolder
             implements View.OnClickListener{
 
         public ImageView ivMazo;
         public TextView tvNombre;
-        public TextView tvNCartas;
+        public TextView tvArcano;
+        public TextView tvNumeroCartas;
+
 
 
         public ViewHolder(View itemView) {
@@ -111,7 +113,8 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
             this.ivMazo= (ImageView) itemView.findViewById(R.id.ivMazo);
             this.tvNombre= (TextView) itemView.findViewById(R.id.tvMazo);
-            this.tvNCartas= (TextView) itemView.findViewById(R.id.tvNCartas);
+            this.tvArcano= (TextView) itemView.findViewById(R.id.tvArcano);
+            this.tvNumeroCartas= (TextView) itemView.findViewById(R.id.tvNCartas);
 
             itemView.setOnClickListener(this);
         }

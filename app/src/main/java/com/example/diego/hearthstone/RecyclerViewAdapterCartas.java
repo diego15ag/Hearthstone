@@ -97,7 +97,7 @@ public class RecyclerViewAdapterCartas extends RecyclerView.Adapter<RecyclerView
         });
 
         //Obtenemos la url de la imagen mas pequeña
-        String url=cartas.get(i).getUrl().replaceAll("medium","small");
+        String url=cartas.get(i).getUrl();
 
         ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
 
