@@ -38,6 +38,7 @@
     <string name="title_activity_activity_arena">Arena</string>
     <string name="hint_nombre_mazo">Nombre</string>
     <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
+    <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
 
 
 </resources>

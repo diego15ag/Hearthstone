@@ -29,6 +29,8 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
     private RecyclerView recyclerView;
     private RecyclerViewAdapterMazosPredefinidos rva;
 
+    private static int DETALLES=1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -133,6 +135,10 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
 
     @Override
     public void itemClicked(View view, int position) {
-        Toast.makeText(this,"Elemento "+position,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Elemento "+position,Toast.LENGTH_SHORT).show();
+        Mazo m= rva.get(position);
+        Intent i =new Intent(MazosPredefinidosActivity.this,DetallesMazoActivity.class);
+        i.putExtra(DetallesMazoActivity.MAZO,m);
+        startActivityForResult(i,1);
     }
 }

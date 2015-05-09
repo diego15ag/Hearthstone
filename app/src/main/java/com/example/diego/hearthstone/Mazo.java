@@ -1,11 +1,12 @@
 package com.example.diego.hearthstone;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by blukstack on 07/04/2015.
  */
-public class Mazo {
+public class Mazo implements Serializable{
     private int id;
     private String nombre;
     private boolean predefinido;

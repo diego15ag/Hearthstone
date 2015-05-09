@@ -54,6 +54,10 @@
             android:name=".MazosPredefinidosActivity"
             android:label="@string/title_activity_mazos_predefinidos" >
         </activity>
+        <activity
+            android:name=".DetallesMazoActivity"
+            android:label="@string/title_activity_detalles_mazo" >
+        </activity>
     </application>
 
 </manifest>
