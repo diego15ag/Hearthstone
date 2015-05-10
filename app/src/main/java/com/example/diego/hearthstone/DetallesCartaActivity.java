@@ -60,14 +60,6 @@ public class DetallesCartaActivity extends ActionBarActivity {
         if(c!=null)
             ImageLoader.getInstance().displayImage(c.getUrl(),ivCarta);
 
-        /*JSONManager ayudabd = new JSONManager(this);
-        JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(ivCarta);
-
-
-        if(c==null)
-            im.execute("");
-
-        else im.execute(c.getUrl());*/
     }
 
 

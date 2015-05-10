@@ -9,25 +9,25 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
-public class MazosPredefinidosActivity extends ActionBarActivity implements RecyclerViewAdapterMazosPredefinidos.ClickListener {
+public class MazosPredefinidosActivity extends ActionBarActivity implements MazosPredefinidosFragment.OnFragmentInteractionListener,DetallesMazosPredefinidoFragment.OnFragmentInteractionListener {
 
     private DrawerLayout drawerLayout;
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
-
-    private RecyclerView recyclerView;
-    private RecyclerViewAdapterMazosPredefinidos rva;
+    private boolean landscape=false;
 
     private static int DETALLES=1;
 
@@ -40,6 +40,8 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+
+
 
         //Codigo para el drawer
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
@@ -88,11 +90,14 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
             }
         });
 
-        recyclerView= (RecyclerView) findViewById(R.id.recycler_mazos_pred);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
-        rva=new RecyclerViewAdapterMazosPredefinidos(JSONManager.Mazos_predefinidos_array,this);
-        rva.setClickListener(this);
-        recyclerView.setAdapter(rva);
+        FrameLayout fragmentDetallesContainer= (FrameLayout) findViewById(R.id.containerDetallesMazosPred);
+        if(fragmentDetallesContainer!=null) {
+            landscape = true;
+            if(JSONManager.Mazos_predefinidos_array.size()>0) {
+                DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_predefinidos_array.get(0));
+                getSupportFragmentManager().beginTransaction().replace(R.id.containerDetallesMazosPred, detallesMazosPredefinidoFragment).commit();
+            }
+        }
 
 
     }
@@ -102,6 +107,22 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_mazos_predefinidos, menu);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        MazosPredefinidosFragment mazosPredefinidosFragment= (MazosPredefinidosFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        mazosPredefinidosFragment.actualiza();
+
+        if(landscape) {
+            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = (DetallesMazosPredefinidoFragment) getSupportFragmentManager().findFragmentById(R.id.containerDetallesMazosPred);
+            int id_mazo = detallesMazosPredefinidoFragment.getIdMazo();
+            detallesMazosPredefinidoFragment.actualiza(JSONManager.Mazos_predefinidos_array.get(id_mazo-1));
+
+        }
+
     }
 
     @Override
@@ -134,11 +155,38 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Recy
     }
 
     @Override
-    public void itemClicked(View view, int position) {
-        //Toast.makeText(this,"Elemento "+position,Toast.LENGTH_SHORT).show();
-        Mazo m= rva.get(position);
-        Intent i =new Intent(MazosPredefinidosActivity.this,DetallesMazoActivity.class);
-        i.putExtra(DetallesMazoActivity.MAZO,m);
-        startActivityForResult(i,1);
+    public void muestraMazo(Mazo m) {
+        if(landscape){
+            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment=DetallesMazosPredefinidoFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction().replace(R.id.containerDetallesMazosPred,detallesMazosPredefinidoFragment).commit();
+        }
+
+        else {
+            Intent i = new Intent(MazosPredefinidosActivity.this, DetallesMazoActivity.class);
+            i.putExtra(DetallesMazoActivity.MAZO, m);
+            startActivityForResult(i, DETALLES);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==DETALLES&&resultCode==DetallesMazoActivity.DETALLES_MAZO_OK&&landscape){
+            Mazo m= (Mazo) data.getSerializableExtra(DetallesMazoActivity.MAZO);
+            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment=DetallesMazosPredefinidoFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction().replace(R.id.containerDetallesMazosPred, detallesMazosPredefinidoFragment).commit();
+
+            MazosPredefinidosFragment mazosPredefinidosFragment= (MazosPredefinidosFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+            mazosPredefinidosFragment.recyclerView.scrollToPosition(0);
+        }
+
+    }
+
+    @Override
+    public void detallesCarta(Carta c) {
+        Intent i= new Intent(MazosPredefinidosActivity.this,MuestraCartaActivity.class);
+        i.putExtra(MuestraCartaActivity.CARTA,c);
+        startActivity(i);
     }
 }

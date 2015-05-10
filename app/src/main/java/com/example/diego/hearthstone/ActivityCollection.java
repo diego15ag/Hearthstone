@@ -354,6 +354,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if(requestCode==CARTA_RESULTADO){
             if(landscape){
                 Carta c= (Carta) data.getSerializableExtra(DetallesCartaActivity.CARTA);

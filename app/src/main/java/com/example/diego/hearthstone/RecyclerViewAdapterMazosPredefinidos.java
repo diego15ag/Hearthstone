@@ -157,14 +157,23 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
     private int getNumeroCartas(Mazo m) {
         int cartas = 0;
 
-        for (int i = 0; i < m.getCartas().size(); i++)
-            for (int j = 0; j < JSONManager.Cartas_array.size(); j++)
-                if (m.getCartas().get(i).getId() == JSONManager.Cartas_array.get(j).getId()) {
-                    if (m.getCartas().get(i).getCantidad() == JSONManager.Cartas_array.get(j).getCantidad())
-                        cartas = cartas + JSONManager.Cartas_array.get(j).getCantidad();
-                    else if (m.getCartas().get(i).getCantidad() < JSONManager.Cartas_array.get(j).getCantidad())
-                        cartas = cartas + JSONManager.Cartas_array.get(j).getCantidad() - m.getCartas().get(i).getCantidad();
+        for(int i=0;i<m.getCartas().size();i++){
+
+            Carta necesitada= m.getCartas().get(i);
+            for (int j = 0; j < JSONManager.Cartas_array.size(); j++) {
+                if (necesitada.getId() == JSONManager.Cartas_array.get(j).getId()) {
+                    Carta obtenida = JSONManager.Cartas_array.get(j);
+
+                    if (necesitada.getCantidad() > obtenida.getCantidad()) {
+                        cartas += obtenida.getCantidad();
+                    } else {
+                        cartas += necesitada.getCantidad();
+                    }
+                    break;
                 }
+            }
+
+        }
 
         return cartas;
     }

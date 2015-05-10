@@ -39,6 +39,7 @@
     <string name="hint_nombre_mazo">Name</string>
     <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
+    <string name="title_activity_muestra_carta">MuestraCartaActivity</string>
 
 
 </resources>
