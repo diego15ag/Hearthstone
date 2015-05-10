@@ -289,6 +289,7 @@ public class MainActivity extends ActionBarActivity {
                         c.setCoste(array_cards.getJSONObject(i).getInt("mana"));
                         c.setObtenida(ayudabd.getObtenida(j + 1)); // la bd empieza en 1, la lista en 0
                         c.setCantidad(ayudabd.getCantidad(j + 1));
+                        //array_cards.getJSONObject(i).getJSONObject("values").getInt("0");
                         cAux = c;
                         cartas_array.add(cAux);
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());

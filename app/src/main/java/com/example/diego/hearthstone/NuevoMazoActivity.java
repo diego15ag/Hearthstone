@@ -32,9 +32,11 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
     public static String referencia="referencia";
     public static String mazoClase = "mazoClase";
     public int clase;
+    public int ref;
     public static ArrayList<Carta> cartas;
     public static int RESULT_OK=1;
     public EditText editTextNombre;
+    public String nombreMazo;
 
     private TextView tvNumeroCartas;
     JSONManager ayudabd;
@@ -67,18 +69,14 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 1));
 
         clase = getIntent().getExtras().getInt(mazoClase);
-        int ref = getIntent().getExtras().getInt(referencia);
+        ref = getIntent().getExtras().getInt(referencia);
+        nombreMazo=getIntent().getExtras().getString("NombreMazo");
 
         ImageButton botoncartas= (ImageButton) findViewById(R.id.btAdd);
 
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*for (int i = 0; i < cartas.size(); i++)
-                    if (cartas.get(i).getCantidad() == 0) {
-                        cartas.remove(i);
-                        i=i-1;
-                    }*/
                 Intent i = new Intent(NuevoMazoActivity.this, EleccionCartasMazoActivity.class);
                 i.putExtra("clase", clase);
                 startActivity(i);
@@ -90,6 +88,7 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         InputFilter filters[] = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(15);
         editTextNombre.setFilters(filters);
+        editTextNombre.setText(nombreMazo);
 
     }
 
@@ -109,31 +108,67 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_save) {
+            if (ref==-1) { // guardado de mazo
+                if (JSONManager.Mazos_array == null)
+                    JSONManager.Mazos_array = new ArrayList<Mazo>();
 
-            if(JSONManager.Mazos_array==null)
-                JSONManager.Mazos_array= new ArrayList<Mazo>();
+                if (rva.getNumeroCartas() > 30)
+                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
+                else if (rva.getNumeroCartas() == 0)
+                    Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
+                else if (editTextNombre.getText().toString().equals(""))
+                    Toast.makeText(NuevoMazoActivity.this, "No se puede crear un mazo sin nombre", Toast.LENGTH_SHORT).show();
+                else {
+                    Mazo m = new Mazo(-1, editTextNombre.getText().toString(), false, JSONManager.getNameFromPositionClase(clase), cartas);
+                    JSONManager.Mazos_array.add(m);
+                    ayudabd.creaMazo(m);
+                    Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();
+                    setResult(RESULT_OK);
+                    finish();
+                }
 
-            if(rva.getNumeroCartas()>30)
-                Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos de más de 30 cartas", Toast.LENGTH_SHORT).show();
-            else if (rva.getNumeroCartas()==0)
-                Toast.makeText(NuevoMazoActivity.this, "No se pueden crear mazos sin cartas", Toast.LENGTH_SHORT).show();
-            else if (editTextNombre.getText().toString().equals(""))
-                Toast.makeText(NuevoMazoActivity.this, "No se puede crear un mazo sin nombre", Toast.LENGTH_SHORT).show();
-            else{
-                Mazo m= new Mazo(-1, editTextNombre.getText().toString(), false, JSONManager.getNameFromPositionClase(clase), cartas );
-                JSONManager.Mazos_array.add(m);
-                ayudabd.creaMazo(m);
-                Toast.makeText(NuevoMazoActivity.this, "Mazo " + m.getNombre() + " creado!", Toast.LENGTH_SHORT).show();
-                setResult(RESULT_OK);
-                finish();
+                return true;
             }
-
-            return true;
+            else{ // edicion de mazo
+                if (rva.getNumeroCartas() > 30)
+                    Toast.makeText(NuevoMazoActivity.this, "No se puede editar un mazo y tener más de 30 cartas", Toast.LENGTH_SHORT).show();
+                else if (rva.getNumeroCartas() == 0)
+                    Toast.makeText(NuevoMazoActivity.this, "No se puede editar un mazo y ponerle 0 cartas", Toast.LENGTH_SHORT).show();
+                else if (editTextNombre.getText().toString().equals(""))
+                    Toast.makeText(NuevoMazoActivity.this, "No se puede editar un mazo y no ponerle nombre", Toast.LENGTH_SHORT).show();
+                else {
+                    JSONManager ayudabd = new JSONManager(this);
+                    ayudabd.start();
+                    int pos = buscaPosicionMazoPorID(ref);
+                    ayudabd.borraCartasMazo(ref); // borramos las cartas antiguas
+                    ayudabd.insertaCartasMazo(cartas, ref); // insertamos las cartas nuevas
+                    ayudabd.modificaNombreMazo(ref, editTextNombre.getText().toString());
+                    JSONManager.Mazos_array.get(pos).setCartas(cartas); // modificamos las cartas del mazo en la lista
+                    JSONManager.Mazos_array.get(pos).setNombre(editTextNombre.getText().toString());
+                    Toast.makeText(NuevoMazoActivity.this, "El mazo: " + JSONManager.Mazos_array.get(pos).getNombre()
+                            + " ha sido editado", Toast.LENGTH_SHORT).show();
+                    finish();
+                    return true;
+                }
+            }
         }
         else if(id ==R.id.action_delete){
-            Toast.makeText(NuevoMazoActivity.this, "El mazo no se ha guardado", Toast.LENGTH_SHORT).show();
-            finish();
-            return true;
+            if(ref==-1) {
+                Toast.makeText(NuevoMazoActivity.this, "El mazo no se ha guardado", Toast.LENGTH_SHORT).show();
+                finish();
+                return true;
+            }
+            else {
+                JSONManager ayudabd = new JSONManager(this);
+                ayudabd.start();
+                int pos = buscaPosicionMazoPorID(ref);
+                ayudabd.deleteMazo(JSONManager.Mazos_array.get(pos)); // borramos mazo de la bd
+                Toast.makeText(NuevoMazoActivity.this, "El mazo: " + JSONManager.Mazos_array.get(pos).getNombre()
+                        + " ha sido borrado", Toast.LENGTH_SHORT).show();
+                JSONManager.Mazos_array.remove(pos); // borramos mazo de la lista
+                finish();
+                return true;
+            }
         }
         else if(id==android.R.id.home){
             finish();
@@ -141,6 +176,17 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private int buscaPosicionMazoPorID(int id){
+        int pos=0;
+        for(int i=0;i<JSONManager.Mazos_array.size();i++)
+            if(JSONManager.Mazos_array.get(i).getId()==id){
+                pos=i;
+                break;
+            }
+        return pos;
     }
 
     @Override

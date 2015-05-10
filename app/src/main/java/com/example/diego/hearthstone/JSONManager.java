@@ -277,6 +277,55 @@ public class JSONManager {
         return cantidad;
     }
 
+    public void deleteMazo(Mazo mazo){
+        // borramos las cartas de Carta_Mazo que pertenezcan al mazo
+        String selection = CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(mazo.getId()) };
+        String table_name = CartasManagerContract.Carta_Mazo.TABLE_NAME;
+        dbRW.delete(table_name, selection, selectionArgs);
+
+        // borramos el mazo
+        selection = CartasManagerContract.Mazo._ID + " LIKE ?";
+        String[] selectionArgs2 = { String.valueOf(mazo.getId()) };
+        table_name = CartasManagerContract.Mazo.TABLE_NAME;
+        dbRW.delete(table_name, selection, selectionArgs);
+    }
+
+    public void modificaNombreMazo(int id_mazo, String nuevo_nombre){
+        ContentValues values = new ContentValues();
+        values.put(CartasManagerContract.Mazo.COLUMN_NAME_NAME, nuevo_nombre);
+
+        String selection = CartasManagerContract.Mazo._ID + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(id_mazo) };
+        int count = dbRW.update(
+                CartasManagerContract.Mazo.TABLE_NAME,
+                values,
+                selection,
+                selectionArgs);
+    }
+
+    public void borraCartasMazo(int idmazo){
+        String selection = CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO + " LIKE ?";
+        String[] selectionArgs = { String.valueOf(idmazo) };
+        String table_name = CartasManagerContract.Carta_Mazo.TABLE_NAME;
+        dbRW.delete(table_name, selection, selectionArgs);
+    }
+
+    public void insertaCartasMazo(ArrayList<Carta> cartas, int id_mazo){
+        ContentValues valuescartas = new ContentValues();
+        for (int i=0; i< cartas.size();i++) {
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDCARTA,
+                    cartas.get(i).getId() + 1);
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_IDMAZO, id_mazo);
+            valuescartas.put(CartasManagerContract.Carta_Mazo.COLUMN_NAME_CANTIDAD, cartas.get(i).getCantidad());
+            dbRW.insert(
+                    CartasManagerContract.Carta_Mazo.TABLE_NAME,
+                    null,
+                    valuescartas
+            );
+        }
+    }
+
     public void creaMazo(Mazo mazo){
         ContentValues values = new ContentValues();
         values.put(CartasManagerContract.Mazo.COLUMN_NAME_NAME, mazo.getNombre());
@@ -700,6 +749,27 @@ public class JSONManager {
             return "warlock";
         else
             return "warrior";
+    }
+
+    public static int getPositionFromNameClase(String name){
+        if (name.equals("druid"))
+            return 0;
+        else if (name.equals("hunter"))
+            return 1;
+        else if (name.equals("mage"))
+            return 2;
+        else if (name.equals("paladin"))
+            return 3;
+        else if (name.equals("priest"))
+            return 4;
+        else if (name.equals("rogue"))
+            return 5;
+        else if (name.equals("shaman"))
+            return 6;
+        else if (name.equals("warlock"))
+            return 7;
+        else
+            return 8;
     }
 
     public static ArrayList<Carta> fotos_heroes() {
