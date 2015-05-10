@@ -69,7 +69,10 @@ public class Mazo implements Serializable{
     }
 
     public Mazo clone(){
-        Mazo m= new Mazo(this.id, this.nombre, this.predefinido, this.clase, this.cartas);
+        ArrayList<Carta> cartas2 = new ArrayList<Carta>();
+        for(int i=0; i<this.cartas.size(); i++)
+            cartas2.add(this.cartas.get(i).clone());
+        Mazo m= new Mazo(this.id, this.nombre, this.predefinido, this.clase, cartas2);
         return m;
     }
 
