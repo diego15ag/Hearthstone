@@ -58,6 +58,10 @@
             android:name=".DetallesMazoActivity"
             android:label="@string/title_activity_detalles_mazo" >
         </activity>
+        <activity
+            android:name=".MuestraCartaActivity"
+            android:label="@string/title_activity_muestra_carta" >
+        </activity>
     </application>
 
 </manifest>

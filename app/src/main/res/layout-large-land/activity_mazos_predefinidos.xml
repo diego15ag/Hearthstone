@@ -16,11 +16,24 @@
             android:layout_height="wrap_content"
             layout="@layout/toolbar_layout" />
 
-        <fragment
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:name="com.example.diego.hearthstone.MazosPredefinidosFragment"
-            android:id="@+id/fragment" />
+            android:layout_height="match_parent">
+
+            <fragment
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:name="com.example.diego.hearthstone.MazosPredefinidosFragment"
+                android:id="@+id/fragment"
+                android:layout_weight="1" />
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:id="@+id/containerDetallesMazosPred"></FrameLayout>
+        </LinearLayout>
 
 
     </LinearLayout>
