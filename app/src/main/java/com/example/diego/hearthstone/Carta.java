@@ -15,6 +15,15 @@ public class Carta implements Serializable{
     private int coste;
     private int cantidad;
     private int pesos[] = {0,0,0,0,0,0,0,0,0};
+    private String conjunto;
+
+    public String getConjunto() {
+        return conjunto;
+    }
+
+    public void setConjunto(String conjunto) {
+        this.conjunto = conjunto;
+    }
 
     public void setCantidad(int cantidad) {
         this.cantidad = cantidad;

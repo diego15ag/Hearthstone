@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -207,6 +208,7 @@ public class ActivityArena extends ActionBarActivity {
         int value3 = listaCartas.get(sp3.getSelectedItemPosition()).getPeso(heroClass);
         String url="";
         int ganador=1;
+
         if (value1 >= value2 && value1 >= value3) {
             if(value1==value2)
                 ganador=RandomiceBetweenTwo(1,2);
@@ -222,21 +224,26 @@ public class ActivityArena extends ActionBarActivity {
         } else {
             ganador=3;
         }
-
+        Toast.makeText(this, "Estoy en UpdateWinner" + " valor1: " + String.valueOf(value1)
+                + " valor2: " + String.valueOf(value2) + " valor3: " + String.valueOf(value3) +
+                " con ganador:"+ String.valueOf(ganador) , Toast.LENGTH_SHORT).show();
         switch(ganador){
             case 1:
                 url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl();
+                break;
             case 2:
                 url = listaCartas.get(sp2.getSelectedItemPosition()).getUrl();
+                break;
             case 3:
                 url = listaCartas.get(sp3.getSelectedItemPosition()).getUrl();
+                break;
         }
         ImageLoader.getInstance().displayImage(url, ivW);
     }
 
     public int RandomiceBetweenTwo(int a,int b){
         Random rn = new Random();
-        int n = 10 - 0 + 1;
+        int n = 10 - 0 + 2;
         int i = rn.nextInt() % n;
         if(i<=5){
             return a;

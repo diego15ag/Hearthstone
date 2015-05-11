@@ -51,7 +51,10 @@ public class MainActivity extends ActionBarActivity {
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
-    public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
+    //json actualizado sin pesos
+    //public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
+    // json con algunos pesos
+    public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards-updated.json";
     private String DB_FULL_PATH = "/data/data/com.example.diego.hearthstone/databases/CartasManager.db";
     private JSONManager ayudabd;
 
@@ -272,7 +275,8 @@ public class MainActivity extends ActionBarActivity {
             try {
                 array_cards = json.getJSONArray("cards");
                 Carta cAux;
-
+                JSONObject jsonaux;
+                int[] pesos = new int [9];
                 int j = 0;
                 //int contador_heroes = 0;
                 for (int i = 0; i < array_cards.length(); i++) {
@@ -289,7 +293,17 @@ public class MainActivity extends ActionBarActivity {
                         c.setCoste(array_cards.getJSONObject(i).getInt("mana"));
                         c.setObtenida(ayudabd.getObtenida(j + 1)); // la bd empieza en 1, la lista en 0
                         c.setCantidad(ayudabd.getCantidad(j + 1));
-                        //array_cards.getJSONObject(i).getJSONObject("values").getInt("0");
+                        c.setConjunto(array_cards.getJSONObject(i).getString("set"));
+                        if(array_cards.getJSONObject(i).isNull("values")==false){
+                            jsonaux=array_cards.getJSONObject(i).getJSONObject("values");
+                            for (int k = 0; k < jsonaux.length(); k++) {
+                                pesos[k] = jsonaux.getInt(String.valueOf(k));
+                                System.out.printf("Peso %d con valor %d guardado en carta: %s \n", k,
+                                        jsonaux.getInt(String.valueOf(k)) ,
+                                        array_cards.getJSONObject(i).getString("name"));
+                            }
+                            c.setPesos(pesos);
+                        }
                         cAux = c;
                         cartas_array.add(cAux);
                         //System.out.printf("la carta %s esta obtenida %d veces: \n", c.getNombre(), c.getCantidad());
