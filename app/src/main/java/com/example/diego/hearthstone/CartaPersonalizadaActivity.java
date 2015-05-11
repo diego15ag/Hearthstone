@@ -45,6 +45,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 
 public class CartaPersonalizadaActivity extends ActionBarActivity {
@@ -126,9 +127,7 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
                         startActivity(i3);
                         break;
                 }
-
                 drawerLayout.closeDrawer(layoutDelDrawer);
-
             }
         });
 
@@ -145,94 +144,6 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         cost = 0;
         life = 0;
         damage = 0;
-
-        //Actualizamos la imagen
-        UpdateImage();
-
-        //Boton para tomar una foto nueva
-        Button buttonTakePhoto = (Button) findViewById(R.id.buttonNewPhoto);
-        buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent,TAKE_PHOTO);
-            }
-        });
-
-        //Boton para cargar una foto antígua
-        Button buttonLoadPhoto = (Button)findViewById(R.id.buttonLoadPhoto);
-        buttonLoadPhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, LOAD_PHOTO);
-            }
-        });
-        //boton para rotar
-        buttonRotate = (Button)findViewById(R.id.buttonRotate);
-        //Si no tenemos imagen hacemos invisible el boton de rotar
-        if(imagePhoto==null)
-            buttonRotate.setEnabled(false);
-
-        buttonRotate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                imagePhoto = resizeImage(imagePhoto, imagePhoto.getWidth(), imagePhoto.getHeight(), true);
-                UpdateImage();
-
-            }
-        });
-        //Boton para salvar la foto
-        Button buttonSavePhoto = (Button)findViewById(R.id.buttonSavePhoto);
-        buttonSavePhoto.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                image.setDrawingCacheEnabled(true);
-                saveImageToExternalStorage(image.getDrawingCache());
-                Toast.makeText(getApplicationContext(), "Imagen guardada", Toast.LENGTH_LONG).show();
-            }
-        });
-
-        //Recuperacion de la descripcion e implementacion del listener
-        EditText eTDescription = (EditText)findViewById(R.id.editTextDescription);
-        eTDescription.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                description = s.toString();
-                UpdateImage();
-            }
-        });
-        //Recuperacion del nombre e implementacion del listener y los filtros
-        EditText eTName = (EditText)findViewById(R.id.editTextName);
-        int maxLength = charsPerLine;
-        InputFilter[] filters = new InputFilter[2];
-        filters[0] = new InputFilter.LengthFilter(maxLength);
-        filters[1]= new InputFilter.AllCaps();
-        eTName.setFilters(filters);
-
-        eTName.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                name = s.toString();
-                UpdateImage();
-            }
-        });
-
 
         //Configuracion de los pickers  y sus variables
         Spinner spCost= (Spinner) findViewById(R.id.spinnerCost);
@@ -287,7 +198,6 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
             }
         });
 
-
         //Carga de datos tras recargar actividad
         if(savedInstanceState!=null){
             life = savedInstanceState.getInt(LIFE_KEY);
@@ -298,6 +208,100 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
             spDamage.setSelection(damage);
             imagePhoto = savedInstanceState.getParcelable(SAVED_PHOTO);
         }
+
+        //Actualizamos la imagen
+        UpdateImage();
+
+        //Boton para tomar una foto nueva
+        Button buttonTakePhoto = (Button) findViewById(R.id.buttonNewPhoto);
+        buttonTakePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =  new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent,TAKE_PHOTO);
+            }
+        });
+
+        //Boton para cargar una foto antígua
+        Button buttonLoadPhoto = (Button)findViewById(R.id.buttonLoadPhoto);
+        buttonLoadPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, LOAD_PHOTO);
+            }
+        });
+        //boton para rotar
+        buttonRotate = (Button)findViewById(R.id.buttonRotate);
+        //Si no tenemos imagen hacemos invisible el boton de rotar
+        if(imagePhoto==null)
+            buttonRotate.setEnabled(false);
+
+        buttonRotate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imagePhoto = resizeImage(imagePhoto, imagePhoto.getWidth(), imagePhoto.getHeight(), true);
+                UpdateImage();
+
+            }
+        });
+        //Boton para salvar la foto
+        Button buttonSavePhoto = (Button)findViewById(R.id.buttonSavePhoto);
+        buttonSavePhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                image.setDrawingCacheEnabled(true);
+                saveImageToExternalStorage(image.getDrawingCache());
+                Toast.makeText(getApplicationContext(), "Imagen guardada", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        //Recuperacion de la descripcion e implementacion del listener
+        EditText eTDescription = (EditText)findViewById(R.id.editTextDescription);
+        int maxLength = charsPerLine*5;
+        InputFilter[] filters = new InputFilter[1];
+        filters[0] = new InputFilter.LengthFilter(maxLength);
+        eTDescription.setFilters(filters);
+        eTDescription.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                description = s.toString();
+                UpdateImage();
+            }
+        });
+
+        //Recuperacion del nombre e implementacion del listener y los filtros
+        EditText eTName = (EditText)findViewById(R.id.editTextName);
+        maxLength = charsPerLine;
+        filters = new InputFilter[2];
+        filters[0] = new InputFilter.LengthFilter(maxLength);
+        filters[1]= new InputFilter.AllCaps();
+        eTName.setFilters(filters);
+        eTName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                name = s.toString();
+                UpdateImage();
+            }
+        });
+
+
+
     }
 
     private void saveImageToExternalStorage(Bitmap finalBitmap) {
@@ -394,14 +398,15 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         int charsPerLineDescription = imageBase.getWidth()*3/5/(pixel*3/5);
         pincel.setTextSize(pixel);
         pincel.setTypeface(Typeface.SERIF);
+
         if(description.length()<=charsPerLineDescription)
             comboImage.drawText(description,imageBase.getWidth()/6,imageBase.getHeight()*7/10,pincel);
-        else{
+        else {
             int i;
-            for (i=0;i<description.length()/charsPerLineDescription;i++){
-                comboImage.drawText(description,i*charsPerLineDescription,(i+1)*charsPerLineDescription,imageBase.getWidth()/6,imageBase.getHeight()*7/10+(i*pixel),pincel);
+            for (i = 0; i < description.length() / charsPerLineDescription; i++) {
+                comboImage.drawText(description, i * charsPerLineDescription, (i + 1) * charsPerLineDescription, imageBase.getWidth() / 6, imageBase.getHeight() * 7 / 10 + (i * pixel), pincel);
             }
-            comboImage.drawText(description,i*charsPerLineDescription,description.length(),imageBase.getWidth()/6,imageBase.getHeight()*7/10+(i*pixel),pincel);
+            comboImage.drawText(description, i * charsPerLineDescription, description.length(), imageBase.getWidth() / 6, imageBase.getHeight() * 7 / 10 + (i * pixel), pincel);
         }
 
         //Pintado del nombre
