@@ -296,11 +296,13 @@ public class MainActivity extends ActionBarActivity {
                         c.setConjunto(array_cards.getJSONObject(i).getString("set"));
                         if(array_cards.getJSONObject(i).isNull("values")==false){
                             jsonaux=array_cards.getJSONObject(i).getJSONObject("values");
-                            for (int k = 0; k < jsonaux.length(); k++)
+                            for (int k = 0; k < jsonaux.length(); k++) {
                                 pesos[k] = jsonaux.getInt(String.valueOf(k));
+                                System.out.printf("Peso %d con valor %d guardado en carta: %s \n", k,
+                                        jsonaux.getInt(String.valueOf(k)) ,
+                                        array_cards.getJSONObject(i).getString("name"));
+                            }
                             c.setPesos(pesos);
-                            System.out.printf("Pesos guardados en carta: %s \n",
-                                    array_cards.getJSONObject(i).getString("name") );
                         }
                         cAux = c;
                         cartas_array.add(cAux);
