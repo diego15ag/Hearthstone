@@ -24,6 +24,8 @@ import android.widget.Toast;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -127,6 +129,16 @@ public class ActivityArena extends ActionBarActivity {
         for (int i = 0; i < listaComunes.size(); i++) {
             listaCartas.add(listaComunes.get(i));
         }
+
+        Carta temp;
+        for (int i=0; i < listaCartas.size() -1 ; i++) // ordenacion por orden alfabetico
+            for (int j=i+1; j < listaCartas.size(); j++)
+                    if(listaCartas.get(j).getNombre().compareTo(listaCartas.get(i).getNombre())<0 ) {
+                        temp = listaCartas.get(i);
+                        listaCartas.set(i, listaCartas.get(j));
+                        listaCartas.set(j, temp);
+                    }
+
         //Obtencion de la lista de nombres de cartas
         ArrayList<String> nombres = new ArrayList<String>();
         for (int i = 0; i < listaCartas.size(); i++) {
