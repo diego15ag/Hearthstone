@@ -3,6 +3,7 @@ package com.example.diego.hearthstone;
 import android.app.AlertDialog;
 import android.app.Dialog;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -55,6 +56,9 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     public final int CARTA_RESULTADO=1;
     public final int MAZO_RESULTADO=2;
 
+    private static ProgressDialog pd;
+    private static boolean cargando=false;
+
 
     JSONManager jsonhelp;
 
@@ -69,6 +73,11 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         if(toolbar!=null){
             setSupportActionBar(toolbar);
         }
+
+        if(cargando)
+            pd= ProgressDialog.show(ActivityCollection.this, getResources().getString(R.string.DialogLoading_description),
+                    getResources().getString(R.string.DialogLoading_description));
+
 
         jsonhelp= new JSONManager(getApplicationContext());
         jsonhelp.startBG();
@@ -290,26 +299,13 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
 
+                pd = ProgressDialog.show(ActivityCollection.this, getResources().getString(R.string.DialogLoading_description),
+                        getResources().getString(R.string.DialogLoading_description));
+                cargando=true;
 
-                for(int i=0;i<JSONManager.Cartas_array.size();i++){
+                //Operacion
+                new FijarMaxMin().execute(opcion);
 
-                    int cantidad;
-
-                    if(!opcion)
-                        cantidad=0;
-
-                    else if(JSONManager.Cartas_array.get(i).getTipo().equals("legendary"))
-                        cantidad=1;
-                    else
-                        cantidad=2;
-
-                    JSONManager.Cartas_array.get(i).setCantidad(cantidad);
-                    jsonhelp.setCantidad(cantidad, JSONManager.Cartas_array.get(i).getId());
-
-                    //Actualizacion de lo que se ve
-                    new FiltraLista().execute();
-
-                }
 
                 dialog.dismiss();
 
@@ -506,6 +502,40 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
             VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
 
+        }
+    }
+
+    public class FijarMaxMin extends AsyncTask<Boolean, Void,ArrayList<Carta>> {
+
+        @Override
+        protected ArrayList<Carta> doInBackground(Boolean... params) {
+            boolean opcion= params[0];
+
+            for(int i=0;i<JSONManager.Cartas_array.size();i++){
+
+                int cantidad;
+
+                if(!opcion)
+                    cantidad=0;
+
+                else if(JSONManager.Cartas_array.get(i).getTipo().equals("legendary"))
+                    cantidad=1;
+                else
+                    cantidad=2;
+
+                JSONManager.Cartas_array.get(i).setCantidad(cantidad);
+                jsonhelp.setCantidad(cantidad, JSONManager.Cartas_array.get(i).getId());
+
+            }
+
+            return JSONManager.filtro_clase();
+        }
+
+        protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
+
+            VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
+            pd.dismiss();
+            cargando=false;
         }
     }
 
