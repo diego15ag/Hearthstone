@@ -56,6 +56,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
     public final int MAZO_RESULTADO=2;
 
 
+    JSONManager jsonhelp;
 
 
     @Override
@@ -68,6 +69,9 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         if(toolbar!=null){
             setSupportActionBar(toolbar);
         }
+
+        jsonhelp= new JSONManager(getApplicationContext());
+        jsonhelp.startBG();
 
         if(findViewById(R.id.fragmentContainer)!=null)
             landscape=true;
@@ -234,6 +238,15 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             return true;
         }
 
+        else if(id==R.id.action_max_cards){
+            mostrarDialogoCartasAlMaxMin(true);
+            return true;
+        }
+        else if(id==R.id.action_min_cards){
+            mostrarDialogoCartasAlMaxMin(false);
+            return true;
+        }
+
         else if(id==R.id.action_filter){
             mostrarDialogoClase(pager.getCurrentItem());
             return true;
@@ -255,6 +268,62 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         super.onConfigurationChanged(newConfig);
         // Pass any configuration change to the drawer toggls
         mDrawerToggle.onConfigurationChanged(newConfig);
+    }
+
+
+    private void mostrarDialogoCartasAlMaxMin(final boolean opcion) {
+        //false minimo
+        //true maximo
+
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(R.string.Dialog_max_cards_title);
+
+        if (opcion){
+            dialog.setMessage(R.string.Dialog_max_cards_description);
+        }
+        else{
+            dialog.setMessage(R.string.Dialog_min_cards_description);
+        }
+        dialog.setCancelable(false);
+
+        dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+
+                for(int i=0;i<JSONManager.Cartas_array.size();i++){
+
+                    int cantidad;
+
+                    if(!opcion)
+                        cantidad=0;
+
+                    else if(JSONManager.Cartas_array.get(i).getTipo().equals("legendary"))
+                        cantidad=1;
+                    else
+                        cantidad=2;
+
+                    JSONManager.Cartas_array.get(i).setCantidad(cantidad);
+                    jsonhelp.setCantidad(cantidad, JSONManager.Cartas_array.get(i).getId());
+
+                    //Actualizacion de lo que se ve
+                    new FiltraLista().execute();
+
+                }
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
     }
 
     //metodo que muestra el dialogo de seleccion de clase

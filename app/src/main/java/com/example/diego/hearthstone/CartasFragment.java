@@ -33,6 +33,7 @@ public class CartasFragment extends Fragment implements RecyclerViewAdapterCarta
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true);
 
         // retain this fragment

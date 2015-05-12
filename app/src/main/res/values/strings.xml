@@ -40,6 +40,13 @@
     <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
     <string name="title_activity_muestra_carta">MuestraCartaActivity</string>
+    <string name="action_max_cards">Put max cards values</string>
+    <string name="Dialog_max_cards_title">Caution!</string>
+    <string name="Dialog_max_cards_description">Do you want to put the maximum number of cards?</string>
+    <string name="action_min_cards">Put min cards values</string>
+    <string name="Dialog_min_cards_title">Caution!</string>
+    <string name="Dialog_min_cards_description">Do you want to put the minimum number of cards?</string>
+
 
 
 </resources>

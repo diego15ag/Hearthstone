@@ -7,4 +7,10 @@
         android:title="@string/action_filter"
         android:icon="@drawable/ic_action_filter"
         app:showAsAction="ifRoom|collapseActionView"/>
+
+    <item android:id="@+id/action_max_cards" android:title="@string/action_max_cards"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_min_cards" android:title="@string/action_min_cards"
+        android:orderInCategory="100" app:showAsAction="never" />
+
 </menu>
