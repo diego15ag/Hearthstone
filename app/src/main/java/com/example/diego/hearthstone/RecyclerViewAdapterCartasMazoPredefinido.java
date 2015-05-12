@@ -53,15 +53,17 @@ public class RecyclerViewAdapterCartasMazoPredefinido extends RecyclerView.Adapt
 
         int arcano=0;
 
-        //Si no es de naxxramas
-        if(cartas.get(i).getTipo().equals("common"))
-            arcano=40;
-        else if(cartas.get(i).getTipo().equals("rare"))
-            arcano=100;
-        else if(cartas.get(i).getTipo().equals("epic"))
-            arcano=400;
-        else if(cartas.get(i).getTipo().equals("legendary"))
-            arcano=1600;
+        if(!(cartas.get(i).getConjunto().equals("naxxramas")||
+                cartas.get(i).getConjunto().equals("brm"))) {
+            if (cartas.get(i).getTipo().equals("common"))
+                arcano = 40;
+            else if (cartas.get(i).getTipo().equals("rare"))
+                arcano = 100;
+            else if (cartas.get(i).getTipo().equals("epic"))
+                arcano = 400;
+            else if (cartas.get(i).getTipo().equals("legendary"))
+                arcano = 1600;
+        }
 
         viewHolder.tvArcano.setText(String.valueOf(arcano*cartas.get(i).getCantidad()));
 
@@ -131,5 +133,6 @@ public class RecyclerViewAdapterCartasMazoPredefinido extends RecyclerView.Adapt
 
         return cartas;
     }
+
 
 }

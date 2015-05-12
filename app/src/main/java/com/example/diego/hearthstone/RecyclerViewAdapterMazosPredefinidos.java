@@ -78,8 +78,7 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
 
         viewHolder.tvNumeroCartas.setText(String.valueOf(getNumeroCartas(mazos.get(i))) + "/30");
 
-        viewHolder.tvArcano.setText(String.valueOf(getArcano(mazos.get(i))));
-
+        viewHolder.tvArcano.setText(String.valueOf(getArcanoObtenido(mazos.get(i)))+"/"+String.valueOf(getArcano(mazos.get(i))));
     }
 
 
@@ -138,16 +137,20 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
         int arcano = 0;
 
         for (int i = 0; i < m.getCartas().size(); i++) {
+
             Carta c = m.getCartas().get(i);
-            //if(m.getCartas().get(i).) si no naxxramas
-            if (c.getTipo().equals("common"))
-                arcano += 40;
-            else if (c.getTipo().equals("rare"))
-                arcano += 100;
-            else if (c.getTipo().equals("epic"))
-                arcano += 400;
-            else if (c.getTipo().equals("legendary"))
-                arcano += 1600;
+
+            if(!(m.getCartas().get(i).getConjunto().equals("naxxramas")||
+                    m.getCartas().get(i).getConjunto().equals("brm"))) {
+                if (c.getTipo().equals("common"))
+                    arcano += 40*c.getCantidad();
+                else if (c.getTipo().equals("rare"))
+                    arcano += 100*c.getCantidad();
+                else if (c.getTipo().equals("epic"))
+                    arcano += 400*c.getCantidad();
+                else if (c.getTipo().equals("legendary"))
+                    arcano += 1600*c.getCantidad();
+            }
         }
 
         return arcano;
@@ -176,6 +179,44 @@ public class RecyclerViewAdapterMazosPredefinidos extends RecyclerView.Adapter<R
         }
 
         return cartas;
+    }
+
+    private int getArcanoObtenido(Mazo m) {
+        int arcano = 0;
+
+        for(int i=0;i<m.getCartas().size();i++){
+
+            Carta necesitada= m.getCartas().get(i);
+            for (int j = 0; j < JSONManager.Cartas_array.size(); j++) {
+                if (necesitada.getId() == JSONManager.Cartas_array.get(j).getId()) {
+                    Carta obtenida = JSONManager.Cartas_array.get(j);
+                    int cantidad;
+
+                    if (necesitada.getCantidad() > obtenida.getCantidad()) {
+                        cantidad= obtenida.getCantidad();
+                    } else {
+                        cantidad= necesitada.getCantidad();
+                    }
+
+                    if(!(obtenida.getConjunto().equals("naxxramas")||
+                            obtenida.getConjunto().equals("brm"))) {
+                        if (obtenida.getTipo().equals("common"))
+                            arcano += 40*cantidad;
+                        else if (obtenida.getTipo().equals("rare"))
+                            arcano += 100*cantidad;
+                        else if (obtenida.getTipo().equals("epic"))
+                            arcano += 400*cantidad;
+                        else if (obtenida.getTipo().equals("legendary"))
+                            arcano += 1600*cantidad;
+                    }
+
+                    break;
+                }
+            }
+
+        }
+
+        return arcano;
     }
 
 }
