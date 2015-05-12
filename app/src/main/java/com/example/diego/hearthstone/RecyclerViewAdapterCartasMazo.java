@@ -25,7 +25,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
     private ArrayList<Carta> cartas;
     private Context context;
     public static ArrayList<Carta> cartas_elegidas;
-
+    public ClickListener clickListener;
 
     public RecyclerViewAdapterCartasMazo(ArrayList<Carta> cartas, Context context) {
         this.cartas = cartas;
@@ -34,11 +34,22 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
         asigna_elegidas();
     }
 
+    public void setClickListener(ClickListener clickListener){
+        this.clickListener = clickListener;
+    }
+
     private void asigna_elegidas() {
         for (int i = 0; i < cartas.size(); i++) {
             cartas_elegidas.add(cartas.get(i).clone());
             cartas_elegidas.get(i).setCantidad(0);
         }
+    }
+
+    public int getNumeroCartas(){
+            int cantidad = 0;
+            for (int i = 0; i < cartas_elegidas.size(); i++)
+                cantidad = cantidad + cartas_elegidas.get(i).getCantidad();
+            return cantidad;
     }
 
     @Override
@@ -79,6 +90,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
                 cartas_elegidas.get(i).setCantidad(position);
+                clickListener.cambiadoNumero();
                 /*Toast.makeText(context, "Modificando cantidad de: " + cartas_elegidas.get(i).getNombre()
                         + " en " + Integer.toString(position), Toast.LENGTH_SHORT).show();*/
                 /*int j = 0;
@@ -162,5 +174,6 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
 
     public interface ClickListener {
         public void itemClicked(View view, int position);
+        public void cambiadoNumero();
     }
 }

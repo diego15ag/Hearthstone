@@ -41,7 +41,7 @@ public class JSONManager {
     private SQLiteDatabase dbRW;
     private SQLiteDatabase dbRO;
     //private final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
-    public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards-updated.json";
+    //public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards-updated.json";
     private Context contexto;
     public static int position_clase=0;
     public static int control=0;
