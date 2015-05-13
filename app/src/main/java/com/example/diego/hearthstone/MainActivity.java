@@ -298,9 +298,9 @@ public class MainActivity extends ActionBarActivity {
                             jsonaux=array_cards.getJSONObject(i).getJSONObject("values");
                             for (int k = 0; k < jsonaux.length(); k++) {
                                 pesos[k] = jsonaux.getInt(String.valueOf(k));
-                                System.out.printf("Peso %d con valor %d guardado en carta: %s \n", k,
+                                /*System.out.printf("Peso %d con valor %d guardado en carta: %s \n", k,
                                         jsonaux.getInt(String.valueOf(k)) ,
-                                        array_cards.getJSONObject(i).getString("name"));
+                                        array_cards.getJSONObject(i).getString("name"));*/
                             }
                             c.setPesos(pesos);
                         }

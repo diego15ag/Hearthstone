@@ -29,7 +29,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
     int clase;
     int cantidad_nuevomazo;
     TextView textcantidad;
-    ProgressDialog pd;
+    static ProgressDialog pd;
     private static boolean cargando=false;
 
     @Override
@@ -231,6 +231,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         protected void onPostExecute(Void v){
             pd.dismiss();
             cargando=false;
+            RecyclerViewAdapterCartasMazo.cartas_elegidas=null;
             finish();
         }
 

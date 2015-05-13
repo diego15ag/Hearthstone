@@ -30,8 +30,10 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
     public RecyclerViewAdapterCartasMazo(ArrayList<Carta> cartas, Context context) {
         this.cartas = cartas;
         this.context = context;
-        cartas_elegidas = new ArrayList<Carta>();
-        asigna_elegidas();
+        if(cartas_elegidas==null) {
+            cartas_elegidas = new ArrayList<Carta>();
+            asigna_elegidas();
+        }
     }
 
     public void setClickListener(ClickListener clickListener){
