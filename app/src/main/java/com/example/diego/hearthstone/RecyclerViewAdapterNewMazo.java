@@ -70,7 +70,8 @@ public class RecyclerViewAdapterNewMazo extends RecyclerView.Adapter<RecyclerVie
                     }
 
 
-                    clickListener.cambiadoNumero();
+                    if(clickListener!=null)
+                        clickListener.cambiadoNumero();
                 }
                 /*else
                     cartas.remove(i);*/

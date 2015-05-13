@@ -46,6 +46,10 @@
     <string name="action_min_cards">Put min cards values</string>
     <string name="Dialog_min_cards_title">Caution!</string>
     <string name="Dialog_min_cards_description">Do you want to put the minimum number of cards?</string>
+    <string name="action_select_all">Show all cards</string>
+    <string name="action_select_common">Show common cards</string>
+    <string name="action_select_class">Show class card</string>
+
 
 
 

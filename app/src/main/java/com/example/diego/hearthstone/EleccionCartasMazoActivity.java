@@ -169,7 +169,32 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
+
+        //Aqui habria que mostrar una imagen dependiendo del heroe
+        int id;
+
+        if(clase==0)
+            id=R.mipmap.druida;
+        else if (clase==1)
+            id=R.mipmap.cazador;
+        else if (clase==2)
+            id=R.mipmap.mago;
+        else if (clase==3)
+            id=R.mipmap.paladin;
+        else if (clase==4)
+            id=R.mipmap.sacerdote;
+        else if (clase==5)
+            id=R.mipmap.picaro;
+        else if (clase==6)
+            id=R.mipmap.chaman;
+        else if (clase==7)
+            id=R.mipmap.brujo;
+        else
+            id=R.mipmap.guerrero;
+
+
         getMenuInflater().inflate(R.menu.menu_eleccion_cartas_mazo, menu);
+        menu.findItem(R.id.action_select_class).setIcon(getResources().getDrawable(id));
         return true;
     }
 
@@ -180,8 +205,21 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        //Mostrar todas
+        if (id == R.id.action_select_all) {
+            return true;
+        }
+
+        //Mostrar las comunes
+        else if (id == R.id.action_select_common) {
+
+
+            return true;
+        }
+        //Mostrar las de la clase
+        else if (id == R.id.action_select_class) {
+
+
             return true;
         }
         else if(id==android.R.id.home){
