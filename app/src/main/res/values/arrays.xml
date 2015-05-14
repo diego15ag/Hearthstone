@@ -34,7 +34,7 @@
         <item>Shaman</item>
         <item>Warlock</item>
         <item>Warrior</item>
-        <item>Common</item>
+        <item>All Classes</item>
     </array>
 
     <array name="LifeDamage" >

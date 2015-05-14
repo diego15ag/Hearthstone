@@ -3,6 +3,7 @@ package com.example.diego.hearthstone;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -115,6 +116,10 @@ public class ActivityArena extends ActionBarActivity {
 
         //Recuperacion del heroe elegido
         heroClass = getIntent().getExtras().getInt(HeroSelectionActivity.HeroKey);
+
+        //Reproduce el emote
+        playEmote(heroClass);
+
         sp1 = (Spinner) findViewById(R.id.sp1Pick);
         sp2 = (Spinner) findViewById(R.id.sp2Pick);
         sp3 = (Spinner) findViewById(R.id.sp3Pick);
@@ -324,5 +329,61 @@ public class ActivityArena extends ActionBarActivity {
         outState.putInt(FPOS, sp1.getSelectedItemPosition());
         outState.putInt(SPOS, sp2.getSelectedItemPosition());
         outState.putInt(TPOS, sp3.getSelectedItemPosition());
+    }
+
+    public void playEmote(int hero) {
+
+        MediaPlayer mPlayer = null;
+        int delay = 0;
+
+        switch(hero){
+            case 0:
+                mPlayer=MediaPlayer.create(this,R.raw.druid);
+                delay=2000;
+                break;
+            case 1:
+                mPlayer=MediaPlayer.create(this,R.raw.hunter);
+                delay=2000;
+                break;
+            case 2:
+                mPlayer=MediaPlayer.create(this,R.raw.mage);
+                delay=1500;
+                break;
+            case 3:
+                mPlayer=MediaPlayer.create(this,R.raw.paladin);
+                delay=2000;
+                break;
+            case 4:
+                mPlayer=MediaPlayer.create(this,R.raw.priest);
+                delay=2000;
+                break;
+            case 5:
+                mPlayer=MediaPlayer.create(this,R.raw.rogue);
+                delay=3000;
+                break;
+            case 6:
+                mPlayer=MediaPlayer.create(this,R.raw.shaman);
+                delay=1500;
+                break;
+            case 7:
+                mPlayer=MediaPlayer.create(this,R.raw.warlock);
+                delay=2500;
+                break;
+            case 8:
+                mPlayer=MediaPlayer.create(this,R.raw.warrior);
+                delay=2000;
+                break;
+
+        }
+
+        if (mPlayer != null)
+            mPlayer.start();
+
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mPlayer.release();
     }
 }

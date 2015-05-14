@@ -117,31 +117,6 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
         Carta heroe=rvh.get(position);
         Toast.makeText(getApplicationContext(), heroe.getClase() + " seleccionado", Toast.LENGTH_SHORT).show();
 
-        int id;
-
-        if(position==0)
-            id=R.raw.druid;
-        else if (position==1)
-            id=R.raw.hunter;
-        else if (position==2)
-            id=R.raw.mage;
-        else if (position==3)
-            id=R.raw.paladin;
-        else if (position==4)
-            id=R.raw.priest;
-        else if (position==5)
-            id=R.raw.rogue;
-        else if (position==6)
-            id=R.raw.shaman;
-        else if (position==7)
-            id=R.raw.warlock;
-        else
-            id=R.raw.warrior;
-
-
-        MediaPlayer mediaPlayer=MediaPlayer.create(this,id);
-        mediaPlayer.start();
-
         Intent i = new Intent(HeroSelectionActivity.this, ActivityArena.class);
         i.putExtra(HeroKey,position);
         startActivity(i);
