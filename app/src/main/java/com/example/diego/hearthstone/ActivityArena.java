@@ -145,9 +145,18 @@ public class ActivityArena extends ActionBarActivity {
                     }
 
         //Obtencion de la lista de nombres de cartas
+        int index1=0;
+        int index2=0;
+        int index3=0;
         ArrayList<String> nombres = new ArrayList<String>();
         for (int i = 0; i < listaCartas.size(); i++) {
             nombres.add(listaCartas.get(i).getNombre());
+            if(listaCartas.get(i).getNombre().equals("Ragnaros the Firelord"))
+                index1=i;
+            else if(listaCartas.get(i).getNombre().equals("Deathwing"))
+                index2=i;
+            else if(listaCartas.get(i).getNombre().equals("Nefarian"))
+                index3=i;
         }
         ArrayAdapter<String> nombresAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, nombres);
 
@@ -155,9 +164,9 @@ public class ActivityArena extends ActionBarActivity {
         sp1.setAdapter(nombresAdapter);
         sp2.setAdapter(nombresAdapter);
         sp3.setAdapter(nombresAdapter);
-        sp1.setSelection(0);
-        sp2.setSelection(1);
-        sp3.setSelection(2);
+        sp1.setSelection(index1);
+        sp2.setSelection(index2);
+        sp3.setSelection(index3);
         sp1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -241,9 +250,6 @@ public class ActivityArena extends ActionBarActivity {
         } else {
             ganador=3;
         }
-        Toast.makeText(this, "Estoy en UpdateWinner" + " valor1: " + String.valueOf(value1)
-                + " valor2: " + String.valueOf(value2) + " valor3: " + String.valueOf(value3) +
-                " con ganador:"+ String.valueOf(ganador) , Toast.LENGTH_SHORT).show();
         switch(ganador){
             case 1:
                 url = listaCartas.get(sp1.getSelectedItemPosition()).getUrl();
