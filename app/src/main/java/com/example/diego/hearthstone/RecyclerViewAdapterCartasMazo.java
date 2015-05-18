@@ -26,14 +26,17 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
     private Context context;
     public static ArrayList<Carta> cartas_elegidas;
     public ClickListener clickListener;
+    public static int BIT_COMUNES=0;
 
-    public RecyclerViewAdapterCartasMazo(ArrayList<Carta> cartas, Context context) {
+    public RecyclerViewAdapterCartasMazo(ArrayList<Carta> cartas, ArrayList<Carta> cartasPadre, Context context) {
         this.cartas = cartas;
         this.context = context;
-        if(cartas_elegidas==null) {
+        this.cartas_elegidas = cartasPadre;
+
+        /*if(cartas_elegidas==null) {
             cartas_elegidas = new ArrayList<Carta>();
             asigna_elegidas();
-        }
+        }*/
     }
 
     public void setClickListener(ClickListener clickListener){
@@ -54,6 +57,10 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
             return cantidad;
     }
 
+    public void datasetchanged(){
+        notifyDataSetChanged();
+    }
+
     @Override
     public RecyclerViewAdapterCartasMazo.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view =
@@ -65,7 +72,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
 
     @Override
     public void onBindViewHolder(RecyclerViewAdapterCartasMazo.ViewHolder viewHolder, final int i) {
-        viewHolder.tvNombre.setText(cartas.get(i).getNombre());
+        viewHolder.tvNombre.setText(cartas_elegidas.get(i).getNombre());
 
         int cantidad = cartas_elegidas.get(i).getCantidad();
 
@@ -141,7 +148,7 @@ public class RecyclerViewAdapterCartasMazo extends RecyclerView.Adapter<Recycler
         });
 
         //Obtenemos la url de la imagen mas pequeña
-        String url = cartas.get(i).getUrl();
+        String url = cartas_elegidas.get(i).getUrl();
 
         ImageLoader.getInstance().displayImage(url,viewHolder.ivCarta);
 

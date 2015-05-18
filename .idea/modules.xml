@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Hearthstone.iml" filepath="$PROJECT_DIR$/Hearthstone.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Hearthstone_.iml" filepath="$PROJECT_DIR$/Hearthstone_.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
-
