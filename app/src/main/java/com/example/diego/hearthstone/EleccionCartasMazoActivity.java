@@ -30,9 +30,9 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
     int cantidad_nuevomazo;
     TextView textcantidad;
     static ProgressDialog pd;
-    private static boolean cargando=false;
+    private static boolean cargando = false;
     private ArrayList<Carta> cartas_eleccion;
-    private ArrayList<Carta> cartas_padre;
+    public static ArrayList<Carta> cartas_padre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +44,8 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             setSupportActionBar(toolbar);
         }
 
-        if(cargando)
-            pd= ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
+        if (cargando)
+            pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
                     getResources().getString(R.string.DialogLoading_description));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -63,10 +63,11 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         clase = getIntent().getExtras().getInt("clase");
 
         cartas_eleccion = new ArrayList<Carta>();
-        cartas_padre = new ArrayList<Carta>();
+        if (cartas_padre == null)
+            cartas_padre = new ArrayList<Carta>();
         pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
                 getResources().getString(R.string.DialogLoading_description));
-        cargando=true;
+        cargando = true;
         new Manipula_Array().execute(cartas_eleccion);
 
 
@@ -76,7 +77,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             @Override
             public void onClick(View v) {
 
-                cargando=true;
+                cargando = true;
                 pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
                         getResources().getString(R.string.DialogLoading_description));
                 new ResuelveConflicto().execute();
@@ -98,17 +99,15 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
                             NuevoMazoActivity.cartas.get(j).setCantidad(NuevoMazoActivity.cartas.get(j).getCantidad() +
                                     cartas_padre.get(i).getCantidad());
                             flag = true;
-                        }
-                        else if (j == NuevoMazoActivity.cartas.size() - 1 && flag == false) { // la carta i elegida no esta en el array de cartas del mazo
+                        } else if (j == NuevoMazoActivity.cartas.size() - 1 && flag == false) { // la carta i elegida no esta en el array de cartas del mazo
                             NuevoMazoActivity.cartas.add(cartas_padre.get(i).clone());
                             j++;
-                            flag=true;
+                            flag = true;
                         }
                     }
                 }
             }
-        }
-        else {
+        } else {
             for (int i = 0; i < cartas_padre.size(); i++)
                 if (cartas_padre.get(i).getCantidad() != 0)
                     NuevoMazoActivity.cartas.add(cartas_padre.get(i).clone());
@@ -116,19 +115,19 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         OrdenaNuevoMazo(NuevoMazoActivity.cartas);
     }
 
-    private void OrdenaNuevoMazo(ArrayList<Carta> cartas){
+    private void OrdenaNuevoMazo(ArrayList<Carta> cartas) {
         Carta temp;
-        for (int i=0; i < cartas.size() -1 ; i++) // ordenacion por coste
-            for (int j=i+1; j < cartas.size(); j++)
-                if(cartas.get(j).getCoste()< cartas.get(i).getCoste()){
+        for (int i = 0; i < cartas.size() - 1; i++) // ordenacion por coste
+            for (int j = i + 1; j < cartas.size(); j++)
+                if (cartas.get(j).getCoste() < cartas.get(i).getCoste()) {
                     temp = cartas.get(i);
-                    cartas.set(i,cartas.get(j) );
+                    cartas.set(i, cartas.get(j));
                     cartas.set(j, temp);
                 }
-        for (int i=0; i < cartas.size() -1 ; i++) // ordenacion por orden alfabetico
-            for (int j=i+1; j < cartas.size(); j++)
-                if(cartas.get(j).getCoste() == cartas.get(i).getCoste())
-                    if(cartas.get(j).getNombre().compareTo(cartas.get(i).getNombre())<0 ) {
+        for (int i = 0; i < cartas.size() - 1; i++) // ordenacion por orden alfabetico
+            for (int j = i + 1; j < cartas.size(); j++)
+                if (cartas.get(j).getCoste() == cartas.get(i).getCoste())
+                    if (cartas.get(j).getNombre().compareTo(cartas.get(i).getNombre()) < 0) {
                         temp = cartas.get(i);
                         cartas.set(i, cartas.get(j));
                         cartas.set(j, temp);
@@ -172,24 +171,24 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         //Aqui habria que mostrar una imagen dependiendo del heroe
         int id;
 
-        if(clase==0)
-            id=R.mipmap.druida;
-        else if (clase==1)
-            id=R.mipmap.cazador;
-        else if (clase==2)
-            id=R.mipmap.mago;
-        else if (clase==3)
-            id=R.mipmap.paladin;
-        else if (clase==4)
-            id=R.mipmap.sacerdote;
-        else if (clase==5)
-            id=R.mipmap.picaro;
-        else if (clase==6)
-            id=R.mipmap.chaman;
-        else if (clase==7)
-            id=R.mipmap.brujo;
+        if (clase == 0)
+            id = R.mipmap.druida;
+        else if (clase == 1)
+            id = R.mipmap.cazador;
+        else if (clase == 2)
+            id = R.mipmap.mago;
+        else if (clase == 3)
+            id = R.mipmap.paladin;
+        else if (clase == 4)
+            id = R.mipmap.sacerdote;
+        else if (clase == 5)
+            id = R.mipmap.picaro;
+        else if (clase == 6)
+            id = R.mipmap.chaman;
+        else if (clase == 7)
+            id = R.mipmap.brujo;
         else
-            id=R.mipmap.guerrero;
+            id = R.mipmap.guerrero;
 
 
         getMenuInflater().inflate(R.menu.menu_eleccion_cartas_mazo, menu);
@@ -227,8 +226,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
             return true;
-        }
-        else if(id==android.R.id.home){
+        } else if (id == android.R.id.home) {
             finish();
             return true;
         }
@@ -236,24 +234,16 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         return super.onOptionsItemSelected(item);
     }
 
-   /* private void actualiza_padre(){
-        for(int i=0; i<RecyclerViewAdapterCartasMazo.cartas_elegidas.size();i++)
-            for(int j=0; j<cartas_padre.size(); j++)
-                if(RecyclerViewAdapterCartasMazo.cartas_elegidas.get(i).getId()==cartas_padre.get(j).getId())
 
-
-    }*/
-
-    private ArrayList<Carta> giveFiltro(int clase){
+    private ArrayList<Carta> giveFiltro(int clase) {
         ArrayList<Carta> cartas = new ArrayList<Carta>();
         String Clase = JSONManager.getNameFromPositionClase(clase);
-        if(clase==9) {
+        if (clase == 9) {
             for (int i = 0; i < cartas_eleccion.size(); i++)
                 if (cartas_eleccion.get(i).getClase().equals("neutral"))
                     cartas.add(cartas_eleccion.get(i));
             return cartas;
-        }
-        else {
+        } else {
             for (int i = 0; i < cartas_eleccion.size(); i++)
                 if (cartas_eleccion.get(i).getClase().equals(Clase))
                     cartas.add(cartas_eleccion.get(i));
@@ -261,16 +251,15 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         }
     }
 
-    private ArrayList<Carta> giveFiltroPadre(int clase){
+    private ArrayList<Carta> giveFiltroPadre(int clase) {
         ArrayList<Carta> cartas = new ArrayList<Carta>();
         String Clase = JSONManager.getNameFromPositionClase(clase);
-        if(clase==9) {
+        if (clase == 9) {
             for (int i = 0; i < cartas_padre.size(); i++)
                 if (cartas_padre.get(i).getClase().equals("neutral"))
                     cartas.add(cartas_padre.get(i));
             return cartas;
-        }
-        else {
+        } else {
             for (int i = 0; i < cartas_padre.size(); i++)
                 if (cartas_padre.get(i).getClase().equals(Clase))
                     cartas.add(cartas_padre.get(i));
@@ -306,9 +295,9 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         textcantidad.setText(getNumeroCartasPadre() + "/" + cantidad_nuevomazo);
     }
 
-    public int getNumeroCartasPadre(){
-        int cantidad=0;
-        for(int i=0; i<cartas_padre.size();i++)
+    public int getNumeroCartasPadre() {
+        int cantidad = 0;
+        for (int i = 0; i < cartas_padre.size(); i++)
             cantidad = cantidad + cartas_padre.get(i).getCantidad();
         return cantidad;
     }
@@ -320,41 +309,43 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             ResuelveConflicto();
             return null;
         }
+
         @Override
-        protected void onPostExecute(Void v){
+        protected void onPostExecute(Void v) {
             pd.dismiss();
-            cargando=false;
-            RecyclerViewAdapterCartasMazo.cartas_elegidas=null;
+            cargando = false;
             finish();
         }
 
     }
 
-    public class Manipula_Array extends AsyncTask<ArrayList<Carta>, Void, ArrayList<Carta>>{
+    public class Manipula_Array extends AsyncTask<ArrayList<Carta>, Void, ArrayList<Carta>> {
 
         @Override
         protected ArrayList<Carta> doInBackground(ArrayList<Carta>... params) {
             ManipulaArray(params[0], clase);
-            for(int i=0; i<cartas_eleccion.size();i++) {
-                cartas_padre.add(cartas_eleccion.get(i).clone());
-                cartas_padre.get(i).setCantidad(0);
+            if (cartas_padre.size()==0) {
+                for (int i = 0; i < cartas_eleccion.size(); i++) {
+                    cartas_padre.add(cartas_eleccion.get(i).clone());
+                    cartas_padre.get(i).setCantidad(0);
+                }
             }
             return params[0];
         }
 
         @Override
-        protected void onPostExecute(ArrayList<Carta> cartas_eleccion){
+        protected void onPostExecute(ArrayList<Carta> cartas_eleccion) {
             pd.dismiss();
-            cargando=false;
+            cargando = false;
             rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
-            textcantidad = (TextView ) findViewById(R.id.tvCuenta);
-            cantidad_nuevomazo=0;
-            for(int i=0; i<NuevoMazoActivity.cartas.size();i++)
-                cantidad_nuevomazo= cantidad_nuevomazo + NuevoMazoActivity.cartas.get(i).getCantidad();
-            cantidad_nuevomazo= 30 - cantidad_nuevomazo;
-            textcantidad.setText(rva.getNumeroCartas() + "/" + cantidad_nuevomazo);
+            textcantidad = (TextView) findViewById(R.id.tvCuenta);
+            cantidad_nuevomazo = 0;
+            for (int i = 0; i < NuevoMazoActivity.cartas.size(); i++)
+                cantidad_nuevomazo = cantidad_nuevomazo + NuevoMazoActivity.cartas.get(i).getCantidad();
+            cantidad_nuevomazo = 30 - cantidad_nuevomazo;
+            textcantidad.setText(getNumeroCartasPadre() + "/" + cantidad_nuevomazo);
         }
     }
 

@@ -77,6 +77,7 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
         botoncartas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                EleccionCartasMazoActivity.cartas_padre=null;
                 Intent i = new Intent(NuevoMazoActivity.this, EleccionCartasMazoActivity.class);
                 i.putExtra("clase", clase);
                 startActivity(i);
