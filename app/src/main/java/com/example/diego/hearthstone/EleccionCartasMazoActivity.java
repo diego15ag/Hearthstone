@@ -33,6 +33,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
     private static boolean cargando = false;
     private ArrayList<Carta> cartas_eleccion;
     public static ArrayList<Carta> cartas_padre;
+    private static int vfiltro = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
 
         //Mostrar todas
         if (id == R.id.action_select_all) {
+            vfiltro=0;
             rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
@@ -213,7 +215,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
 
         //Mostrar las comunes
         else if (id == R.id.action_select_common) {
-            //RecyclerViewAdapterCartasMazo.cartas_elegidas=null;
+            vfiltro=1;
             rva = new RecyclerViewAdapterCartasMazo(giveFiltro(9), giveFiltroPadre(9), getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
@@ -221,7 +223,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         }
         //Mostrar las de la clase
         else if (id == R.id.action_select_class) {
-            //RecyclerViewAdapterCartasMazo.cartas_elegidas=null;
+            vfiltro=2;
             rva = new RecyclerViewAdapterCartasMazo(giveFiltro(clase), giveFiltroPadre(clase), getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
@@ -314,6 +316,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         protected void onPostExecute(Void v) {
             pd.dismiss();
             cargando = false;
+            vfiltro=0;
             finish();
         }
 
@@ -324,7 +327,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         @Override
         protected ArrayList<Carta> doInBackground(ArrayList<Carta>... params) {
             ManipulaArray(params[0], clase);
-            if (cartas_padre.size()==0) {
+            if (cartas_padre.size() == 0) {
                 for (int i = 0; i < cartas_eleccion.size(); i++) {
                     cartas_padre.add(cartas_eleccion.get(i).clone());
                     cartas_padre.get(i).setCantidad(0);
@@ -337,7 +340,13 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         protected void onPostExecute(ArrayList<Carta> cartas_eleccion) {
             pd.dismiss();
             cargando = false;
-            rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
+            if (vfiltro == 0)
+                rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
+            else if (vfiltro == 1) // comunes
+                rva = new RecyclerViewAdapterCartasMazo(giveFiltro(9), giveFiltroPadre(9), getApplicationContext());
+            else
+                rva = new RecyclerViewAdapterCartasMazo(giveFiltro(clase), giveFiltroPadre(clase),
+                        getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
             textcantidad = (TextView) findViewById(R.id.tvCuenta);
