@@ -324,7 +324,6 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         }
         catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(getApplicationContext(),"aqui hay un problema", Toast.LENGTH_SHORT);
         }
 
 
