@@ -38,12 +38,6 @@ import java.util.Random;
 public class ActivityArena extends ActionBarActivity {
 
 
-    private DrawerLayout drawerLayout;
-    private ListView lvDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private LinearLayout layoutDelDrawer;
-
-
     private static String FPOS ="pos1";
     private static String SPOS ="pos2";
     private static String TPOS ="pos3";
@@ -59,63 +53,24 @@ public class ActivityArena extends ActionBarActivity {
     ArrayList<Carta> listaCartas;
 
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_arena);
+
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-        //Codigo para el drawer
-        layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        lvDrawerLayout = (ListView) findViewById(R.id.left_drawer);
-        lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.NavigationDrawerValues)));
-
-
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
-
-            /**
-             * Called when a drawer has settled in a completely closed state.
-             */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
-            }
-
-            /**
-             * Called when a drawer has settled in a completely open state.
-             */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-            }
-        };
-        drawerLayout.setDrawerListener(mDrawerToggle);
-
-        lvDrawerLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (position) {
-                    case 0:
-                        Intent i = new Intent(ActivityArena.this, ActivityCollection.class);
-                        startActivity(i);
-                        break;
-                    case 1:
-                        Intent i1 = new Intent(ActivityArena.this, CartaPersonalizadaActivity.class);
-                        startActivity(i1);
-                        break;
-                    case 2:
-                        Intent i2 = new Intent(ActivityArena.this, HeroSelectionActivity.class);
-                        startActivity(i2);
-                        break;
-                }
-                drawerLayout.closeDrawer(layoutDelDrawer);
-            }
-        });
 
         //Recuperacion del heroe elegido
         heroClass = getIntent().getExtras().getInt(HeroSelectionActivity.HeroKey);
+
+        if(savedInstanceState==null){
+            playEmote(heroClass);
+        }
 
         sp1 = (Spinner) findViewById(R.id.sp1Pick);
         sp2 = (Spinner) findViewById(R.id.sp2Pick);
@@ -272,12 +227,6 @@ public class ActivityArena extends ActionBarActivity {
             return b;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -286,26 +235,11 @@ public class ActivityArena extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == android.R.id.home) {
+            finish();
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggls
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -334,5 +268,59 @@ public class ActivityArena extends ActionBarActivity {
         outState.putInt(TPOS, sp3.getSelectedItemPosition());
     }
 
+    public void playEmote(int hero) {
 
+        MediaPlayer mPlayer = null;
+        int delay = 0;
+
+        switch(hero){
+            case 0:
+                mPlayer=MediaPlayer.create(this,R.raw.druid);
+                delay=2000;
+                break;
+            case 1:
+                mPlayer=MediaPlayer.create(this,R.raw.hunter);
+                delay=2000;
+                break;
+            case 2:
+                mPlayer=MediaPlayer.create(this,R.raw.mage);
+                delay=1500;
+                break;
+            case 3:
+                mPlayer=MediaPlayer.create(this,R.raw.paladin);
+                delay=2000;
+                break;
+            case 4:
+                mPlayer=MediaPlayer.create(this,R.raw.priest);
+                delay=2000;
+                break;
+            case 5:
+                mPlayer=MediaPlayer.create(this,R.raw.rogue);
+                delay=3000;
+                break;
+            case 6:
+                mPlayer=MediaPlayer.create(this,R.raw.shaman);
+                delay=1500;
+                break;
+            case 7:
+                mPlayer=MediaPlayer.create(this,R.raw.warlock);
+                delay=2500;
+                break;
+            case 8:
+                mPlayer=MediaPlayer.create(this,R.raw.warrior);
+                delay=2000;
+                break;
+
+        }
+
+        if (mPlayer != null)
+            mPlayer.start();
+
+        try {
+            Thread.sleep(delay);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        mPlayer.release();
+    }
 }

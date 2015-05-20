@@ -223,14 +223,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_activity_collection, menu);
-
-        return true;
-    }
-
-    @Override
     public Object onRetainCustomNonConfigurationInstance() {
         return VPadapter.cartasFragment;
     }
@@ -242,12 +234,7 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        else if(id==R.id.action_max_cards){
+        if(id==R.id.action_max_cards){
             mostrarDialogoCartasAlMaxMin(true);
             return true;
         }

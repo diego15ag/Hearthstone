@@ -26,6 +26,7 @@
                 android:cropToPadding="false"
                 android:src="@mipmap/brujo" />
 
+
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="wrap_content"
@@ -39,15 +40,29 @@
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Nuevo mazo 1"
                     android:id="@+id/tvMazo" />
-
-                <TextView
+                <LinearLayout
+                    android:orientation="horizontal"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="30/30"
-                    android:id="@+id/tvNCartas"
-                    android:layout_gravity="center_vertical"
-                    android:paddingLeft="20dp" />
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/ivCartas"
+                        android:src="@mipmap/card_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceLarge"
+                        android:text="30/30"
+                        android:id="@+id/tvNCartas"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="5dp" />
+
+                </LinearLayout>
+
+
 
             </LinearLayout>
 

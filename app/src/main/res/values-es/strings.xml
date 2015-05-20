@@ -30,6 +30,7 @@
     <string name="title_activity_hero_selection">Arena</string>
     <string name="disconnected_title">Desconectado</string>
     <string name="disconnected_message">No hay conexión. La aplicación se detendrá.</string>
+    <string name="more_than_30">No se pueden crear mazos con más de 30 cartas.</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -37,7 +38,7 @@
     <string name="button_carta">Añadir cartas</string>
     <string name="title_activity_activity_arena">Arena</string>
     <string name="hint_nombre_mazo">Nombre</string>
-    <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
+    <string name="title_activity_mazos_predefinidos">Mazos predefinidos</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
 
 

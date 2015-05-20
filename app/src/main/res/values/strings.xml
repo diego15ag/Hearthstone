@@ -30,6 +30,7 @@
     <string name="title_activity_hero_selection">Arena</string>
     <string name="disconnected_title">Disconnected</string>
     <string name="disconnected_message">Connection lost. Application will be closed.</string>
+    <string name="more_than_30">Decks cannot have more than 30 cards.</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -37,7 +38,7 @@
     <string name="button_carta">Add cards</string>
     <string name="title_activity_activity_arena">Arena</string>
     <string name="hint_nombre_mazo">Name</string>
-    <string name="title_activity_mazos_predefinidos">MazosPredefinidosActivity</string>
+    <string name="title_activity_mazos_predefinidos">Premade Decks</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
     <string name="title_activity_muestra_carta">MuestraCartaActivity</string>
     <string name="action_max_cards">Put max cards values</string>

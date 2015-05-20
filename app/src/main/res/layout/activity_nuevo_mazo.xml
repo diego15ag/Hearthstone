@@ -41,7 +41,7 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="23/30"
                 android:id="@+id/tvCuenta"
-                android:textSize="40dp"
+                android:textSize="30dp"
                 android:layout_gravity="center_vertical|right"
                 android:textStyle="bold"
                 android:textColor="@android:color/white"

@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -44,6 +45,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         if (cargando)
             pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
@@ -78,11 +80,15 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             @Override
             public void onClick(View v) {
 
-                cargando = true;
-                pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
-                        getResources().getString(R.string.DialogLoading_description));
-                new ResuelveConflicto().execute();
-
+                if(getNumeroCartasPadre() > cantidad_nuevomazo){
+                    Toast.makeText(getApplicationContext(), R.string.more_than_30, Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    cargando = true;
+                    pd = ProgressDialog.show(EleccionCartasMazoActivity.this, getResources().getString(R.string.DialogLoading_description),
+                            getResources().getString(R.string.DialogLoading_description));
+                    new ResuelveConflicto().execute();
+                }
             }
         });
     }
@@ -204,17 +210,8 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //Mostrar todas
-        if (id == R.id.action_select_all) {
-            vfiltro=0;
-            rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
-            rva.setClickListener(EleccionCartasMazoActivity.this);
-            recyclerView.setAdapter(rva);
-            return true;
-        }
-
         //Mostrar las comunes
-        else if (id == R.id.action_select_common) {
+        if (id == R.id.action_select_common) {
             vfiltro=1;
             rva = new RecyclerViewAdapterCartasMazo(giveFiltro(9), giveFiltroPadre(9), getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
@@ -222,13 +219,14 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             return true;
         }
         //Mostrar las de la clase
-        else if (id == R.id.action_select_class) {
-            vfiltro=2;
+        if (id == R.id.action_select_class) {
+            vfiltro=0;
             rva = new RecyclerViewAdapterCartasMazo(giveFiltro(clase), giveFiltroPadre(clase), getApplicationContext());
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
             return true;
-        } else if (id == android.R.id.home) {
+        }
+        if (id == android.R.id.home) {
             finish();
             return true;
         }
@@ -294,7 +292,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
 
     @Override
     public void cambiadoNumero() {
-        textcantidad.setText(getNumeroCartasPadre() + "/" + cantidad_nuevomazo);
+        textcantidad.setText(getNumeroCartasPadre() + (30 - cantidad_nuevomazo) + "/" + 30);
     }
 
     public int getNumeroCartasPadre() {
@@ -341,12 +339,12 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
             pd.dismiss();
             cargando = false;
             if (vfiltro == 0)
-                rva = new RecyclerViewAdapterCartasMazo(cartas_eleccion, cartas_padre, getApplicationContext());
-            else if (vfiltro == 1) // comunes
-                rva = new RecyclerViewAdapterCartasMazo(giveFiltro(9), giveFiltroPadre(9), getApplicationContext());
-            else
                 rva = new RecyclerViewAdapterCartasMazo(giveFiltro(clase), giveFiltroPadre(clase),
                         getApplicationContext());
+            else if (vfiltro == 1) // comunes
+                rva = new RecyclerViewAdapterCartasMazo(giveFiltro(9), giveFiltroPadre(9), getApplicationContext());
+
+
             rva.setClickListener(EleccionCartasMazoActivity.this);
             recyclerView.setAdapter(rva);
             textcantidad = (TextView) findViewById(R.id.tvCuenta);
