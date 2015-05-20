@@ -28,6 +28,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -38,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks,MazosFragment.Callbacks{
+public class ActivityCollection extends ActionBarActivity implements  CartasFragment.Callbacks,MazosFragment.Callbacks,DetallesMazosPredefinidoFragment.OnFragmentInteractionListener{
 
     //para el drawer
     private DrawerLayout drawerLayout;
@@ -126,11 +127,12 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             public void onPageSelected(int i) {
                 if (i == 1) {
                     //Pestaña mazos
-                    if(landscape){
-                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
-                                newInstance(JSONManager.filtro_clase().get(0));
-                        getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+
+                    if(landscape) {
+                        if(JSONManager.Mazos_array.size()>0) {
+                            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                        }
                     }
 
                 } else if (i == 0) {
@@ -218,6 +220,8 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
             getSupportFragmentManager().beginTransaction()
                     .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
         }
+
+
 
     }
 
@@ -469,13 +473,26 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
     @Override
     public void onMazoSelected(Mazo m) { // detalles mazo
-        Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
-        Intent i = new Intent(this, NuevoMazoActivity.class);
-        i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
-        i.putExtra(NuevoMazoActivity.referencia, m.getId());
-        i.putExtra("NombreMazo", m.getNombre());
-        NuevoMazoActivity.cartas= m.getCartas();
-        startActivity(i);
+        if(landscape){
+
+                DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(m);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+
+        }
+        else {
+            Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
+            Intent i = new Intent(this, NuevoMazoActivity.class);
+            i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
+            i.putExtra(NuevoMazoActivity.referencia, m.getId());
+            i.putExtra("NombreMazo", m.getNombre());
+            NuevoMazoActivity.cartas = m.getCartas();
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void detallesCarta(Carta c) {
+
     }
 
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
