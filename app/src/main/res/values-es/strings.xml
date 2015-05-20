@@ -41,6 +41,7 @@
     <string name="Toast_been_deleted">ha sido borrado</string>
     <string name="Toast_been_updated">ha sido modificado</string>
     <string name="Toast_been_created">creado!</string>
+    <string name="Toast_Photo">La imagen se ha guardado</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->

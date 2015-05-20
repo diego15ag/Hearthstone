@@ -137,6 +137,8 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
 
         //Recuperacion de la zona de pintado
         image = (ImageView)findViewById(R.id.imageID);
+        image.setDrawingCacheEnabled(true);
+
 
         //Inicializacion de valores por defecto
         description = "";
@@ -251,9 +253,10 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         buttonSavePhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                image.setDrawingCacheEnabled(true);
+                image.buildDrawingCache();
                 saveImageToExternalStorage(image.getDrawingCache());
-                Toast.makeText(getApplicationContext(), "Imagen guardada", Toast.LENGTH_LONG).show();
+                image.destroyDrawingCache();
+                Toast.makeText(getApplicationContext(), R.string.Toast_Photo, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -310,8 +313,9 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         myDir.mkdirs();
         String fname = "Image-" + name + ".jpg";
         File file = new File(myDir, fname);
-        if (file.exists())
+        if (file.exists()) {
             file.delete();
+        }
         try {
             FileOutputStream out = new FileOutputStream(file);
             finalBitmap.compress(Bitmap.CompressFormat.JPEG, 90, out);
@@ -320,6 +324,7 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
         }
         catch (Exception e) {
             e.printStackTrace();
+            Toast.makeText(getApplicationContext(),"aqui hay un problema", Toast.LENGTH_SHORT);
         }
 
 

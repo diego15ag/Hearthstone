@@ -58,6 +58,7 @@
     <string name="Toast_been_deleted">has been deleted</string>
     <string name="Toast_been_updated">has been updated</string>
     <string name="Toast_been_created">created!</string>
+    <string name="Toast_Photo">Image has been saved</string>
 
 
 
