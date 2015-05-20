@@ -469,7 +469,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
     @Override
     public void onMazoSelected(Mazo m) { // detalles mazo
-        Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
         Intent i = new Intent(this, NuevoMazoActivity.class);
         i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
         i.putExtra(NuevoMazoActivity.referencia, m.getId());

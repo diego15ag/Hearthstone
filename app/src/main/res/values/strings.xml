@@ -41,15 +41,24 @@
     <string name="title_activity_mazos_predefinidos">Premade Decks</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
     <string name="title_activity_muestra_carta">MuestraCartaActivity</string>
-    <string name="action_max_cards">Put max cards values</string>
+    <string name="action_max_cards">Collection complete</string>
     <string name="Dialog_max_cards_title">Caution!</string>
     <string name="Dialog_max_cards_description">Do you want to put the maximum number of cards?</string>
-    <string name="action_min_cards">Put min cards values</string>
+    <string name="action_min_cards">I have no cards</string>
     <string name="Dialog_min_cards_title">Caution!</string>
     <string name="Dialog_min_cards_description">Do you want to put the minimum number of cards?</string>
     <string name="action_select_all">Show all cards</string>
     <string name="action_select_common">Show common cards</string>
     <string name="action_select_class">Show class card</string>
+    <string name="Toast_no_cards_create">Decks with no cards cannot be created</string>
+    <string name="Toast_no_cards_edit">Decks cannot be updated with zero cards</string>
+    <string name="Toast_no_name_create">Decks with no name cannot be created</string>
+    <string name="Toast_no_name_edit">Decks cannot be updated with empty name</string>
+    <string name="Toast_delete_save">The deck did not save</string>
+    <string name="Toast_been_deleted">has been deleted</string>
+    <string name="Toast_been_updated">has been updated</string>
+    <string name="Toast_been_created">created!</string>
+
 
 
 
