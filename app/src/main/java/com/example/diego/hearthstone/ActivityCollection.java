@@ -221,8 +221,6 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
                     .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
         }
 
-
-
     }
 
 
@@ -480,19 +478,18 @@ public class ActivityCollection extends ActionBarActivity implements  CartasFrag
 
         }
         else {
-            Toast.makeText(this, "mazo: " + m.getNombre() + " seleccionado para edicion", Toast.LENGTH_SHORT).show();
             Intent i = new Intent(this, NuevoMazoActivity.class);
             i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
             i.putExtra(NuevoMazoActivity.referencia, m.getId());
             i.putExtra("NombreMazo", m.getNombre());
-            NuevoMazoActivity.cartas = m.getCartas();
+            NuevoMazoActivity.cartas= m.getCartas();
             startActivity(i);
         }
     }
 
     @Override
     public void detallesCarta(Carta c) {
-
+        
     }
 
     public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
