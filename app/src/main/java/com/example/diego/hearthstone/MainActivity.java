@@ -260,6 +260,9 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                             DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
                             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
                         }
+                        else
+                            getSupportFragmentManager().beginTransaction()
+                                    .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
                     }
 
                 } else if (i == 0) {
@@ -293,16 +296,25 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
             landscape=true;
         else landscape=false;
 
-        //Para que se muestre en el fragmento detalles al iniciarse la primera carta
-        if(pager.getCurrentItem()==0&&landscape){
-            //JSONManager.position_clase=0;
+        if(landscape) {
+            //Para que se muestre en el fragmento detalles al iniciarse la primera carta
+            if (pager.getCurrentItem() == 0) {
+                //JSONManager.position_clase=0;
 
-            DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
-                    newInstance(JSONManager.filtro_clase().get(0));
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+                DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                        newInstance(JSONManager.filtro_clase().get(0));
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+            } else if (pager.getCurrentItem() == 1) {
+                if (JSONManager.Mazos_array.size() > 0) {
+                    DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                } else
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
+
+            }
         }
-
 
     }
 
@@ -521,7 +533,18 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
             }
         }else if (requestCode==MAZO_RESULTADO){
+            if (landscape) {
+                if (JSONManager.Mazos_array.size() > 0) {
+                    DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                }
+                else
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
+            }
+
             pager.setCurrentItem(1);
+
         }
 
     }
