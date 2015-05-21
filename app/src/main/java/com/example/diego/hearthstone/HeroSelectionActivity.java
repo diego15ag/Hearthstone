@@ -73,7 +73,7 @@ public class HeroSelectionActivity extends ActionBarActivity implements Recycler
 
                 switch (position){
                     case 0:
-                        Intent i=new Intent(HeroSelectionActivity.this,ActivityCollection.class);
+                        Intent i=new Intent(HeroSelectionActivity.this,MainActivity.class);
                         startActivity(i);
                         break;
                     case 1:

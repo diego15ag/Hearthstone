@@ -113,7 +113,7 @@ public class CartaPersonalizadaActivity extends ActionBarActivity {
 
                 switch (position){
                     case 0:
-                        Intent i=new Intent(CartaPersonalizadaActivity.this,ActivityCollection.class);
+                        Intent i=new Intent(CartaPersonalizadaActivity.this,MainActivity.class);
                         startActivity(i);
                         break;
                     case 1:

@@ -74,7 +74,7 @@ public class MazosPredefinidosActivity extends ActionBarActivity implements Mazo
 
                 switch (position) {
                     case 0:
-                        Intent i = new Intent(MazosPredefinidosActivity.this, ActivityCollection.class);
+                        Intent i = new Intent(MazosPredefinidosActivity.this, MainActivity.class);
                         startActivity(i);
                         break;
                     case 1:

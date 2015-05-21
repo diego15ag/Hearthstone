@@ -1,23 +1,24 @@
 package com.example.diego.hearthstone;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteException;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.internal.view.menu.ActionMenuItemView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,13 +45,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements  CartasFragment.Callbacks,MazosFragment.Callbacks,DetallesMazosPredefinidoFragment.OnFragmentInteractionListener{
 
 
     private DrawerLayout drawerLayout;
     private ListView lvDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private LinearLayout layoutDelDrawer;
+    private Toolbar toolbar;
     //json actualizado sin pesos
     //public final String url_cards = "https://dl.dropboxusercontent.com/u/16678562/all-cards.json";
     // json con algunos pesos
@@ -60,9 +62,29 @@ public class MainActivity extends ActionBarActivity {
 
     private static boolean cargado=false;
 
+    private static boolean cargando=false;
     static ProgressDialog progressDialog;
 
     SharedPreferences sp;
+
+    RellenaLista_JSON rellenaLista_json;
+
+
+    ViewPager pager;
+    ViewPagerAdapter VPadapter;
+    SlidingTabLayout tabs;
+    CharSequence Titles[];
+    int Numboftabs =2;
+    private boolean landscape;
+
+    AlertDialog.Builder dialog;
+
+    JSONManager jsonhelp;
+
+    public final int CARTA_RESULTADO=1;
+    public final int MAZO_RESULTADO=2;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,10 +106,15 @@ public class MainActivity extends ActionBarActivity {
 
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
         }
+
+        if(cargando)
+            progressDialog= ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_description),
+                    getResources().getString(R.string.DialogLoading_description));
+
 
         sp=getSharedPreferences("Preferencias",MODE_PRIVATE);
 
@@ -102,8 +129,13 @@ public class MainActivity extends ActionBarActivity {
                 .build();
         ImageLoader.getInstance().init(config);
 
+        if(findViewById(R.id.fragmentContainer)!=null)
+            landscape=true;
+        else landscape=false;
+
         if (isOnline()) {
             ayudabd = new JSONManager(MainActivity.this);
+
             if (!sp.getBoolean("BDCargada",false)) {
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                         getResources().getString(R.string.DialogLoading_description));
@@ -113,9 +145,12 @@ public class MainActivity extends ActionBarActivity {
             else if(!cargado){
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                         getResources().getString(R.string.DialogLoading_description));
-                new RellenaLista_JSON().execute(url_cards);
+                rellenaLista_json= (RellenaLista_JSON) new RellenaLista_JSON().execute(url_cards);
             }
+            else
+                cargarVistaActividad();
         }
+
 
 
         layoutDelDrawer = (LinearLayout) findViewById(R.id.layoutDelDrawer);
@@ -124,51 +159,187 @@ public class MainActivity extends ActionBarActivity {
         lvDrawerLayout.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.NavigationDrawerValues)));
 
 
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
+        if(toolbar!=null) {
+            mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close) {
 
-            /** Called when a drawer has settled in a completely closed state. */
-            public void onDrawerClosed(View view) {
-                super.onDrawerClosed(view);
+                /**
+                 * Called when a drawer has settled in a completely closed state.
+                 */
+                public void onDrawerClosed(View view) {
+                    super.onDrawerClosed(view);
 
-            }
-
-            /** Called when a drawer has settled in a completely open state. */
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-
-            }
-        };
-        drawerLayout.setDrawerListener(mDrawerToggle);
-
-        lvDrawerLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                switch (position) {
-                    case 0:
-                        Intent i = new Intent(MainActivity.this, ActivityCollection.class);
-                        startActivity(i);
-                        break;
-                    case 1:
-                        Intent i1 = new Intent(MainActivity.this, CartaPersonalizadaActivity.class);
-                        startActivity(i1);
-                        break;
-                    case 2:
-                        Intent i2 = new Intent(MainActivity.this, HeroSelectionActivity.class);
-                        startActivity(i2);
-                        break;
-                    case 3:
-                        Intent i3=new Intent(MainActivity.this,MazosPredefinidosActivity.class);
-                        startActivity(i3);
-                        break;
                 }
 
-                drawerLayout.closeDrawer(layoutDelDrawer);
+                /**
+                 * Called when a drawer has settled in a completely open state.
+                 */
+                public void onDrawerOpened(View drawerView) {
+                    super.onDrawerOpened(drawerView);
 
+                }
+            };
+            drawerLayout.setDrawerListener(mDrawerToggle);
+
+            lvDrawerLayout.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    switch (position) {
+                        case 0:
+                            break;
+                        case 1:
+                            Intent i1 = new Intent(MainActivity.this, CartaPersonalizadaActivity.class);
+                            startActivity(i1);
+                            break;
+                        case 2:
+                            Intent i2 = new Intent(MainActivity.this, HeroSelectionActivity.class);
+                            startActivity(i2);
+                            break;
+                        case 3:
+                            Intent i3 = new Intent(MainActivity.this, MazosPredefinidosActivity.class);
+                            startActivity(i3);
+                            break;
+                    }
+
+                    drawerLayout.closeDrawer(layoutDelDrawer);
+
+                }
+            });
+        }
+
+    }
+
+    public void cargarVistaActividad(){
+
+        jsonhelp= new JSONManager(getApplicationContext());
+        jsonhelp.startBG();
+
+        Titles = getResources().getStringArray(R.array.TabTitles);
+
+        // Creating The ViewPagerAdapter and Passing Fragment Manager, Titles fot the Tabs and Number Of Tabs.
+        VPadapter = new ViewPagerAdapter(getSupportFragmentManager(), Titles, Numboftabs);
+
+        CartasFragment saver = (CartasFragment) getLastCustomNonConfigurationInstance();
+        if (saver != null) {
+            VPadapter.cartasFragment=saver;
+        }
+
+        // Assigning ViewPager View and setting the adapter
+        pager = (ViewPager) findViewById(R.id.pager);
+        pager.setAdapter(VPadapter);
+
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.tabsScrollColor);
             }
         });
 
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
+
+
+        tabs.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i1) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+                if (i == 1) {
+                    //Pestaña mazos
+
+                    if (landscape) {
+                        if (JSONManager.Mazos_array.size() > 0) {
+                            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                        }
+                    }
+
+                } else if (i == 0) {
+                    //Pestaña cartas
+                    if (landscape) {
+                        Carta carta;
+
+
+                        if (VPadapter.cartasFragment.cartaselect == null)
+                            carta = JSONManager.filtro_clase().get(0);
+
+                        else carta = VPadapter.cartasFragment.cartaselect;
+
+                        DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                                newInstance(carta);
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+
+
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+            }
+        });
+
+
+        if(findViewById(R.id.fragmentContainer)!=null)
+            landscape=true;
+        else landscape=false;
+
+        //Para que se muestre en el fragmento detalles al iniciarse la primera carta
+        if(pager.getCurrentItem()==0&&landscape){
+            //JSONManager.position_clase=0;
+
+            DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                    newInstance(JSONManager.filtro_clase().get(0));
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+        }
+
+
     }
+
+    @Override
+    public Object onRetainCustomNonConfigurationInstance() {
+
+        if (cargado)
+            return VPadapter.cartasFragment;
+
+        else return null;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id==R.id.action_max_cards){
+            mostrarDialogoCartasAlMaxMin(true);
+            return true;
+        }
+        else if(id==R.id.action_min_cards){
+            mostrarDialogoCartasAlMaxMin(false);
+            return true;
+        }
+
+        else if(id==R.id.action_filter){
+            mostrarDialogoClase(pager.getCurrentItem());
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+
 
 
 
@@ -187,7 +358,7 @@ public class MainActivity extends ActionBarActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private boolean checkDataBase() {
+    /*private boolean checkDataBase() {
         SQLiteDatabase checkDB = null;
         try {
             checkDB = SQLiteDatabase.openDatabase(DB_FULL_PATH, null,
@@ -197,6 +368,279 @@ public class MainActivity extends ActionBarActivity {
             // database doesn't exist yet.
         }
         return checkDB != null ? true : false;
+    }*/
+
+    private void mostrarDialogoCartasAlMaxMin(final boolean opcion) {
+        //false minimo
+        //true maximo
+
+        dialog = new AlertDialog.Builder(this);
+
+        dialog.setTitle(R.string.Dialog_max_cards_title);
+
+        if (opcion){
+            dialog.setMessage(R.string.Dialog_max_cards_description);
+        }
+        else{
+            dialog.setMessage(R.string.Dialog_min_cards_description);
+        }
+        dialog.setCancelable(false);
+
+        dialog.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+
+                progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_description),
+                        getResources().getString(R.string.DialogLoading_description));
+                cargando = true;
+
+                //Operacion
+                new FijarMaxMin().execute(opcion);
+
+
+                dialog.dismiss();
+
+
+            }
+        });
+
+        dialog.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+            }
+        });
+
+        dialog.show();
+    }
+
+    //metodo que muestra el dialogo de seleccion de clase
+    private void mostrarDialogoClase(int seleccion){
+        final Dialog d = new Dialog(MainActivity.this);
+
+        String [] contenido={};
+
+        //Si estamos en la pestaña de cartas
+        if(seleccion==0) {
+            //Para mostrar las opciones que se corresponderian con carta
+            d.setTitle(getResources().getString(R.string.select_clase));
+            d.setContentView(R.layout.dialogo_sel_clase);
+
+            contenido=getResources().getStringArray(R.array.ClasesHearthstoneCartas);
+            ListView lvSeleccion= (ListView) d.findViewById(R.id.lvSeleccionClase);
+            lvSeleccion.setAdapter(new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,contenido));
+            lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                    //Cambiar el icono en la toolbar de la clase
+                    ActionMenuItemView item= (ActionMenuItemView) findViewById(R.id.action_filter);
+
+                    if(position==0)
+                        item.setIcon(getResources().getDrawable(R.mipmap.druida));
+
+                    else if(position==1)
+                        item.setIcon(getResources().getDrawable(R.mipmap.cazador));
+
+                    else if(position==2)
+                        item.setIcon(getResources().getDrawable(R.mipmap.mago));
+
+                    else if(position==3)
+                        item.setIcon(getResources().getDrawable(R.mipmap.paladin));
+
+                    else if(position==4)
+                        item.setIcon(getResources().getDrawable(R.mipmap.sacerdote));
+
+                    else if(position==5)
+                        item.setIcon(getResources().getDrawable(R.mipmap.picaro));
+
+                    else if(position==6)
+                        item.setIcon(getResources().getDrawable(R.mipmap.chaman));
+
+                    else if(position==7)
+                        item.setIcon(getResources().getDrawable(R.mipmap.brujo));
+
+                    else if(position==8)
+                        item.setIcon(getResources().getDrawable(R.mipmap.guerrero));
+
+                    else
+                        item.setIcon(getResources().getDrawable(R.mipmap.hearthstone_logo));
+
+                    //Filtrar las cartas por su clase
+                    JSONManager.position_clase=position;
+                    new FiltraLista().execute();
+
+                    //Para mostrar la primera carta en el fragento detalles
+                    if(landscape){
+                        DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.
+                                newInstance(JSONManager.filtro_clase().get(0));
+                        getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+                    }
+
+                    //Se cierra el dialogo
+                    d.dismiss();
+                }
+            });
+
+            d.show();
+        }
+
+    }
+
+    //Si se selecciona una carta en la pestaña de cartas
+    @Override
+    public void onCardSelected(Carta carta) {
+        //Habria que ver si se inicia un fragmento o una actividad
+        Log.i("carta", carta.getNombre());
+
+        //Si no estamos en landscape abrimos una actividad
+        if(!landscape) {
+            Intent i = new Intent(MainActivity.this, DetallesCartaActivity.class);
+            i.putExtra(DetallesCartaActivity.imagen, carta);
+            startActivityForResult(i, CARTA_RESULTADO);
+        }
+        //Si si lo estamos modificamos el fragmento
+        else{
+            DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.newInstance(carta);
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode==CARTA_RESULTADO){
+            if(landscape){
+                Carta c= (Carta) data.getSerializableExtra(DetallesCartaActivity.CARTA);
+
+                DetallesCartaFragment detallesCartaFragment=DetallesCartaFragment.newInstance(c);
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+
+                VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
+            }
+        }else if (requestCode==MAZO_RESULTADO){
+            pager.setCurrentItem(1);
+        }
+
+    }
+
+    @Override
+    public void onNewDeck() {
+        final Dialog d = new Dialog(MainActivity.this);
+
+        String[] contenido = {};
+
+        //Si estamos en la pestaña de cartas
+        //Para mostrar las opciones que se corresponderian con carta
+        d.setTitle(getResources().getString(R.string.select_clase));
+        d.setContentView(R.layout.dialogo_sel_clase);
+
+        contenido = getResources().getStringArray(R.array.ClasesHearthstone);
+        ListView lvSeleccion = (ListView) d.findViewById(R.id.lvSeleccionClase);
+        lvSeleccion.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, contenido));
+        lvSeleccion.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Cambiar el icono en la toolbar de la clase
+                ActionMenuItemView item = (ActionMenuItemView) findViewById(R.id.action_filter);
+
+
+
+                //Para mostrar la primera carta en el fragento detalles
+                if (landscape) {
+                    DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
+                            newInstance(JSONManager.filtro_clase().get(0));
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+                }
+
+                //Se cierra el dialogo
+                if(NuevoMazoActivity.cartas!=null)
+                    NuevoMazoActivity.cartas = new ArrayList<Carta>();
+                Intent i = new Intent(MainActivity.this, NuevoMazoActivity.class);
+                i.putExtra(NuevoMazoActivity.mazoClase, position);
+                i.putExtra(NuevoMazoActivity.referencia, -1);
+                i.putExtra("NombreMazo", "");
+                startActivityForResult(i, MAZO_RESULTADO);
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
+
+    @Override
+    public void onMazoSelected(Mazo m) { // detalles mazo
+        if(landscape){
+
+            DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(m);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+
+        }
+        else {
+            Intent i = new Intent(this, NuevoMazoActivity.class);
+            i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
+            i.putExtra(NuevoMazoActivity.referencia, m.getId());
+            i.putExtra("NombreMazo", m.getNombre());
+            NuevoMazoActivity.cartas= m.getCartas();
+            startActivity(i);
+        }
+    }
+
+    @Override
+    public void detallesCarta(Carta c) {
+        Intent i= new Intent(MainActivity.this,MuestraCartaActivity.class);
+        i.putExtra(MuestraCartaActivity.CARTA,c);
+        startActivity(i);
+    }
+
+    public class FiltraLista extends AsyncTask<Void, Void, ArrayList<Carta>> {
+
+        @Override
+        protected ArrayList<Carta> doInBackground(Void... params) {
+            return JSONManager.filtro_clase();
+        }
+
+        protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
+
+            VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
+
+        }
+    }
+
+    public class FijarMaxMin extends AsyncTask<Boolean, Void,ArrayList<Carta>> {
+
+        @Override
+        protected ArrayList<Carta> doInBackground(Boolean... params) {
+            boolean opcion= params[0];
+
+            for(int i=0;i<JSONManager.Cartas_array.size();i++){
+
+                int cantidad;
+
+                if(!opcion)
+                    cantidad=0;
+
+                else if(JSONManager.Cartas_array.get(i).getTipo().equals("legendary"))
+                    cantidad=1;
+                else
+                    cantidad=2;
+
+                JSONManager.Cartas_array.get(i).setCantidad(cantidad);
+                jsonhelp.setCantidad(cantidad, JSONManager.Cartas_array.get(i).getId());
+
+            }
+
+            return JSONManager.filtro_clase();
+        }
+
+        protected void onPostExecute(ArrayList<Carta> cartas_filtradas){
+
+            VPadapter.cartasFragment.cambiarLista(cartas_filtradas);
+            progressDialog.dismiss();
+            cargando=false;
+        }
     }
 
     public void rellena() {
@@ -320,9 +764,10 @@ public class MainActivity extends ActionBarActivity {
         protected void onPostExecute(ArrayList<Carta> objeto_cartas) {
 
             System.out.printf("Lista cargada \n");
+
+            cargarVistaActividad();
             cargado=true;
             progressDialog.dismiss();
-            //finish();
         }
 
     }
@@ -334,5 +779,15 @@ public class MainActivity extends ActionBarActivity {
         return (networkInfo != null && networkInfo.isConnected());
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
 
+        if(progressDialog!=null)
+            progressDialog.dismiss();
+
+        if(rellenaLista_json!=null)
+            rellenaLista_json.cancel(true);
+
+    }
 }
