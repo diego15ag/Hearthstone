@@ -86,22 +86,25 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         viewHolder.ibEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), NuevoMazoActivity.class);
+
+                if(clickListener!=null)
+                    clickListener.editaMazo(mazos.get(i).clone());
+                /*Intent intent = new Intent(v.getContext(), NuevoMazoActivity.class);
                 Mazo m = mazos.get(i);
                 intent.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
                 intent.putExtra(NuevoMazoActivity.referencia, m.getId());
                 intent.putExtra("NombreMazo", m.getNombre());
                 NuevoMazoActivity.cartas= m.getCartas();
-                v.getContext().startActivity(intent);
+                v.getContext().startActivity(intent);*/
             }
         });
 
-        if (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE ||
+        /*if (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE ||
                 (Configuration.SCREENLAYOUT_SIZE_MASK&context.getResources().getConfiguration().screenLayout)
                         !=Configuration.SCREENLAYOUT_SIZE_LARGE){
             viewHolder.ibEdit.setClickable(false);
             viewHolder.ibEdit.setVisibility(View.INVISIBLE);
-        }
+        }*/
     }
 
 
@@ -153,6 +156,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
 
     public interface ClickListener {
         public void itemClicked(View view, int position);
+        public void editaMazo(Mazo m);
     }
 
 }

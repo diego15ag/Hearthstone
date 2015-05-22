@@ -570,15 +570,6 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 ActionMenuItemView item = (ActionMenuItemView) findViewById(R.id.action_filter);
 
 
-
-                //Para mostrar la primera carta en el fragento detalles
-                if (landscape) {
-                    DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
-                            newInstance(JSONManager.filtro_clase().get(0));
-                    getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
-                }
-
                 //Se cierra el dialogo
                 if(NuevoMazoActivity.cartas!=null)
                     NuevoMazoActivity.cartas = new ArrayList<Carta>();
@@ -601,14 +592,16 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
 
         }
-        else {
-            Intent i = new Intent(this, NuevoMazoActivity.class);
-            i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
-            i.putExtra(NuevoMazoActivity.referencia, m.getId());
-            i.putExtra("NombreMazo", m.getNombre());
-            NuevoMazoActivity.cartas= m.getCartas();
-            startActivity(i);
-        }
+    }
+
+    @Override
+    public void editaMazo(Mazo m) {
+        Intent i = new Intent(this, NuevoMazoActivity.class);
+        i.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
+        i.putExtra(NuevoMazoActivity.referencia, m.getId());
+        i.putExtra("NombreMazo", m.getNombre());
+        NuevoMazoActivity.cartas= m.getCartas();
+        startActivity(i);
     }
 
     @Override

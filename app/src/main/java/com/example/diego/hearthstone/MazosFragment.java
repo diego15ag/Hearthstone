@@ -66,13 +66,21 @@ public class MazosFragment extends Fragment implements RecyclerViewAdapterMazos.
     public void itemClicked(View view, int position) {
         //Abrir los detalles del mazo
         Mazo m=rva.get(position).clone();
-        mCallback.onMazoSelected(m);
+        if(mCallback!=null)
+            mCallback.onMazoSelected(m);
+    }
+
+    @Override
+    public void editaMazo(Mazo m) {
+        if(mCallback!=null)
+            mCallback.editaMazo(m);
     }
 
 
     public interface Callbacks {
         public void onNewDeck();
         public void onMazoSelected(Mazo m);
+        public void editaMazo(Mazo m);
     }
 
     @Override
