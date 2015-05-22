@@ -1,12 +1,15 @@
 package com.example.diego.hearthstone;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -80,6 +83,25 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         viewHolder.ivMazo.setImageDrawable(context.getResources().getDrawable(id));
 
 
+        viewHolder.ibEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), NuevoMazoActivity.class);
+                Mazo m = mazos.get(i);
+                intent.putExtra(NuevoMazoActivity.mazoClase, JSONManager.getPositionFromNameClase(m.getClase()));
+                intent.putExtra(NuevoMazoActivity.referencia, m.getId());
+                intent.putExtra("NombreMazo", m.getNombre());
+                NuevoMazoActivity.cartas= m.getCartas();
+                v.getContext().startActivity(intent);
+            }
+        });
+
+        if (context.getResources().getConfiguration().orientation != Configuration.ORIENTATION_LANDSCAPE ||
+                (Configuration.SCREENLAYOUT_SIZE_MASK&context.getResources().getConfiguration().screenLayout)
+                        !=Configuration.SCREENLAYOUT_SIZE_LARGE){
+            viewHolder.ibEdit.setClickable(false);
+            viewHolder.ibEdit.setVisibility(View.INVISIBLE);
+        }
     }
 
 
@@ -104,6 +126,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
         public ImageView ivMazo;
         public TextView tvNombre;
         public TextView tvNCartas;
+        public ImageButton ibEdit;
 
 
         public ViewHolder(View itemView) {
@@ -112,6 +135,7 @@ public class RecyclerViewAdapterMazos extends RecyclerView.Adapter<RecyclerViewA
             this.ivMazo= (ImageView) itemView.findViewById(R.id.ivMazo);
             this.tvNombre= (TextView) itemView.findViewById(R.id.tvMazo);
             this.tvNCartas= (TextView) itemView.findViewById(R.id.tvNCartas);
+            this.ibEdit= (ImageButton) itemView.findViewById(R.id.imageButtonEdit);
 
             itemView.setOnClickListener(this);
         }
