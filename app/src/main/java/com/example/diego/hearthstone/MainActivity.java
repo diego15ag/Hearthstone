@@ -519,6 +519,22 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (pager != null)
+            if (pager.getCurrentItem() == 1 && landscape) {
+                if (JSONManager.Mazos_array.size() > 0) {
+                    DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                } else
+                    getSupportFragmentManager().beginTransaction()
+                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
+            }
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
