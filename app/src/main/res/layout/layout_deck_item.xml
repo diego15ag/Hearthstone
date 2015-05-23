@@ -29,7 +29,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="414dp"
+                android:layout_width="302dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingLeft="10dp">
@@ -68,7 +68,7 @@
 
             <LinearLayout
                 android:orientation="vertical"
-                android:layout_width="fill_parent"
+                android:layout_width="174dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical|right">
