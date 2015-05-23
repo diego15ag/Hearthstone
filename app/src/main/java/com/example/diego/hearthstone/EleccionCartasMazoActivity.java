@@ -55,8 +55,7 @@ public class EleccionCartasMazoActivity extends ActionBarActivity implements Rec
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
 
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
-                (Configuration.SCREENLAYOUT_SIZE_MASK & getResources().getConfiguration().screenLayout)
+        if ((Configuration.SCREENLAYOUT_SIZE_MASK & getResources().getConfiguration().screenLayout)
                         == Configuration.SCREENLAYOUT_SIZE_LARGE)
             recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
 
