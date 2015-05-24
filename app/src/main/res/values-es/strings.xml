@@ -19,6 +19,14 @@
     <string name="CustomPhoto_RotatePhoto">Rotar</string>
     <string name="CustomPhoto_LoadPhoto">Cargar Foto</string>
     <string name="CustomPhoto_SaveImage">Guardar Imagen</string>
+    <string name="Dialog_max_cards_title">¡Cuidado!</string>
+    <string name="Dialog_max_cards_description">¿Quieres rellenar la colección?</string>
+    <string name="Dialog_min_cards_title">¡Cuidado!</string>
+    <string name="Dialog_min_cards_description">¿Quieres vaciar la colección?</string>
+    <string name="action_select_all">Mostrar todas las cartas</string>
+    <string name="action_select_common">Mostrar cartas comunes</string>
+    <string name="action_select_class">Mostrar cartas de clase</string>
+    <string name="title_activity_muestra_carta"></string>
     <string name="CustomPhoto_Damage">Daño</string>
     <string name="CustomPhoto_Life">Vida</string>
     <string name="CustomPhoto_Cost">Coste</string>

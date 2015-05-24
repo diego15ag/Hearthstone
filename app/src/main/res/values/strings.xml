@@ -40,7 +40,6 @@
     <string name="hint_nombre_mazo">Name</string>
     <string name="title_activity_mazos_predefinidos">Premade Decks</string>
     <string name="title_activity_detalles_mazo">DetallesMazoActivity</string>
-    <string name="title_activity_muestra_carta">MuestraCartaActivity</string>
     <string name="action_max_cards">Collection complete</string>
     <string name="Dialog_max_cards_title">Caution!</string>
     <string name="Dialog_max_cards_description">Do you want to set the number of cards to maximum?</string>
@@ -48,6 +47,7 @@
     <string name="Dialog_min_cards_title">Caution!</string>
     <string name="Dialog_min_cards_description">Do you want to set the number of cards to minimum?</string>
     <string name="action_select_all">Show all cards</string>
+    <string name="title_activity_muestra_carta"></string>
     <string name="action_select_common">Show common cards</string>
     <string name="action_select_class">Show class card</string>
     <string name="Toast_no_cards_create">Decks with no cards cannot be created</string>
