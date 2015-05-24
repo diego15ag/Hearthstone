@@ -11,6 +11,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -109,6 +110,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_activity_mazos));
         }
 
         if(cargando)
@@ -527,11 +529,13 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 if (JSONManager.Mazos_array.size() > 0) {
                     DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
-                } else
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
+                } else {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    if (fragment != null)
+                        getSupportFragmentManager().beginTransaction()
+                                .remove(fragment).commit();
+                }
             }
-
     }
 
     @Override
@@ -549,17 +553,21 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
             }
         }else if (requestCode==MAZO_RESULTADO){
-            if (landscape) {
-                if (JSONManager.Mazos_array.size() > 0) {
-                    DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+            if(pager!=null) {
+                if (landscape) {
+                    if (JSONManager.Mazos_array.size() > 0) {
+                        DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                    } else {
+                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                        if(fragment!=null)
+                            getSupportFragmentManager().beginTransaction()
+                                .remove(fragment).commit();
+                    }
                 }
-                else
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
-            }
 
-            pager.setCurrentItem(1);
+                pager.setCurrentItem(1);
+            }
 
         }
 
