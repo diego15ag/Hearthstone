@@ -7,10 +7,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -68,6 +70,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     SharedPreferences sp;
 
     RellenaLista_JSON rellenaLista_json;
+    JSONManager.RellenaBD_JSON bd;
 
 
     ViewPager pager;
@@ -109,6 +112,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(getResources().getString(R.string.title_activity_activity_mazos));
         }
 
         if(cargando)
@@ -139,8 +143,17 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
             if (!sp.getBoolean("BDCargada",false)) {
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
                         getResources().getString(R.string.DialogLoading_description));
-                JSONManager.RellenaBD_JSON bd = ayudabd.new RellenaBD_JSON();
+                bd = ayudabd.new RellenaBD_JSON();
                 bd.execute(url_cards, this);
+
+                //Bloqueamos la orientacion
+                int currentOrientation = getResources().getConfiguration().orientation;
+                if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+                }
+                else {
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
+                }
             }
             else if(!cargado){
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
@@ -304,7 +317,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
                         newInstance(JSONManager.filtro_clase().get(0));
                 getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
+                        .add(R.id.fragmentContainer, detallesCartaFragment).commit();
             } else if (pager.getCurrentItem() == 1) {
                 if (JSONManager.Mazos_array.size() > 0) {
                     DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
@@ -321,7 +334,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     @Override
     public Object onRetainCustomNonConfigurationInstance() {
 
-        if (cargado)
+        if (cargado&&VPadapter.cartasFragment!=null)
             return VPadapter.cartasFragment;
 
         else return null;
@@ -527,11 +540,13 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 if (JSONManager.Mazos_array.size() > 0) {
                     DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
-                } else
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
+                } else {
+                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                    if (fragment != null)
+                        getSupportFragmentManager().beginTransaction()
+                                .remove(fragment).commit();
+                }
             }
-
     }
 
     @Override
@@ -549,17 +564,21 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 VPadapter.cartasFragment.recyclerView.scrollToPosition(0);
             }
         }else if (requestCode==MAZO_RESULTADO){
-            if (landscape) {
-                if (JSONManager.Mazos_array.size() > 0) {
-                    DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
-                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+            if(pager!=null) {
+                if (landscape) {
+                    if (JSONManager.Mazos_array.size() > 0) {
+                        DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
+                        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
+                    } else {
+                        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentContainer);
+                        if(fragment!=null)
+                            getSupportFragmentManager().beginTransaction()
+                                .remove(fragment).commit();
+                    }
                 }
-                else
-                    getSupportFragmentManager().beginTransaction()
-                            .remove(getSupportFragmentManager().findFragmentById(R.id.fragmentContainer)).commit();
-            }
 
-            pager.setCurrentItem(1);
+                pager.setCurrentItem(1);
+            }
 
         }
 
@@ -676,7 +695,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     }
 
     public void rellena() {
-
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         new RellenaLista_JSON().execute(url_cards);
     }
 
@@ -820,6 +839,11 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
 
         if(rellenaLista_json!=null)
             rellenaLista_json.cancel(true);
+        if(bd!=null)
+            bd.cancel(true);
 
     }
-}
+
+    }
+
+

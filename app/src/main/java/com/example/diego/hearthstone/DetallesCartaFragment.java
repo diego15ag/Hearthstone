@@ -15,6 +15,8 @@ import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.lang.reflect.Field;
+
 
 public class DetallesCartaFragment extends Fragment {
 
@@ -49,7 +51,7 @@ public class DetallesCartaFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_detalles_carta, container, false);
         ImageView ivCarta= (ImageView) view.findViewById(R.id.ivCarta);
 
-        ImageLoader.getInstance().displayImage(url_imagen,ivCarta);
+        ImageLoader.getInstance().displayImage(url_imagen, ivCarta);
 
         /*JSONManager ayudabd = new JSONManager(getActivity());
         JSONManager.DownloadImageTask im = ayudabd.new DownloadImageTask(ivCarta);
@@ -75,4 +77,5 @@ public class DetallesCartaFragment extends Fragment {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         return (networkInfo != null && networkInfo.isConnected());
     }
+
 }
