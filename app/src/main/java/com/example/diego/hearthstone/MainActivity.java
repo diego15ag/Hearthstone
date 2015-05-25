@@ -316,12 +316,20 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
             if (pager.getCurrentItem() == 0) {
                 //JSONManager.position_clase=0;
 
+                Carta carta;
+                if (VPadapter.cartasFragment.cartaselect == null)
+                    carta = JSONManager.filtro_clase().get(0);
+
+                else carta = VPadapter.cartasFragment.cartaselect;
+
                 DetallesCartaFragment detallesCartaFragment = DetallesCartaFragment.
-                        newInstance(JSONManager.filtro_clase().get(0));
+                        newInstance(carta);
                 getSupportFragmentManager().beginTransaction()
-                        .add(R.id.fragmentContainer, detallesCartaFragment).commit();
+                        .replace(R.id.fragmentContainer, detallesCartaFragment).commit();
             } else if (pager.getCurrentItem() == 1) {
+
                 if (JSONManager.Mazos_array.size() > 0) {
+
                     DetallesMazosPredefinidoFragment detallesMazosPredefinidoFragment = DetallesMazosPredefinidoFragment.newInstance(JSONManager.Mazos_array.get(0));
                     getSupportFragmentManager().beginTransaction().replace(R.id.fragmentContainer, detallesMazosPredefinidoFragment).commit();
                 } else
