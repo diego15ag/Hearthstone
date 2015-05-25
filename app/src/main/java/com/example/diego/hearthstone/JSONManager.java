@@ -54,6 +54,11 @@ public class JSONManager {
 
     }
 
+    public void close_params(){
+        dbRO.close();
+        dbRW.close();
+    }
+
     public void start(){
         mDbHelper = new CartasManagerDbHelper(contexto);
         dbRO = mDbHelper.getReadableDatabase();

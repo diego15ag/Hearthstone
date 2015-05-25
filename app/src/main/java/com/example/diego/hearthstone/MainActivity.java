@@ -809,6 +809,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 for(int i=0; i< JSONManager.declaraMazosPredefinidos().size();i++)
                     ayudabd.creaMazo(JSONManager.declaraMazosPredefinidos().get(i));
             JSONManager.Mazos_predefinidos_array = ayudabd.getMazosPredefinidos();
+            ayudabd.close_params();
             return cartas_array;
         }
 

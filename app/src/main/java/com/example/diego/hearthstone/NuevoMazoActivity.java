@@ -111,7 +111,6 @@ public class NuevoMazoActivity extends ActionBarActivity implements RecyclerView
             if (ref==-1) { // guardado de mazo
                 if (JSONManager.Mazos_array == null)
                     JSONManager.Mazos_array = new ArrayList<Mazo>();
-
                 if (rva.getNumeroCartas() > 30)
                     Toast.makeText(NuevoMazoActivity.this, R.string.more_than_30, Toast.LENGTH_SHORT).show();
                 else if (rva.getNumeroCartas() == 0)
