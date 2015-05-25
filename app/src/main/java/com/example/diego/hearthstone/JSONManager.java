@@ -151,19 +151,24 @@ public class JSONManager {
                 e.printStackTrace();
             }
 
-            SharedPreferences sp = contexto.getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
-            SharedPreferences.Editor edit = sp.edit();
-            edit.putBoolean("BDCargada", true);
-            edit.commit();
+
 
             mHandle.post(new Runnable() {
                 @Override
                 public void run() {
-                    if (ma != null)
+                    if (ma != null&&!isCancelled()) {
+                        SharedPreferences sp = contexto.getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor edit = sp.edit();
+                        edit.putBoolean("BDCargada", true);
+                        edit.commit();
                         ma.rellena();
+                    }
+                    else
+                        cancel(true);
                 }
             });
             control = 1;
+
             return null;
         }
 
@@ -171,37 +176,6 @@ public class JSONManager {
         protected void onCancelled() {
             super.onCancelled();
             Log.i("cancelada", "cancelado");
-        }
-    }
-
-    public class DownloadImageTask extends AsyncTask<String, Void, Bitmap> {
-        ImageView bmImage;
-        String texto_content;
-
-        public DownloadImageTask(ImageView bmImage) {
-            this.bmImage = bmImage;
-        }
-
-        protected Bitmap doInBackground(String... urls) {
-            String urldisplay = urls[0];
-            try {
-                URL url = new URL(urldisplay);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                InputStream input = connection.getInputStream();
-                Bitmap myBitmap = BitmapFactory.decodeStream(input);
-                return myBitmap;
-            } catch (IOException e) {
-                // Log exception
-                return null;
-            }
-        }
-
-        protected void onPostExecute(Bitmap result) {
-            //texto.setText(texto_content);
-            bmImage.setImageBitmap(result);
-
         }
     }
 

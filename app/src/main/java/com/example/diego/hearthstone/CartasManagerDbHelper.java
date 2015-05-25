@@ -80,6 +80,7 @@ public class CartasManagerDbHelper extends SQLiteOpenHelper {
         db.execSQL(SQL_DELETE_CARTAS_MAZOS);
         db.execSQL(SQL_DELETE_CARTAS);
         db.execSQL(SQL_DELETE_MAZOS);
+
         onCreate(db);
     }
 }

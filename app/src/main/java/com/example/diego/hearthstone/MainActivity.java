@@ -807,9 +807,19 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
             JSONManager.Heroes_array = JSONManager.fotos_heroes();
             JSONManager.Mazos_array = ayudabd.getMazosNoPredefinidos();
 
-            if(JSONManager.control==1)
-                for(int i=0; i< JSONManager.declaraMazosPredefinidos().size();i++)
+            SharedPreferences sp = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
+
+            //Si no estan cargados los cargamos
+            if(!sp.getBoolean("MazosPredCargados",false)) {
+                for (int i = 0; i < JSONManager.declaraMazosPredefinidos().size(); i++)
                     ayudabd.creaMazo(JSONManager.declaraMazosPredefinidos().get(i));
+
+
+                SharedPreferences.Editor edit = sp.edit();
+                edit.putBoolean("MazosPredCargados", true);
+                edit.commit();
+            }
+
             JSONManager.Mazos_predefinidos_array = ayudabd.getMazosPredefinidos();
             ayudabd.close_params();
             return cartas_array;
