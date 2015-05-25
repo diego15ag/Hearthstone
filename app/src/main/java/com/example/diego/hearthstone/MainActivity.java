@@ -139,6 +139,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
 
         if (isOnline()) {
             ayudabd = new JSONManager(MainActivity.this);
+            bd=null;
 
             if (!sp.getBoolean("BDCargada",false)) {
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
@@ -146,14 +147,15 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
                 bd = ayudabd.new RellenaBD_JSON();
                 bd.execute(url_cards, this);
 
+
                 //Bloqueamos la orientacion
-                int currentOrientation = getResources().getConfiguration().orientation;
+                /*int currentOrientation = getResources().getConfiguration().orientation;
                 if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 }
                 else {
                     setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_PORTRAIT);
-                }
+                }*/
             }
             else if(!cargado){
                 progressDialog = ProgressDialog.show(MainActivity.this, getResources().getString(R.string.DialogLoading_title),
@@ -695,7 +697,7 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     }
 
     public void rellena() {
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         new RellenaLista_JSON().execute(url_cards);
     }
 
@@ -834,6 +836,8 @@ public class MainActivity extends ActionBarActivity implements  CartasFragment.C
     @Override
     protected void onPause() {
         super.onPause();
+
+        Log.i("onpause", "paused");
 
         if(progressDialog!=null)
             progressDialog.dismiss();
